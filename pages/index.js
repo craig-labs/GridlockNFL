@@ -196,14 +196,16 @@ const useKalshi=()=>{
   return{events,loading,error,lastFetch,refresh:fetch_};
 };
 
-const useNflNews=()=>{
+const useNflNews=(teamName)=>{
   const [articles,setArticles]=useState([]);const [loading,setLoading]=useState(false);const [error,setError]=useState(null);
   const fetch_=useCallback(async()=>{
     setLoading(true);setError(null);
-    try{const r=await fetch("/api/news");if(!r.ok)throw new Error(`API ${r.status}`);const d=await r.json();
+    try{
+      const url=teamName?`/api/news?team=${encodeURIComponent(teamName)}`:"/api/news";
+      const r=await fetch(url);if(!r.ok)throw new Error(`API ${r.status}`);const d=await r.json();
       setArticles(d.articles||[]);
     }catch(e){setError(e.message);}finally{setLoading(false);}
-  },[]);
+  },[teamName]);
   useEffect(()=>{fetch_();},[fetch_]);
   return{articles,loading,error,refresh:fetch_};
 };
@@ -427,7 +429,8 @@ export default function Home(){
   const [betFilter,setBetFilter]=useState("all");
   const [activeSection,setActiveSection]=useState("feed");
   const kalshi=useKalshi();
-  const news=useNflNews();
+  const newsTeam=(feedFilter==="team"&&selectedTeam)?selectedTeam:null;
+  const news=useNflNews(newsTeam);
 
   const team=selectedTeam?getTeam(selectedTeam):null;
   const pc=team?team.color:"#1a1a2e";
@@ -518,7 +521,7 @@ export default function Home(){
             {filterOptions.map(f=>(<button key={f.key} onClick={()=>setFeedFilter(f.key)} style={{background:feedFilter===f.key?`${ac}33`:"#ffffff08",border:`1px solid ${feedFilter===f.key?ac:"#ffffff15"}`,color:feedFilter===f.key?"#fff":"#ffffff77",padding:"5px 12px",borderRadius:20,cursor:"pointer",fontSize:11,fontWeight:600}}>{f.label}</button>))}
           </div>
           {news.articles.length>0&&<TopStories articles={news.articles} ac={ac}/>}
-          {news.loading&&<div style={{textAlign:"center",padding:20,color:"#ffffff44",fontSize:13}}>Loading top stories...</div>}
+          {news.loading&&<div style={{textAlign:"center",padding:20,color:"#ffffff44",fontSize:13}}>Loading {newsTeam?`${newsTeam}`:""} stories...</div>}
           {!selectedTeam&&feedFilter==="all"&&(<div style={{background:"#ffffff08",border:"1px solid #ffffff15",borderRadius:12,padding:24,textAlign:"center",marginBottom:20}}>
             <div style={{fontSize:32,marginBottom:8}}>🏈</div>
             <div style={{fontSize:15,fontWeight:600,color:"#fff",marginBottom:4}}>Select your team for a personalized feed</div>
@@ -527,6 +530,7 @@ export default function Home(){
           <TwitterFeed accounts={feedAccounts} ac={ac}/>
           <div style={{background:"#ffffff06",border:"1px solid #ffffff10",borderRadius:10,padding:16,marginTop:20,textAlign:"center"}}>
             <div style={{fontSize:12,color:"#ffffff44"}}>Click any card to view their latest posts on X</div>
+            <div style={{fontSize:11,color:"#ffffff33",marginTop:6}}>💡 Live embedded tweets coming soon — once this site generates revenue, we&apos;ll upgrade to the X API for real-time feeds directly on this page.</div>
           </div>
         </div>)}
 
