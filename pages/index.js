@@ -18,45 +18,147 @@ const TWITTER_ACCOUNTS={
     {handle:"NFL",label:"NFL",emoji:"🏈",desc:"Official NFL account"},
     {handle:"AdamSchefter",label:"Adam Schefter",emoji:"📰",desc:"ESPN NFL Insider"},
     {handle:"RapSheet",label:"Ian Rapoport",emoji:"🗞️",desc:"NFL Network Insider"},
-    {handle:"PatMcAfeeShow",label:"Pat McAfee",emoji:"🎙️",desc:"Daily sports talk & NFL commentary"},
+    {handle:"PatMcAfeeShow",label:"Pat McAfee",emoji:"🎙️",desc:"Daily sports talk & NFL"},
     {handle:"NFLNetwork",label:"NFL Network",emoji:"📺",desc:"Official NFL Network"},
     {handle:"TomPelissero",label:"Tom Pelissero",emoji:"📋",desc:"NFL Network Insider"},
     {handle:"JayGlazer",label:"Jay Glazer",emoji:"💪",desc:"FOX NFL Insider"},
     {handle:"MikeGarafolo",label:"Mike Garafolo",emoji:"🎯",desc:"NFL Network reporter"},
+    {handle:"FieldYates",label:"Field Yates",emoji:"📊",desc:"ESPN NFL analyst"},
+    {handle:"DanGrazianoESPN",label:"Dan Graziano",emoji:"📰",desc:"ESPN Senior NFL Writer"},
   ],
   teams:{
-    Ravens:[{handle:"Ravens",label:"Baltimore Ravens",emoji:"🦅"},{handle:"jeffzrebiec",label:"Jeff Zrebiec",emoji:"📰",desc:"Ravens beat — The Athletic"}],
-    Bengals:[{handle:"Bengals",label:"Cincinnati Bengals",emoji:"🐯"},{handle:"BenBaby",label:"Ben Baby",emoji:"📰",desc:"Bengals beat — ESPN"}],
-    Browns:[{handle:"Browns",label:"Cleveland Browns",emoji:"🟤"}],
-    Steelers:[{handle:"steelers",label:"Pittsburgh Steelers",emoji:"⚙️"}],
-    Texans:[{handle:"HoustonTexans",label:"Houston Texans",emoji:"🐂"}],
-    Colts:[{handle:"Colts",label:"Indianapolis Colts",emoji:"🐴"}],
-    Jaguars:[{handle:"Jaguars",label:"Jacksonville Jaguars",emoji:"🐆"}],
-    Titans:[{handle:"Titans",label:"Tennessee Titans",emoji:"⚔️"}],
-    Bills:[{handle:"BuffaloBills",label:"Buffalo Bills",emoji:"🦬"}],
-    Dolphins:[{handle:"MiamiDolphins",label:"Miami Dolphins",emoji:"🐬"}],
-    Patriots:[{handle:"Patriots",label:"New England Patriots",emoji:"🇺🇸"}],
-    Jets:[{handle:"nyjets",label:"New York Jets",emoji:"✈️"}],
-    Broncos:[{handle:"Broncos",label:"Denver Broncos",emoji:"🐎"}],
-    Chiefs:[{handle:"Chiefs",label:"Kansas City Chiefs",emoji:"🏹"},{handle:"PatrickMahomes",label:"Patrick Mahomes",emoji:"🌟",desc:"Chiefs QB"}],
-    Raiders:[{handle:"Raiders",label:"Las Vegas Raiders",emoji:"☠️"}],
-    Chargers:[{handle:"chargers",label:"Los Angeles Chargers",emoji:"⚡"}],
-    Bears:[{handle:"ChicagoBears",label:"Chicago Bears",emoji:"🐻"}],
-    Lions:[{handle:"Lions",label:"Detroit Lions",emoji:"🦁"}],
-    Packers:[{handle:"packers",label:"Green Bay Packers",emoji:"🧀"}],
-    Vikings:[{handle:"Vikings",label:"Minnesota Vikings",emoji:"⛵"}],
-    Falcons:[{handle:"AtlantaFalcons",label:"Atlanta Falcons",emoji:"🦅"}],
-    Panthers:[{handle:"Panthers",label:"Carolina Panthers",emoji:"🐈‍⬛"}],
-    Saints:[{handle:"Saints",label:"New Orleans Saints",emoji:"⚜️"}],
-    Buccaneers:[{handle:"Buccaneers",label:"Tampa Bay Buccaneers",emoji:"🏴‍☠️"}],
-    Cowboys:[{handle:"dallascowboys",label:"Dallas Cowboys",emoji:"⭐"}],
-    Giants:[{handle:"Giants",label:"New York Giants",emoji:"🗽"}],
-    Eagles:[{handle:"Eagles",label:"Philadelphia Eagles",emoji:"🦅"}],
-    Commanders:[{handle:"Commanders",label:"Washington Commanders",emoji:"🎖️"}],
-    Cardinals:[{handle:"AZCardinals",label:"Arizona Cardinals",emoji:"🐦"}],
-    Rams:[{handle:"RamsNFL",label:"Los Angeles Rams",emoji:"🐏"}],
-    "49ers":[{handle:"49ers",label:"San Francisco 49ers",emoji:"⛏️"}],
-    Seahawks:[{handle:"Seahawks",label:"Seattle Seahawks",emoji:"🦅"}],
+    Ravens:[
+      {handle:"Ravens",label:"Baltimore Ravens",emoji:"🦅",desc:"Official team account"},
+      {handle:"jaborhensen",label:"Jamison Hensley",emoji:"📰",desc:"ESPN Ravens beat"},
+      {handle:"jeffzrebiec",label:"Jeff Zrebiec",emoji:"📋",desc:"Ravens beat — The Athletic"},
+    ],
+    Bengals:[
+      {handle:"Bengals",label:"Cincinnati Bengals",emoji:"🐯",desc:"Official team account"},
+      {handle:"Ben_Baby",label:"Ben Baby",emoji:"📰",desc:"ESPN Bengals beat"},
+      {handle:"kelseyjconway",label:"Kelsey Conway",emoji:"📋",desc:"Bengals beat — The Athletic"},
+    ],
+    Browns:[
+      {handle:"Browns",label:"Cleveland Browns",emoji:"🟤",desc:"Official team account"},
+      {handle:"DanielOyique",label:"Daniel Oyefusi",emoji:"📰",desc:"ESPN Browns beat"},
+    ],
+    Steelers:[
+      {handle:"steelers",label:"Pittsburgh Steelers",emoji:"⚙️",desc:"Official team account"},
+      {handle:"BrookePryor",label:"Brooke Pryor",emoji:"📰",desc:"ESPN Steelers beat"},
+    ],
+    Texans:[
+      {handle:"HoustonTexans",label:"Houston Texans",emoji:"🐂",desc:"Official team account"},
+      {handle:"DJBienAime",label:"DJ Bien-Aime",emoji:"📰",desc:"ESPN Texans beat"},
+    ],
+    Colts:[
+      {handle:"Colts",label:"Indianapolis Colts",emoji:"🐴",desc:"Official team account"},
+      {handle:"StephenHolder",label:"Stephen Holder",emoji:"📰",desc:"ESPN Colts beat"},
+    ],
+    Jaguars:[
+      {handle:"Jaguars",label:"Jacksonville Jaguars",emoji:"🐆",desc:"Official team account"},
+      {handle:"MikeDiRocco",label:"Mike DiRocco",emoji:"📰",desc:"ESPN Jaguars beat"},
+    ],
+    Titans:[
+      {handle:"Titans",label:"Tennessee Titans",emoji:"⚔️",desc:"Official team account"},
+      {handle:"TurronDavenport",label:"Turron Davenport",emoji:"📰",desc:"ESPN Titans beat"},
+    ],
+    Bills:[
+      {handle:"BuffaloBills",label:"Buffalo Bills",emoji:"🦬",desc:"Official team account"},
+      {handle:"MarcelLJ",label:"Marcel Louis-Jacques",emoji:"📰",desc:"ESPN Bills beat"},
+    ],
+    Dolphins:[
+      {handle:"MiamiDolphins",label:"Miami Dolphins",emoji:"🐬",desc:"Official team account"},
+      {handle:"Marcel_LJ",label:"Marcel Louis-Jacques",emoji:"📰",desc:"ESPN Dolphins beat"},
+    ],
+    Patriots:[
+      {handle:"Patriots",label:"New England Patriots",emoji:"🇺🇸",desc:"Official team account"},
+      {handle:"MikeReiss",label:"Mike Reiss",emoji:"📰",desc:"ESPN Patriots beat"},
+    ],
+    Jets:[
+      {handle:"nyjets",label:"New York Jets",emoji:"✈️",desc:"Official team account"},
+      {handle:"RichCimini",label:"Rich Cimini",emoji:"📰",desc:"ESPN Jets beat"},
+    ],
+    Broncos:[
+      {handle:"Broncos",label:"Denver Broncos",emoji:"🐎",desc:"Official team account"},
+      {handle:"JeffLegwold",label:"Jeff Legwold",emoji:"📰",desc:"ESPN Broncos beat"},
+    ],
+    Chiefs:[
+      {handle:"Chiefs",label:"Kansas City Chiefs",emoji:"🏹",desc:"Official team account"},
+      {handle:"AdamTeicher",label:"Adam Teicher",emoji:"📰",desc:"ESPN Chiefs beat"},
+      {handle:"PatrickMahomes",label:"Patrick Mahomes",emoji:"🌟",desc:"Chiefs QB"},
+    ],
+    Raiders:[
+      {handle:"Raiders",label:"Las Vegas Raiders",emoji:"☠️",desc:"Official team account"},
+      {handle:"RyanMcFadden_",label:"Ryan McFadden",emoji:"📰",desc:"ESPN Raiders beat"},
+    ],
+    Chargers:[
+      {handle:"chargers",label:"Los Angeles Chargers",emoji:"⚡",desc:"Official team account"},
+      {handle:"KrisRhim1",label:"Kris Rhim",emoji:"📰",desc:"ESPN Chargers beat"},
+    ],
+    Bears:[
+      {handle:"ChicagoBears",label:"Chicago Bears",emoji:"🐻",desc:"Official team account"},
+      {handle:"CourtneyRCronin",label:"Courtney Cronin",emoji:"📰",desc:"ESPN Bears beat"},
+    ],
+    Lions:[
+      {handle:"Lions",label:"Detroit Lions",emoji:"🦁",desc:"Official team account"},
+      {handle:"EricWoodyard",label:"Eric Woodyard",emoji:"📰",desc:"ESPN Lions beat"},
+    ],
+    Packers:[
+      {handle:"packers",label:"Green Bay Packers",emoji:"🧀",desc:"Official team account"},
+      {handle:"RobDem662",label:"Rob Demovsky",emoji:"📰",desc:"ESPN Packers beat"},
+    ],
+    Vikings:[
+      {handle:"Vikings",label:"Minnesota Vikings",emoji:"⛵",desc:"Official team account"},
+      {handle:"KevinSeifert",label:"Kevin Seifert",emoji:"📰",desc:"ESPN Vikings beat"},
+    ],
+    Falcons:[
+      {handle:"AtlantaFalcons",label:"Atlanta Falcons",emoji:"🦅",desc:"Official team account"},
+      {handle:"mraimondi",label:"Marc Raimondi",emoji:"📰",desc:"ESPN Falcons beat"},
+    ],
+    Panthers:[
+      {handle:"Panthers",label:"Carolina Panthers",emoji:"🐈‍⬛",desc:"Official team account"},
+      {handle:"DNewtonespn",label:"David Newton",emoji:"📰",desc:"ESPN Panthers beat"},
+    ],
+    Saints:[
+      {handle:"Saints",label:"New Orleans Saints",emoji:"⚜️",desc:"Official team account"},
+      {handle:"KatherineTerrell",label:"Katherine Terrell",emoji:"📰",desc:"ESPN Saints beat"},
+    ],
+    Buccaneers:[
+      {handle:"Buccaneers",label:"Tampa Bay Buccaneers",emoji:"🏴‍☠️",desc:"Official team account"},
+      {handle:"JennaLaineESPN",label:"Jenna Laine",emoji:"📰",desc:"ESPN Bucs beat"},
+    ],
+    Cowboys:[
+      {handle:"dallascowboys",label:"Dallas Cowboys",emoji:"⭐",desc:"Official team account"},
+      {handle:"toddarcher",label:"Todd Archer",emoji:"📰",desc:"ESPN Cowboys beat"},
+    ],
+    Giants:[
+      {handle:"Giants",label:"New York Giants",emoji:"🗽",desc:"Official team account"},
+      {handle:"JordanRaanan",label:"Jordan Raanan",emoji:"📰",desc:"ESPN Giants beat"},
+    ],
+    Eagles:[
+      {handle:"Eagles",label:"Philadelphia Eagles",emoji:"🦅",desc:"Official team account"},
+      {handle:"TimMcManus",label:"Tim McManus",emoji:"📰",desc:"ESPN Eagles beat"},
+    ],
+    Commanders:[
+      {handle:"Commanders",label:"Washington Commanders",emoji:"🎖️",desc:"Official team account"},
+      {handle:"john_keim",label:"John Keim",emoji:"📰",desc:"ESPN Commanders beat"},
+    ],
+    Cardinals:[
+      {handle:"AZCardinals",label:"Arizona Cardinals",emoji:"🐦",desc:"Official team account"},
+      {handle:"Cardschatter",label:"Cardinals Insider",emoji:"📋",desc:"Official team insider"},
+      {handle:"jaborhensen",label:"Josh Weinfuss",emoji:"📰",desc:"ESPN Cardinals beat"},
+    ],
+    Rams:[
+      {handle:"RamsNFL",label:"Los Angeles Rams",emoji:"🐏",desc:"Official team account"},
+      {handle:"saaborsh",label:"Sarah Barshop",emoji:"📰",desc:"ESPN Rams beat"},
+    ],
+    "49ers":[
+      {handle:"49ers",label:"San Francisco 49ers",emoji:"⛏️",desc:"Official team account"},
+      {handle:"NickWagoner",label:"Nick Wagoner",emoji:"📰",desc:"ESPN 49ers beat"},
+    ],
+    Seahawks:[
+      {handle:"Seahawks",label:"Seattle Seahawks",emoji:"🦅",desc:"Official team account"},
+      {handle:"BradyHenderson",label:"Brady Henderson",emoji:"📰",desc:"ESPN Seahawks beat"},
+    ],
   },
 };
 
