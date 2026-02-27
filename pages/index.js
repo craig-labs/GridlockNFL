@@ -1,12 +1,46 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import Head from "next/head";
-import dynamic from "next/dynamic";
+// X/Twitter Timeline Embed using official widgets.js
+function XTimeline({ screenName, height = 600 }) {
+  const containerRef = useState(null)[1];
+  const divId = `twitter-timeline-${screenName}`;
 
-// Dynamic import to avoid SSR issues with Twitter widgets
-const Timeline = dynamic(
-  () => import("react-twitter-widgets").then((mod) => mod.Timeline),
-  { ssr: false, loading: () => <div style={{background:"#12121c",borderRadius:12,height:400,display:"flex",alignItems:"center",justifyContent:"center",color:"#ffffff44"}}>Loading timeline...</div> }
-);
+  useEffect(() => {
+    const el = document.getElementById(divId);
+    if (!el) return;
+    el.innerHTML = "";
+
+    const anchor = document.createElement("a");
+    anchor.setAttribute("class", "twitter-timeline");
+    anchor.setAttribute("data-theme", "dark");
+    anchor.setAttribute("data-chrome", "noheader nofooter noborders transparent");
+    anchor.setAttribute("data-height", String(height));
+    anchor.setAttribute("data-tweet-limit", "10");
+    anchor.setAttribute("href", `https://twitter.com/${screenName}`);
+    anchor.textContent = `Loading @${screenName}...`;
+    el.appendChild(anchor);
+
+    // Load or reload the Twitter widgets script
+    if (window.twttr && window.twttr.widgets) {
+      window.twttr.widgets.load(el);
+    } else {
+      const existingScript = document.getElementById("twitter-wjs");
+      if (existingScript) existingScript.remove();
+      const script = document.createElement("script");
+      script.id = "twitter-wjs";
+      script.src = "https://platform.twitter.com/widgets.js";
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  }, [screenName, divId, height]);
+
+  return (
+    <div id={divId} style={{
+      borderRadius: 12, overflow: "hidden", background: "#12121c",
+      border: "1px solid #ffffff10", minHeight: 200,
+    }} />
+  );
+}
 
 const TEAMS={AFC:{North:[{name:"Ravens",city:"Baltimore",abbr:"BAL",color:"#241773",accent:"#9E7C0C"},{name:"Bengals",city:"Cincinnati",abbr:"CIN",color:"#FB4F14",accent:"#000000"},{name:"Browns",city:"Cleveland",abbr:"CLE",color:"#311D00",accent:"#FF3C00"},{name:"Steelers",city:"Pittsburgh",abbr:"PIT",color:"#FFB612",accent:"#101820"}],South:[{name:"Texans",city:"Houston",abbr:"HOU",color:"#03202F",accent:"#A71930"},{name:"Colts",city:"Indianapolis",abbr:"IND",color:"#002C5F",accent:"#A2AAAD"},{name:"Jaguars",city:"Jacksonville",abbr:"JAX",color:"#006778",accent:"#D7A22A"},{name:"Titans",city:"Tennessee",abbr:"TEN",color:"#0C2340",accent:"#4B92DB"}],East:[{name:"Bills",city:"Buffalo",abbr:"BUF",color:"#00338D",accent:"#C60C30"},{name:"Dolphins",city:"Miami",abbr:"MIA",color:"#008E97",accent:"#FC4C02"},{name:"Patriots",city:"New England",abbr:"NE",color:"#002244",accent:"#C60C30"},{name:"Jets",city:"New York",abbr:"NYJ",color:"#125740",accent:"#FFFFFF"}],West:[{name:"Broncos",city:"Denver",abbr:"DEN",color:"#FB4F14",accent:"#002244"},{name:"Chiefs",city:"Kansas City",abbr:"KC",color:"#E31837",accent:"#FFB81C"},{name:"Raiders",city:"Las Vegas",abbr:"LV",color:"#000000",accent:"#A5ACAF"},{name:"Chargers",city:"Los Angeles",abbr:"LAC",color:"#0080C6",accent:"#FFC20E"}]},NFC:{North:[{name:"Bears",city:"Chicago",abbr:"CHI",color:"#0B162A",accent:"#C83803"},{name:"Lions",city:"Detroit",abbr:"DET",color:"#0076B6",accent:"#B0B7BC"},{name:"Packers",city:"Green Bay",abbr:"GB",color:"#203731",accent:"#FFB612"},{name:"Vikings",city:"Minnesota",abbr:"MIN",color:"#4F2683",accent:"#FFC62F"}],South:[{name:"Falcons",city:"Atlanta",abbr:"ATL",color:"#A71930",accent:"#000000"},{name:"Panthers",city:"Carolina",abbr:"CAR",color:"#0085CA",accent:"#101820"},{name:"Saints",city:"New Orleans",abbr:"NO",color:"#D3BC8D",accent:"#101820"},{name:"Buccaneers",city:"Tampa Bay",abbr:"TB",color:"#D50A0A",accent:"#34302B"}],East:[{name:"Cowboys",city:"Dallas",abbr:"DAL",color:"#003594",accent:"#869397"},{name:"Giants",city:"New York",abbr:"NYG",color:"#0B2265",accent:"#A71930"},{name:"Eagles",city:"Philadelphia",abbr:"PHI",color:"#004C54",accent:"#A5ACAF"},{name:"Commanders",city:"Washington",abbr:"WAS",color:"#5A1414",accent:"#FFB612"}],West:[{name:"Cardinals",city:"Arizona",abbr:"ARI",color:"#97233F",accent:"#000000"},{name:"Rams",city:"Los Angeles",abbr:"LAR",color:"#003594",accent:"#FFA300"},{name:"49ers",city:"San Francisco",abbr:"SF",color:"#AA0000",accent:"#B3995D"},{name:"Seahawks",city:"Seattle",abbr:"SEA",color:"#002244",accent:"#69BE28"}]}};
 
@@ -85,18 +119,11 @@ function TwitterFeed({ accounts, ac }) {
           </button>
         ))}
       </div>
-      <div key={accounts[active].handle} style={{borderRadius:12,overflow:"hidden",background:"#12121c",border:"1px solid #ffffff10"}}>
-        <Timeline
-          dataSource={{ sourceType: "profile", screenName: accounts[active].handle }}
-          options={{ theme: "dark", height: 600, chrome: "noheader nofooter noborders transparent", tweetLimit: 10, dnt: true }}
-          renderError={() => (
-            <div style={{padding:40,textAlign:"center",color:"#ffffff44"}}>
-              <div style={{fontSize:24,marginBottom:8}}>🐦</div>
-              <div style={{fontSize:14}}>Could not load @{accounts[active].handle}</div>
-              <a href={`https://x.com/${accounts[active].handle}`} target="_blank" rel="noopener noreferrer" style={{color:"#1DA1F2",fontSize:13,marginTop:8,display:"inline-block"}}>View on X →</a>
-            </div>
-          )}
-        />
+      <XTimeline key={accounts[active].handle} screenName={accounts[active].handle} />
+      <div style={{textAlign:"center",marginTop:12}}>
+        <a href={`https://x.com/${accounts[active].handle}`} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600}}>
+          View @{accounts[active].handle} on X →
+        </a>
       </div>
     </div>
   );
