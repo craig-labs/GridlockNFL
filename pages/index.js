@@ -324,7 +324,7 @@ export default function Home(){
             </div>
           </div>
           <div style={{display:"flex",gap:4,marginTop:12}}>
-            {[{k:"feed",l:"📱 Social Feed"},{k:"kalshi",l:"📊 Kalshi Markets"},{k:"bets",l:"💰 Craig's List"},{k:"video",l:"🎬 Five Pick Fridays"}].map(s=>(
+            {[{k:"feed",l:"📱 Social Feed"},{k:"kalshi",l:<span>📊 NFL Prediction Markets <span style={{fontSize:9,opacity:0.6,fontWeight:400}}>Powered by Kalshi</span></span>},{k:"bets",l:"💰 Craig's List"},{k:"video",l:"🎬 Five Pick Fridays"}].map(s=>(
               <button key={s.k} onClick={()=>setActiveSection(s.k)} style={{background:activeSection===s.k?`${ac}33`:"transparent",border:"none",color:activeSection===s.k?"#fff":"#ffffff66",padding:"8px 16px",borderRadius:"8px 8px 0 0",cursor:"pointer",fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1px",borderBottom:activeSection===s.k?`2px solid ${ac}`:"2px solid transparent"}}>{s.l}</button>
             ))}
           </div>
