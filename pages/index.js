@@ -6,7 +6,7 @@ const allTeams=Object.entries(TEAMS).flatMap(([conf,divs])=>Object.entries(divs)
 const getTeam=(n)=>allTeams.find(t=>t.name===n);
 const DIVISIONS=["AFC North","AFC South","AFC East","AFC West","NFC North","NFC South","NFC East","NFC West"];
 
-const CRAIG_PHOTO=null;
+const CRAIG_PHOTO="https://i.imgur.com/vo46zbi.jpg";
 const CraigAvatar=({size=44,border=true})=>(
   CRAIG_PHOTO
     ? <img src={CRAIG_PHOTO} alt="Craig Naylor" style={{width:size,height:size,borderRadius:"50%",objectFit:"cover",border:border?"2px solid #ffffff22":"none",flexShrink:0}}/>
@@ -130,7 +130,7 @@ const MOCK_BETS=[
   {id:141,type:"Over/Under",matchup:"Bills/Jets O42.5",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Dec 28"},
   {id:140,type:"Teaser",matchup:"2-Team: KC+7/PHI+1",odds:"-110",stake:"$150",result:"win",payout:"+$136",date:"Dec 28"},
   {id:139,type:"Parlay",matchup:"2-Leg: DET ML + BAL ML",odds:"+175",stake:"$100",result:"win",payout:"+$175",date:"Dec 28"},
-  {id:138,type:"Moneyline",matchup:"Texans ML vs Titans",odds:"-220",stake:"$110",result:"win",payout:"+$50",date:"Dec 28"},
+  {id:138,type:"Moneyline",matchup:"Texans ML vs Titans",odds:"-220",stake:"$110",result:"loss",payout:"-$110",date:"Dec 28"},
   // === WEEK 16 ===
   {id:137,type:"Spread",matchup:"Ravens -6.5 vs Browns",odds:"-110",stake:"$150",result:"win",payout:"+$136",date:"Dec 21"},
   {id:136,type:"Moneyline",matchup:"Bengals ML vs Broncos",odds:"+110",stake:"$100",result:"win",payout:"+$110",date:"Dec 21"},
@@ -150,7 +150,7 @@ const MOCK_BETS=[
   {id:123,type:"Spread",matchup:"Chargers +3.5 vs Bucs",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Dec 14"},
   // === WEEK 14 ===
   {id:122,type:"Spread",matchup:"Lions -7 vs Packers",odds:"-110",stake:"$150",result:"win",payout:"+$136",date:"Dec 7"},
-  {id:121,type:"Moneyline",matchup:"Bills ML vs Rams",odds:"-250",stake:"$200",result:"win",payout:"+$80",date:"Dec 7"},
+  {id:121,type:"Moneyline",matchup:"Bills ML vs Rams",odds:"-250",stake:"$200",result:"loss",payout:"-$200",date:"Dec 7"},
   {id:120,type:"Player Prop",matchup:"Derrick Henry O85.5 Rush",odds:"-120",stake:"$120",result:"win",payout:"+$100",date:"Dec 7"},
   {id:119,type:"Spread",matchup:"Bengals -3 vs Browns",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Dec 7"},
   {id:118,type:"Over/Under",matchup:"Chiefs/Chargers U45",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Dec 7"},
@@ -158,7 +158,7 @@ const MOCK_BETS=[
   {id:116,type:"Parlay",matchup:"2-Leg: DET ML + BUF ML",odds:"+120",stake:"$100",result:"win",payout:"+$120",date:"Dec 7"},
   // === WEEK 13 ===
   {id:115,type:"Spread",matchup:"Ravens -3.5 vs Eagles",odds:"-110",stake:"$200",result:"win",payout:"+$182",date:"Nov 30"},
-  {id:114,type:"Moneyline",matchup:"Chiefs ML vs Raiders",odds:"-400",stake:"$200",result:"win",payout:"+$50",date:"Nov 30"},
+  {id:114,type:"Moneyline",matchup:"Chiefs ML vs Raiders",odds:"-400",stake:"$200",result:"loss",payout:"-$200",date:"Nov 30"},
   {id:113,type:"Player Prop",matchup:"Burrow O2.5 Pass TDs",odds:"+105",stake:"$100",result:"win",payout:"+$105",date:"Nov 30"},
   {id:112,type:"Spread",matchup:"49ers -2 vs Bills",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Nov 30"},
   {id:111,type:"Over/Under",matchup:"Lions/Bears O46",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Nov 30"},
@@ -182,15 +182,15 @@ const MOCK_BETS=[
   {id:94,type:"Moneyline",matchup:"Texans ML vs Colts",odds:"-190",stake:"$190",result:"loss",payout:"-$190",date:"Nov 16"},
   {id:93,type:"Parlay",matchup:"2-Leg: KC ML + DET ML",odds:"+295",stake:"$75",result:"win",payout:"+$221",date:"Nov 16"},
   {id:92,type:"Spread",matchup:"Ravens -6 vs Saints",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Nov 9"},
-  {id:91,type:"Moneyline",matchup:"Lions ML vs Texans",odds:"-150",stake:"$150",result:"win",payout:"+$100",date:"Nov 9"},
-  {id:90,type:"Spread",matchup:"Eagles -3 vs Jaguars",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Nov 9"},
+  {id:91,type:"Moneyline",matchup:"Lions ML vs Texans",odds:"-150",stake:"$150",result:"loss",payout:"-$150",date:"Nov 9"},
+  {id:90,type:"Spread",matchup:"Eagles -3 vs Jaguars",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Nov 9"},
   {id:89,type:"Player Prop",matchup:"Burrow O2.5 TDs",odds:"+115",stake:"$100",result:"loss",payout:"-$100",date:"Nov 9"},
   {id:88,type:"Over/Under",matchup:"Chiefs/Broncos U43",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Nov 9"},
-  {id:87,type:"Moneyline",matchup:"49ers ML vs Cardinals",odds:"-200",stake:"$200",result:"win",payout:"+$100",date:"Nov 9"},
+  {id:87,type:"Moneyline",matchup:"49ers ML vs Cardinals",odds:"-200",stake:"$200",result:"loss",payout:"-$200",date:"Nov 9"},
   {id:86,type:"Teaser",matchup:"3-Team: BAL/DET/PHI",odds:"+150",stake:"$100",result:"win",payout:"+$150",date:"Nov 9"},
   {id:85,type:"Spread",matchup:"Bengals -1.5 vs Ravens",odds:"-110",stake:"$200",result:"loss",payout:"-$200",date:"Nov 9"},
   {id:84,type:"Spread",matchup:"Chiefs -6 vs Titans",odds:"-110",stake:"$150",result:"win",payout:"+$136",date:"Nov 2"},
-  {id:83,type:"Moneyline",matchup:"Bills ML vs Dolphins",odds:"-175",stake:"$175",result:"win",payout:"+$100",date:"Nov 2"},
+  {id:83,type:"Moneyline",matchup:"Bills ML vs Dolphins",odds:"-175",stake:"$175",result:"loss",payout:"-$175",date:"Nov 2"},
   {id:82,type:"Player Prop",matchup:"Lamar O55.5 Rush Yds",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Nov 2"},
   {id:81,type:"Spread",matchup:"Lions -3.5 vs Packers",odds:"-110",stake:"$150",result:"win",payout:"+$136",date:"Nov 2"},
   {id:80,type:"Over/Under",matchup:"Bengals/Eagles O47",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Nov 2"},
@@ -205,30 +205,30 @@ const MOCK_BETS=[
   {id:71,type:"Teaser",matchup:"2-Team: KC+3/BAL+1",odds:"-110",stake:"$150",result:"win",payout:"+$136",date:"Oct 26"},
   {id:70,type:"Spread",matchup:"Texans -3 vs Colts",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Oct 26"},
   {id:69,type:"Spread",matchup:"Lions -7 vs Titans",odds:"-110",stake:"$150",result:"win",payout:"+$136",date:"Oct 19"},
-  {id:68,type:"Moneyline",matchup:"Bills ML vs Patriots",odds:"-300",stake:"$150",result:"win",payout:"+$50",date:"Oct 19"},
-  {id:67,type:"Spread",matchup:"Bengals -2.5 vs Giants",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Oct 19"},
+  {id:68,type:"Moneyline",matchup:"Bills ML vs Patriots",odds:"-300",stake:"$150",result:"loss",payout:"-$150",date:"Oct 19"},
+  {id:67,type:"Spread",matchup:"Bengals -2.5 vs Giants",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Oct 19"},
   {id:66,type:"Player Prop",matchup:"Burrow O270.5 Pass Yds",odds:"-115",stake:"$100",result:"win",payout:"+$87",date:"Oct 19"},
   {id:65,type:"Over/Under",matchup:"Chiefs/Chargers O43",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Oct 19"},
-  {id:64,type:"Moneyline",matchup:"Ravens ML vs Bucs",odds:"-210",stake:"$210",result:"win",payout:"+$100",date:"Oct 19"},
+  {id:64,type:"Moneyline",matchup:"Ravens ML vs Bucs",odds:"-210",stake:"$210",result:"loss",payout:"-$210",date:"Oct 19"},
   {id:63,type:"Parlay",matchup:"2-Leg: DET ML + BUF ML",odds:"+115",stake:"$100",result:"win",payout:"+$115",date:"Oct 19"},
   {id:62,type:"Spread",matchup:"Eagles -5 vs Browns",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Oct 19"},
   {id:61,type:"Spread",matchup:"Chiefs -7 vs Saints",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Oct 12"},
-  {id:60,type:"Moneyline",matchup:"Lions ML vs Cowboys",odds:"-200",stake:"$200",result:"win",payout:"+$100",date:"Oct 12"},
+  {id:60,type:"Moneyline",matchup:"Lions ML vs Cowboys",odds:"-200",stake:"$200",result:"loss",payout:"-$200",date:"Oct 12"},
   {id:59,type:"Player Prop",matchup:"D. Henry O90.5 Rush",odds:"-120",stake:"$120",result:"win",payout:"+$100",date:"Oct 12"},
   {id:58,type:"Spread",matchup:"Bills -3 vs Jets",odds:"-110",stake:"$150",result:"win",payout:"+$136",date:"Oct 12"},
   {id:57,type:"Over/Under",matchup:"Bengals/Steelers O41",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Oct 12"},
-  {id:56,type:"Moneyline",matchup:"Dolphins ML vs Panthers",odds:"-280",stake:"$140",result:"win",payout:"+$50",date:"Oct 12"},
+  {id:56,type:"Moneyline",matchup:"Dolphins ML vs Panthers",odds:"-280",stake:"$140",result:"loss",payout:"-$140",date:"Oct 12"},
   {id:55,type:"Teaser",matchup:"2-Team: KC+3/BUF+3",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Oct 12"},
   {id:54,type:"Spread",matchup:"Packers +1 vs Vikings",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Oct 12"},
   {id:53,type:"Spread",matchup:"Ravens -4 vs Bengals",odds:"-110",stake:"$150",result:"loss",payout:"-$150",date:"Oct 5"},
-  {id:52,type:"Moneyline",matchup:"Chiefs ML vs Vikings",odds:"-155",stake:"$155",result:"win",payout:"+$100",date:"Oct 5"},
-  {id:51,type:"Spread",matchup:"Lions -6.5 vs Seahawks",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Oct 5"},
+  {id:52,type:"Moneyline",matchup:"Chiefs ML vs Vikings",odds:"-155",stake:"$155",result:"loss",payout:"-$155",date:"Oct 5"},
+  {id:51,type:"Spread",matchup:"Lions -6.5 vs Seahawks",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Oct 5"},
   {id:50,type:"Player Prop",matchup:"Mahomes O265.5 Pass",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Oct 5"},
   {id:49,type:"Over/Under",matchup:"Bills/Texans O46.5",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Oct 5"},
-  {id:48,type:"Moneyline",matchup:"Eagles ML vs Browns",odds:"-300",stake:"$150",result:"win",payout:"+$50",date:"Oct 5"},
+  {id:48,type:"Moneyline",matchup:"Eagles ML vs Browns",odds:"-300",stake:"$150",result:"loss",payout:"-$150",date:"Oct 5"},
   {id:47,type:"Parlay",matchup:"3-Leg: KC/DET/PHI",odds:"+280",stake:"$75",result:"win",payout:"+$210",date:"Oct 5"},
   {id:46,type:"Spread",matchup:"Bengals -3 vs Panthers",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Sep 28"},
-  {id:45,type:"Moneyline",matchup:"Lions ML vs Bears",odds:"-220",stake:"$220",result:"win",payout:"+$100",date:"Sep 28"},
+  {id:45,type:"Moneyline",matchup:"Lions ML vs Bears",odds:"-220",stake:"$220",result:"loss",payout:"-$220",date:"Sep 28"},
   {id:44,type:"Spread",matchup:"Ravens -4.5 vs Jaguars",odds:"-110",stake:"$150",result:"win",payout:"+$136",date:"Sep 28"},
   {id:43,type:"Player Prop",matchup:"Chase O85.5 Rec Yds",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Sep 28"},
   {id:42,type:"Over/Under",matchup:"Chiefs/Bills O49",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Sep 28"},
@@ -242,7 +242,7 @@ const MOCK_BETS=[
   {id:34,type:"Moneyline",matchup:"Packers ML vs Saints",odds:"+140",stake:"$100",result:"loss",payout:"-$100",date:"Sep 21"},
   {id:33,type:"Parlay",matchup:"2-Leg: KC ML + BUF -6",odds:"+220",stake:"$75",result:"win",payout:"+$165",date:"Sep 21"},
   {id:32,type:"Spread",matchup:"Lions -3 vs Rams",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Sep 14"},
-  {id:31,type:"Moneyline",matchup:"Ravens ML vs Cowboys",odds:"-250",stake:"$250",result:"win",payout:"+$100",date:"Sep 14"},
+  {id:31,type:"Moneyline",matchup:"Ravens ML vs Cowboys",odds:"-250",stake:"$250",result:"loss",payout:"-$250",date:"Sep 14"},
   {id:30,type:"Spread",matchup:"Chiefs -5 vs Bengals",odds:"-110",stake:"$150",result:"loss",payout:"-$150",date:"Sep 14"},
   {id:29,type:"Player Prop",matchup:"Burrow O260.5 Pass Yds",odds:"-110",stake:"$100",result:"win",payout:"+$91",date:"Sep 14"},
   {id:28,type:"Over/Under",matchup:"Bills/Dolphins O49.5",odds:"-110",stake:"$100",result:"loss",payout:"-$100",date:"Sep 14"},
@@ -387,8 +387,8 @@ export default function Home(){
           {sbEvent&&(<div style={{marginBottom:28}}>
             <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
               <span style={{fontSize:20}}>🏆</span>
-              <div><h3 style={{fontSize:18,fontWeight:800,color:"#fff",margin:0}}>{sbEvent.title||"Super Bowl Champion"}</h3>
-              {sbEvent.subtitle&&<div style={{fontSize:12,color:"#ffffff55"}}>{sbEvent.subtitle}</div>}</div>
+              <div><h3 style={{fontSize:18,fontWeight:800,color:"#fff",margin:0}}>2027 Champion — Super Bowl LXI</h3>
+              <div style={{fontSize:12,color:"#ffffff55"}}>Live futures odds from Kalshi</div></div>
             </div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(170px,1fr))",gap:8}}>
               {sbEvent.markets.map(m=>{
