@@ -87,21 +87,46 @@ const TWITTER_ACCOUNTS = {
   },
 };
 
+function TwitterFeed({ accounts, ac }) {
+  const [active, setActive] = useState(0);
+  if (!accounts || !accounts.length) return null;
+  return (
+    <div>
+      <div style={{display:"flex",gap:6,marginBottom:16,flexWrap:"wrap"}}>
+        {accounts.map((a, i) => (
+          <button key={a.handle} onClick={() => setActive(i)} style={{
+            background: active === i ? `${ac}33` : "#ffffff08",
+            border: `1px solid ${active === i ? ac : "#ffffff15"}`,
+            color: active === i ? "#fff" : "#ffffff77",
+            padding: "6px 14px", borderRadius: 20, cursor: "pointer",
+            fontSize: 12, fontWeight: 600, transition: "all 0.2s",
+          }}>
+            @{a.handle}
+          </button>
+        ))}
+      </div>
+      <XTimeline key={accounts[active].handle} screenName={accounts[active].handle} />
+      <div style={{textAlign:"center",marginTop:12}}>
+        <a href={`https://x.com/${accounts[active].handle}`} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600}}>
+          View @{accounts[active].handle} on X →
+        </a>
+      </div>
+    </div>
+  );
+}
 
 // ===== KALSHI HOOK =====
-const fmtVol=(v)=>{if(!v)return"$0";const d=v/100;if(d>=1e6)return`$${(d/1e6).toFixed(1)}M`;if(d>=1e3)return`$${(d/1e3).toFixed(0)}K`;return`$${d.toFixed(0)}`;};
-const catMarket=(m)=>{const t=`${m.title||""}${m.event_ticker||""}`.toLowerCase();if(t.includes("super bowl")||t.includes("champion")||t.includes("playoff"))return"Futures";if(t.includes("touchdown")||t.includes("yard")||t.includes("pass")||t.includes("rush"))return"Prop";if(t.includes("win")||t.includes("spread")||t.includes("over")||t.includes("under")||t.includes("total"))return"Game";if(t.includes("mvp")||t.includes("rookie")||t.includes("award"))return"Award";return"Other";};
+const fmtVol=(v)=>{if(!v)return"$0";const d=v/100;if(d>=1e6)return`${(d/1e6).toFixed(1)}M`;if(d>=1e3)return`${(d/1e3).toFixed(0)}K`;return`${d.toFixed(0)}`;};
 const useKalshi=()=>{
-  const [markets,setMarkets]=useState([]);const [loading,setLoading]=useState(false);const [error,setError]=useState(null);const [lastFetch,setLastFetch]=useState(null);
+  const [events,setEvents]=useState([]);const [loading,setLoading]=useState(false);const [error,setError]=useState(null);const [lastFetch,setLastFetch]=useState(null);
   const fetch_=useCallback(async()=>{
     setLoading(true);setError(null);
     try{const r=await fetch("/api/kalshi");if(!r.ok)throw new Error(`API ${r.status}`);const d=await r.json();
-      setMarkets((d.markets||[]).slice(0,20).map(m=>({id:m.ticker,market:m.title+(m.subtitle?` — ${m.subtitle}`:""),yes:m.yes_bid||m.last_price||50,no:m.no_bid||(100-(m.last_price||50)),volume:fmtVol(m.volume_24h||m.volume||0),cat:catMarket(m),ticker:m.ticker})));
-      setLastFetch(new Date());
+      setEvents(d.events||[]);setLastFetch(new Date());
     }catch(e){setError(e.message);}finally{setLoading(false);}
   },[]);
   useEffect(()=>{fetch_();},[fetch_]);
-  return{markets,loading,error,lastFetch,refresh:fetch_};
+  return{events,loading,error,lastFetch,refresh:fetch_};
 };
 
 // ===== BETS & VIDEO DATA =====
@@ -131,6 +156,9 @@ export default function Home(){
   const [activeSection,setActiveSection]=useState("feed");
   const [kalshiFilter,setKalshiFilter]=useState("all");
   const kalshi=useKalshi();
+
+  const sbEvent=kalshi.events.find(e=>(e.series_ticker||"").startsWith("KXSB"));
+  const otherEvents=kalshi.events.filter(e=>e!==sbEvent);
 
   const team=selectedTeam?getTeam(selectedTeam):null;
   const pc=team?team.color:"#1a1a2e";
@@ -164,7 +192,6 @@ export default function Home(){
   },[feedFilter,selectedTeam]);
 
   const filteredBets=betFilter==="all"?MOCK_BETS:MOCK_BETS.filter(b=>b.result===betFilter);
-  const filteredKalshi=kalshiFilter==="all"?kalshi.markets:kalshi.markets.filter(k=>k.cat===kalshiFilter);
   const rec={w:MOCK_BETS.filter(b=>b.result==="win").length,l:MOCK_BETS.filter(b=>b.result==="loss").length,p:MOCK_BETS.filter(b=>b.result==="pending").length};
   const profit=MOCK_BETS.reduce((s,b)=>{if(b.result==="win")return s+parseFloat(b.payout.replace(/[+$]/g,""));if(b.result==="loss")return s+parseFloat(b.payout.replace(/[$]/g,""));return s;},0);
 
@@ -257,33 +284,85 @@ export default function Home(){
         {/* ===== KALSHI MARKETS ===== */}
         {activeSection==="kalshi"&&(<div>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20,flexWrap:"wrap",gap:12}}>
-            <div><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>🔥 Trending on Kalshi</h2><div style={{fontSize:13,color:"#ffffff55",marginTop:4}}>Live NFL prediction markets — sorted by volume</div></div>
+            <div><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>📊 NFL Prediction Markets</h2><div style={{fontSize:13,color:"#ffffff55",marginTop:4}}>Live odds from Kalshi — click any option to trade</div></div>
             <div style={{display:"flex",alignItems:"center",gap:10}}>
               {kalshi.lastFetch&&<span style={{fontSize:11,color:"#ffffff33"}}>Updated {kalshi.lastFetch.toLocaleTimeString()}</span>}
               <button onClick={kalshi.refresh} disabled={kalshi.loading} style={{background:"#ffffff10",border:"1px solid #ffffff22",color:"#fff",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600,opacity:kalshi.loading?0.5:1}}>{kalshi.loading?"Loading...":"🔄 Refresh"}</button>
             </div>
           </div>
           {kalshi.error&&(<div style={{background:"#f8717115",border:"1px solid #f8717133",borderRadius:10,padding:14,marginBottom:16}}><div style={{fontSize:13,color:"#f87171",fontWeight:600}}>⚠️ Couldn&apos;t fetch Kalshi data</div><div style={{fontSize:12,color:"#ffffff55",marginTop:4}}>Error: {kalshi.error}</div></div>)}
-          {kalshi.loading&&!kalshi.markets.length&&(<div style={{textAlign:"center",padding:40}}><div style={{fontSize:28,marginBottom:8}}>📊</div><div style={{fontSize:14,color:"#ffffff55"}}>Fetching live markets...</div></div>)}
-          {kalshi.markets.length>0&&(<>
-            <div style={{display:"flex",gap:6,marginBottom:16,flexWrap:"wrap"}}>
-              {["all",...new Set(kalshi.markets.map(k=>k.cat))].map(f=>(<button key={f} onClick={()=>setKalshiFilter(f)} style={{background:kalshiFilter===f?`${ac}33`:"#ffffff08",border:`1px solid ${kalshiFilter===f?ac:"#ffffff15"}`,color:kalshiFilter===f?"#fff":"#ffffff77",padding:"5px 12px",borderRadius:16,cursor:"pointer",fontSize:11,fontWeight:600}}>{f==="all"?"All Markets":f}</button>))}
+          {kalshi.loading&&!kalshi.events.length&&(<div style={{textAlign:"center",padding:40}}><div style={{fontSize:28,marginBottom:8}}>📊</div><div style={{fontSize:14,color:"#ffffff55"}}>Fetching live markets...</div></div>)}
+
+          {/* SUPER BOWL FUTURES BOARD */}
+          {sbEvent&&(<div style={{marginBottom:28}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
+              <span style={{fontSize:20}}>🏆</span>
+              <div>
+                <h3 style={{fontSize:18,fontWeight:800,color:"#fff",margin:0}}>{sbEvent.title||"Super Bowl Champion"}</h3>
+                {sbEvent.subtitle&&<div style={{fontSize:12,color:"#ffffff55"}}>{sbEvent.subtitle}</div>}
+              </div>
             </div>
-            <div style={{display:"flex",flexDirection:"column",gap:8}}>
-              {filteredKalshi.map(k=>(<a key={k.id} href={`https://kalshi.com/markets/${k.ticker}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none",color:"inherit"}}>
-                <div style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:16}}>
-                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
-                    <div style={{fontSize:14,fontWeight:700,color:"#fff",flex:1,paddingRight:12}}>{k.market}</div>
-                    <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}><span style={{fontSize:11,color:"#ffffff44"}}>Vol: {k.volume}</span><span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:"#ffffff08",color:"#ffffff55",fontWeight:600}}>{k.cat}</span></div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(170px,1fr))",gap:8}}>
+              {sbEvent.markets.map(m=>{
+                const price=m.last_price||m.yes_bid||0;
+                const teamName=(m.yes_sub_title||m.title||m.subtitle||"").replace(/^Will |win.*$/gi,"").trim();
+                return(
+                  <a key={m.ticker} href={`https://kalshi.com/markets/${m.ticker}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
+                    <div style={{background:price>=15?"#12121c":"#0d0d14",border:`1px solid ${price>=15?"#ffffff15":"#ffffff08"}`,borderRadius:10,padding:"12px 14px",transition:"all 0.2s",position:"relative",overflow:"hidden"}}>
+                      {price>=15&&<div style={{position:"absolute",top:0,left:0,width:`${price}%`,height:"100%",background:`linear-gradient(90deg,${ac}08,${ac}03)`,borderRadius:10}}/>}
+                      <div style={{position:"relative",zIndex:1}}>
+                        <div style={{fontSize:13,fontWeight:700,color:"#fff",marginBottom:6,lineHeight:1.3}}>{teamName}</div>
+                        <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
+                          <div style={{fontSize:20,fontWeight:900,color:price>=15?"#4ade80":price>=5?"#fbbf24":"#ffffff55"}}>{price}¢</div>
+                          <div style={{fontSize:10,color:"#ffffff33"}}>Vol {fmtVol(m.volume||0)}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          </div>)}
+
+          {/* OTHER NFL EVENTS */}
+          {otherEvents.length>0&&(<div>
+            <div style={{fontSize:12,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:14}}>More NFL Markets</div>
+            <div style={{display:"flex",flexDirection:"column",gap:12}}>
+              {otherEvents.map(evt=>(
+                <div key={evt.event_ticker} style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:18}}>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
+                    <div>
+                      <div style={{fontSize:15,fontWeight:700,color:"#fff"}}>{evt.title}</div>
+                      {evt.subtitle&&<div style={{fontSize:12,color:"#ffffff44",marginTop:2}}>{evt.subtitle}</div>}
+                    </div>
+                    <span style={{fontSize:10,padding:"3px 8px",borderRadius:6,background:"#ffffff08",color:"#ffffff44",fontWeight:600,flexShrink:0}}>{evt.markets.length} options</span>
                   </div>
-                  <div style={{flex:1}}><div style={{display:"flex",justifyContent:"space-between",fontSize:11,marginBottom:4}}><span style={{color:"#4ade80",fontWeight:600}}>Yes {k.yes}¢</span><span style={{color:"#f87171",fontWeight:600}}>No {k.no}¢</span></div>
-                    <div style={{height:8,borderRadius:4,background:"#f8717133",overflow:"hidden"}}><div style={{width:`${k.yes}%`,height:"100%",borderRadius:4,background:"linear-gradient(90deg,#4ade80,#22c55e)"}}/></div>
+                  <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:6}}>
+                    {evt.markets.slice(0,12).map(m=>{
+                      const price=m.last_price||m.yes_bid||0;
+                      const label=m.yes_sub_title||m.title||m.subtitle||"Yes";
+                      return(
+                        <a key={m.ticker} href={`https://kalshi.com/markets/${m.ticker}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
+                          <div style={{background:"#1a1a2e",border:"1px solid #ffffff08",borderRadius:8,padding:"10px 12px",display:"flex",justifyContent:"space-between",alignItems:"center",gap:8,transition:"all 0.15s"}}>
+                            <div style={{fontSize:12,fontWeight:600,color:"#ddd",flex:1,minWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{label}</div>
+                            <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+                              <span style={{fontSize:14,fontWeight:800,color:price>=20?"#4ade80":price>=5?"#fbbf24":"#ffffff44"}}>{price}¢</span>
+                              <div style={{width:32,height:6,borderRadius:3,background:"#ffffff10",overflow:"hidden"}}>
+                                <div style={{width:`${price}%`,height:"100%",borderRadius:3,background:price>=20?"#4ade80":price>=5?"#fbbf24":"#ffffff33"}}/>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                      );
+                    })}
                   </div>
+                  {evt.markets.length>12&&<div style={{fontSize:11,color:"#ffffff33",textAlign:"center",marginTop:8}}>+{evt.markets.length-12} more options on Kalshi</div>}
                 </div>
-              </a>))}
+              ))}
             </div>
-          </>)}
-          <div style={{background:"#ffffff06",border:"1px solid #ffffff10",borderRadius:10,padding:16,marginTop:16,textAlign:"center"}}><div style={{fontSize:12,color:"#ffffff44"}}>Live data from <a href="https://kalshi.com/sports/all-sports" target="_blank" rel="noopener noreferrer" style={{color:"#fff",fontWeight:600,textDecoration:"none"}}>Kalshi</a> · Click any market to trade</div></div>
+          </div>)}
+
+          <div style={{background:"#ffffff06",border:"1px solid #ffffff10",borderRadius:10,padding:16,marginTop:20,textAlign:"center"}}><div style={{fontSize:12,color:"#ffffff44"}}>Live data from <a href="https://kalshi.com/sports/all-sports" target="_blank" rel="noopener noreferrer" style={{color:"#fff",fontWeight:600,textDecoration:"none"}}>Kalshi</a> · Prices in cents · Click any option to trade</div></div>
         </div>)}
 
         {/* ===== CRAIG'S LIST ===== */}
