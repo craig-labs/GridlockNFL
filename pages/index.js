@@ -394,7 +394,7 @@ export default function Home(){
               {sbEvent.markets.map(m=>{
                 const price=m.last_price||m.yes_bid||0;
                 const label=(m.yes_sub_title||m.title||m.subtitle||"").replace(/^Will |win.*$/gi,"").trim();
-                return(<a key={m.ticker} href={`https://kalshi.com/markets/${m.ticker}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
+                return(<a key={m.ticker} href={`https://kalshi.com/markets/${(sbEvent.series_ticker||"kxsb").toLowerCase()}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
                   <div style={{background:price>=15?"#12121c":"#0d0d14",border:`1px solid ${price>=15?"#ffffff15":"#ffffff08"}`,borderRadius:10,padding:"12px 14px",position:"relative",overflow:"hidden"}}>
                     {price>=15&&<div style={{position:"absolute",top:0,left:0,width:`${price}%`,height:"100%",background:`linear-gradient(90deg,${ac}08,${ac}03)`,borderRadius:10}}/>}
                     <div style={{position:"relative",zIndex:1}}>
@@ -423,7 +423,7 @@ export default function Home(){
                   {evt.markets.slice(0,12).map(m=>{
                     const price=m.last_price||m.yes_bid||0;
                     const label=m.yes_sub_title||m.title||m.subtitle||"Yes";
-                    return(<a key={m.ticker} href={`https://kalshi.com/markets/${m.ticker}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
+                    return(<a key={m.ticker} href={`https://kalshi.com/markets/${(evt.series_ticker||evt.event_ticker||"").toLowerCase()}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
                       <div style={{background:"#1a1a2e",border:"1px solid #ffffff08",borderRadius:8,padding:"10px 12px",display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
                         <div style={{fontSize:12,fontWeight:600,color:"#ddd",flex:1,minWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{label}</div>
                         <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
