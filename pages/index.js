@@ -1,44 +1,28 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import Head from "next/head";
-// X/Twitter Timeline Embed using official widgets.js
-function XTimeline({ screenName, height = 600 }) {
-  const containerRef = useState(null)[1];
-  const divId = `twitter-timeline-${screenName}`;
-
-  useEffect(() => {
-    const el = document.getElementById(divId);
-    if (!el) return;
-    el.innerHTML = "";
-
-    const anchor = document.createElement("a");
-    anchor.setAttribute("class", "twitter-timeline");
-    anchor.setAttribute("data-theme", "dark");
-    anchor.setAttribute("data-chrome", "noheader nofooter noborders transparent");
-    anchor.setAttribute("data-height", String(height));
-    anchor.setAttribute("data-tweet-limit", "10");
-    anchor.setAttribute("href", `https://twitter.com/${screenName}`);
-    anchor.textContent = `Loading @${screenName}...`;
-    el.appendChild(anchor);
-
-    // Load or reload the Twitter widgets script
-    if (window.twttr && window.twttr.widgets) {
-      window.twttr.widgets.load(el);
-    } else {
-      const existingScript = document.getElementById("twitter-wjs");
-      if (existingScript) existingScript.remove();
-      const script = document.createElement("script");
-      script.id = "twitter-wjs";
-      script.src = "https://platform.twitter.com/widgets.js";
-      script.async = true;
-      document.head.appendChild(script);
-    }
-  }, [screenName, divId, height]);
-
+// X/Twitter Account Link Cards (always works, no API needed)
+function TwitterFeed({ accounts, ac }) {
+  if (!accounts || !accounts.length) return null;
   return (
-    <div id={divId} style={{
-      borderRadius: 12, overflow: "hidden", background: "#12121c",
-      border: "1px solid #ffffff10", minHeight: 200,
-    }} />
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:10}}>
+      {accounts.map((a) => (
+        <a key={a.handle} href={`https://x.com/${a.handle}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none",color:"inherit"}}>
+          <div style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:16,display:"flex",alignItems:"center",gap:12,transition:"all 0.2s",cursor:"pointer"}}>
+            <div style={{width:44,height:44,borderRadius:"50%",background:`${ac}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>
+              {a.emoji || "🏈"}
+            </div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:14,fontWeight:700,color:"#fff"}}>{a.label}</div>
+              <div style={{fontSize:12,color:"#1DA1F2",fontWeight:500}}>@{a.handle}</div>
+              {a.desc && <div style={{fontSize:11,color:"#ffffff44",marginTop:2,lineHeight:1.4}}>{a.desc}</div>}
+            </div>
+            <div style={{fontSize:11,color:"#ffffff33",flexShrink:0}}>
+              <span style={{background:"#1DA1F222",color:"#1DA1F2",padding:"4px 10px",borderRadius:6,fontWeight:600,fontSize:11}}>View 𝕏</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
   );
 }
 
@@ -58,46 +42,48 @@ const CraigAvatar=({size=44,border=true})=>(
 // ===== TWITTER ACCOUNTS BY CATEGORY =====
 const TWITTER_ACCOUNTS = {
   league: [
-    { handle: "NFL", label: "NFL" },
-    { handle: "AdamSchefter", label: "Adam Schefter" },
-    { handle: "RapSheet", label: "Ian Rapoport" },
-    { handle: "PatMcAfeeShow", label: "Pat McAfee" },
-    { handle: "NFLNetwork", label: "NFL Network" },
-    { handle: "TomPelissero", label: "Tom Pelissero" },
+    { handle: "NFL", label: "NFL", emoji: "🏈", desc: "Official NFL account" },
+    { handle: "AdamSchefter", label: "Adam Schefter", emoji: "📰", desc: "ESPN NFL Insider" },
+    { handle: "RapSheet", label: "Ian Rapoport", emoji: "🗞️", desc: "NFL Network Insider" },
+    { handle: "PatMcAfeeShow", label: "Pat McAfee", emoji: "🎙️", desc: "Daily sports talk & NFL commentary" },
+    { handle: "NFLNetwork", label: "NFL Network", emoji: "📺", desc: "Official NFL Network" },
+    { handle: "TomPelissero", label: "Tom Pelissero", emoji: "📋", desc: "NFL Network Insider" },
+    { handle: "JayGlazer", label: "Jay Glazer", emoji: "💪", desc: "FOX NFL Insider" },
+    { handle: "MikeGarafolo", label: "Mike Garafolo", emoji: "🎯", desc: "NFL Network reporter" },
   ],
   teams: {
-    Ravens: [{ handle: "Ravens", label: "Baltimore Ravens" }],
-    Bengals: [{ handle: "Bengals", label: "Cincinnati Bengals" }, { handle: "JoeyB", label: "Joe Burrow Fan" }],
-    Browns: [{ handle: "Browns", label: "Cleveland Browns" }],
-    Steelers: [{ handle: "steelers", label: "Pittsburgh Steelers" }],
-    Texans: [{ handle: "HoustonTexans", label: "Houston Texans" }],
-    Colts: [{ handle: "Colts", label: "Indianapolis Colts" }],
-    Jaguars: [{ handle: "Jaguars", label: "Jacksonville Jaguars" }],
-    Titans: [{ handle: "Titans", label: "Tennessee Titans" }],
-    Bills: [{ handle: "BuffaloBills", label: "Buffalo Bills" }],
-    Dolphins: [{ handle: "MiamiDolphins", label: "Miami Dolphins" }],
-    Patriots: [{ handle: "Patriots", label: "New England Patriots" }],
-    Jets: [{ handle: "nyjets", label: "New York Jets" }],
-    Broncos: [{ handle: "Broncos", label: "Denver Broncos" }],
-    Chiefs: [{ handle: "Chiefs", label: "Kansas City Chiefs" }, { handle: "PatrickMahomes", label: "Patrick Mahomes" }],
-    Raiders: [{ handle: "Raiders", label: "Las Vegas Raiders" }],
-    Chargers: [{ handle: "chargers", label: "Los Angeles Chargers" }],
-    Bears: [{ handle: "ChicagoBears", label: "Chicago Bears" }],
-    Lions: [{ handle: "Lions", label: "Detroit Lions" }],
-    Packers: [{ handle: "packers", label: "Green Bay Packers" }],
-    Vikings: [{ handle: "Vikings", label: "Minnesota Vikings" }],
-    Falcons: [{ handle: "AtlantaFalcons", label: "Atlanta Falcons" }],
-    Panthers: [{ handle: "Panthers", label: "Carolina Panthers" }],
-    Saints: [{ handle: "Saints", label: "New Orleans Saints" }],
-    Buccaneers: [{ handle: "Buccaneers", label: "Tampa Bay Buccaneers" }],
-    Cowboys: [{ handle: "daborncowboys", label: "Dallas Cowboys" }],
-    Giants: [{ handle: "Giants", label: "New York Giants" }],
-    Eagles: [{ handle: "Eagles", label: "Philadelphia Eagles" }],
-    Commanders: [{ handle: "Commanders", label: "Washington Commanders" }],
-    Cardinals: [{ handle: "AZCardinals", label: "Arizona Cardinals" }],
-    Rams: [{ handle: "RamsNFL", label: "Los Angeles Rams" }],
-    "49ers": [{ handle: "49ers", label: "San Francisco 49ers" }],
-    Seahawks: [{ handle: "Seahawks", label: "Seattle Seahawks" }],
+    Ravens: [{ handle: "Ravens", label: "Baltimore Ravens", emoji: "🦅" }, { handle: "jeffzrebiec", label: "Jeff Zrebiec", emoji: "📰", desc: "Ravens beat — The Athletic" }],
+    Bengals: [{ handle: "Bengals", label: "Cincinnati Bengals", emoji: "🐯" }, { handle: "JoeyB", label: "Joe Burrow Updates", emoji: "🎯", desc: "Bengals QB coverage" }, { handle: "BenBaby", label: "Ben Baby", emoji: "📰", desc: "Bengals beat — ESPN" }],
+    Browns: [{ handle: "Browns", label: "Cleveland Browns", emoji: "🟤" }],
+    Steelers: [{ handle: "steelers", label: "Pittsburgh Steelers", emoji: "⚙️" }],
+    Texans: [{ handle: "HoustonTexans", label: "Houston Texans", emoji: "🐂" }],
+    Colts: [{ handle: "Colts", label: "Indianapolis Colts", emoji: "🐴" }],
+    Jaguars: [{ handle: "Jaguars", label: "Jacksonville Jaguars", emoji: "🐆" }],
+    Titans: [{ handle: "Titans", label: "Tennessee Titans", emoji: "⚔️" }],
+    Bills: [{ handle: "BuffaloBills", label: "Buffalo Bills", emoji: "🦬" }],
+    Dolphins: [{ handle: "MiamiDolphins", label: "Miami Dolphins", emoji: "🐬" }],
+    Patriots: [{ handle: "Patriots", label: "New England Patriots", emoji: "🇺🇸" }],
+    Jets: [{ handle: "nyjets", label: "New York Jets", emoji: "✈️" }],
+    Broncos: [{ handle: "Broncos", label: "Denver Broncos", emoji: "🐎" }],
+    Chiefs: [{ handle: "Chiefs", label: "Kansas City Chiefs", emoji: "🏹" }, { handle: "PatrickMahomes", label: "Patrick Mahomes", emoji: "🌟", desc: "Chiefs QB" }],
+    Raiders: [{ handle: "Raiders", label: "Las Vegas Raiders", emoji: "☠️" }],
+    Chargers: [{ handle: "chargers", label: "Los Angeles Chargers", emoji: "⚡" }],
+    Bears: [{ handle: "ChicagoBears", label: "Chicago Bears", emoji: "🐻" }],
+    Lions: [{ handle: "Lions", label: "Detroit Lions", emoji: "🦁" }],
+    Packers: [{ handle: "packers", label: "Green Bay Packers", emoji: "🧀" }],
+    Vikings: [{ handle: "Vikings", label: "Minnesota Vikings", emoji: "⛵" }],
+    Falcons: [{ handle: "AtlantaFalcons", label: "Atlanta Falcons", emoji: "🦅" }],
+    Panthers: [{ handle: "Panthers", label: "Carolina Panthers", emoji: "🐈‍⬛" }],
+    Saints: [{ handle: "Saints", label: "New Orleans Saints", emoji: "⚜️" }],
+    Buccaneers: [{ handle: "Buccaneers", label: "Tampa Bay Buccaneers", emoji: "🏴‍☠️" }],
+    Cowboys: [{ handle: "dallascowboys", label: "Dallas Cowboys", emoji: "⭐" }],
+    Giants: [{ handle: "Giants", label: "New York Giants", emoji: "🗽" }],
+    Eagles: [{ handle: "Eagles", label: "Philadelphia Eagles", emoji: "🦅" }],
+    Commanders: [{ handle: "Commanders", label: "Washington Commanders", emoji: "🎖️" }],
+    Cardinals: [{ handle: "AZCardinals", label: "Arizona Cardinals", emoji: "🐦" }],
+    Rams: [{ handle: "RamsNFL", label: "Los Angeles Rams", emoji: "🐏" }],
+    "49ers": [{ handle: "49ers", label: "San Francisco 49ers", emoji: "⛏️" }],
+    Seahawks: [{ handle: "Seahawks", label: "Seattle Seahawks", emoji: "🦅" }],
   },
 };
 
@@ -289,6 +275,10 @@ export default function Home(){
           )}
 
           <TwitterFeed accounts={feedAccounts} ac={ac} />
+
+          <div style={{background:"#ffffff06",border:"1px solid #ffffff10",borderRadius:10,padding:16,marginTop:20,textAlign:"center"}}>
+            <div style={{fontSize:12,color:"#ffffff44"}}>💡 Click any card to view their latest posts on X. When this site generates revenue, we&apos;ll upgrade to live tweet feeds.</div>
+          </div>
         </div>)}
 
         {/* ===== KALSHI MARKETS ===== */}
