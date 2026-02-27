@@ -94,6 +94,59 @@ const useKalshi=()=>{
   return{events,loading,error,lastFetch,refresh:fetch_};
 };
 
+const useNflNews=()=>{
+  const [articles,setArticles]=useState([]);const [loading,setLoading]=useState(false);const [error,setError]=useState(null);
+  const fetch_=useCallback(async()=>{
+    setLoading(true);setError(null);
+    try{const r=await fetch("/api/news");if(!r.ok)throw new Error(`API ${r.status}`);const d=await r.json();
+      setArticles(d.articles||[]);
+    }catch(e){setError(e.message);}finally{setLoading(false);}
+  },[]);
+  useEffect(()=>{fetch_();},[fetch_]);
+  return{articles,loading,error,refresh:fetch_};
+};
+
+function TopStories({articles,ac}){
+  if(!articles||!articles.length)return null;
+  const main=articles[0];
+  const rest=articles.slice(1,5);
+  const ago=(d)=>{if(!d)return"";const m=Math.floor((Date.now()-new Date(d).getTime())/60000);if(m<60)return`${m}m ago`;if(m<1440)return`${Math.floor(m/60)}h ago`;return`${Math.floor(m/1440)}d ago`;};
+  return(
+    <div style={{marginBottom:24}}>
+      <div style={{fontSize:12,color:"#ffffff55",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",marginBottom:12}}>📰 Top Stories</div>
+      <div style={{display:"grid",gridTemplateColumns:rest.length?"2fr 1fr":"1fr",gap:12}}>
+        <a href={main.link} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none",color:"inherit"}}>
+          <div style={{background:"linear-gradient(135deg,#1a1a2e,#12121c)",border:"1px solid #ffffff12",borderRadius:14,overflow:"hidden",cursor:"pointer",borderLeft:`4px solid ${ac}`}}>
+            {main.image&&<div style={{width:"100%",height:180,backgroundImage:`url(${main.image})`,backgroundSize:"cover",backgroundPosition:"center"}}/>}
+            <div style={{padding:18}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+                <span style={{fontSize:10,padding:"3px 8px",borderRadius:6,background:`${ac}22`,color:ac,fontWeight:700}}>🔥 Breaking</span>
+                <span style={{fontSize:10,color:"#ffffff44"}}>{ago(main.published)}</span>
+              </div>
+              <h3 style={{fontSize:17,fontWeight:800,color:"#fff",lineHeight:1.3,marginBottom:6}}>{main.headline}</h3>
+              <p style={{fontSize:12,color:"#ffffff66",lineHeight:1.5,margin:0}}>{main.description?.slice(0,140)}{main.description?.length>140?"...":""}</p>
+              <div style={{fontSize:11,color:ac,marginTop:10,fontWeight:600}}>Read full story →</div>
+            </div>
+          </div>
+        </a>
+        {rest.length>0&&(<div style={{display:"flex",flexDirection:"column",gap:8}}>
+          {rest.map((s,i)=>(
+            <a key={i} href={s.link} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none",color:"inherit",flex:1}}>
+              <div style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:10,padding:12,cursor:"pointer",display:"flex",gap:10,alignItems:"center",height:"100%"}}>
+                {s.image&&<div style={{width:60,height:50,borderRadius:6,backgroundImage:`url(${s.image})`,backgroundSize:"cover",backgroundPosition:"center",flexShrink:0}}/>}
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontSize:9,color:"#ffffff44",fontWeight:600,marginBottom:3}}>{ago(s.published)} · {s.source}</div>
+                  <div style={{fontSize:12,fontWeight:700,color:"#fff",lineHeight:1.3,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden"}}>{s.headline}</div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>)}
+      </div>
+    </div>
+  );
+}
+
 const MOCK_BETS=[
   // === PLAYOFFS ===
   {id:170,type:"Spread",matchup:"Chiefs -1.5 vs Lions (SB)",odds:"-110",stake:"$500",result:"win",payout:"+$455",date:"Feb 9"},
@@ -272,6 +325,7 @@ export default function Home(){
   const [betFilter,setBetFilter]=useState("all");
   const [activeSection,setActiveSection]=useState("feed");
   const kalshi=useKalshi();
+  const news=useNflNews();
 
   const team=selectedTeam?getTeam(selectedTeam):null;
   const pc=team?team.color:"#1a1a2e";
@@ -361,6 +415,8 @@ export default function Home(){
             <span style={{fontSize:11,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginRight:4}}>Filter:</span>
             {filterOptions.map(f=>(<button key={f.key} onClick={()=>setFeedFilter(f.key)} style={{background:feedFilter===f.key?`${ac}33`:"#ffffff08",border:`1px solid ${feedFilter===f.key?ac:"#ffffff15"}`,color:feedFilter===f.key?"#fff":"#ffffff77",padding:"5px 12px",borderRadius:20,cursor:"pointer",fontSize:11,fontWeight:600}}>{f.label}</button>))}
           </div>
+          {news.articles.length>0&&<TopStories articles={news.articles} ac={ac}/>}
+          {news.loading&&<div style={{textAlign:"center",padding:20,color:"#ffffff44",fontSize:13}}>Loading top stories...</div>}
           {!selectedTeam&&feedFilter==="all"&&(<div style={{background:"#ffffff08",border:"1px solid #ffffff15",borderRadius:12,padding:24,textAlign:"center",marginBottom:20}}>
             <div style={{fontSize:32,marginBottom:8}}>🏈</div>
             <div style={{fontSize:15,fontWeight:600,color:"#fff",marginBottom:4}}>Select your team for a personalized feed</div>
