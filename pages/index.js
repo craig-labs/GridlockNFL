@@ -87,33 +87,6 @@ const TWITTER_ACCOUNTS = {
   },
 };
 
-function TwitterFeed({ accounts, ac }) {
-  const [active, setActive] = useState(0);
-  if (!accounts || !accounts.length) return null;
-  return (
-    <div>
-      <div style={{display:"flex",gap:6,marginBottom:16,flexWrap:"wrap"}}>
-        {accounts.map((a, i) => (
-          <button key={a.handle} onClick={() => setActive(i)} style={{
-            background: active === i ? `${ac}33` : "#ffffff08",
-            border: `1px solid ${active === i ? ac : "#ffffff15"}`,
-            color: active === i ? "#fff" : "#ffffff77",
-            padding: "6px 14px", borderRadius: 20, cursor: "pointer",
-            fontSize: 12, fontWeight: 600, transition: "all 0.2s",
-          }}>
-            @{a.handle}
-          </button>
-        ))}
-      </div>
-      <XTimeline key={accounts[active].handle} screenName={accounts[active].handle} />
-      <div style={{textAlign:"center",marginTop:12}}>
-        <a href={`https://x.com/${accounts[active].handle}`} target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600}}>
-          View @{accounts[active].handle} on X →
-        </a>
-      </div>
-    </div>
-  );
-}
 
 // ===== KALSHI HOOK =====
 const fmtVol=(v)=>{if(!v)return"$0";const d=v/100;if(d>=1e6)return`$${(d/1e6).toFixed(1)}M`;if(d>=1e3)return`$${(d/1e3).toFixed(0)}K`;return`$${d.toFixed(0)}`;};
