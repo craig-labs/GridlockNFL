@@ -1567,7 +1567,14 @@ export default function Home(){
           <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:20}}><div><div style={{display:"flex",alignItems:"center",gap:3}}><h2 style={{fontSize:26,fontWeight:900,color:"#fff",margin:0}}>Craig&#39;s</h2><h2 style={{fontSize:26,fontWeight:900,margin:0,background:`linear-gradient(135deg,${ac},#e94560)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>List</h2></div><div style={{display:"flex",alignItems:"center",gap:6,marginTop:2,marginBottom:2}}>
                     <span style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"2px 10px",borderRadius:20,fontSize:10,fontWeight:800,letterSpacing:"1px"}}>🏈 NFL ONLY</span>
                     </div>
-                  <div style={{fontSize:13,color:"#ffffff55",marginTop:2}}>NFL Bets from the big man himself via Hard Rock Bet · <a href="#" onClick={e=>{e.preventDefault();setActiveSection("premium");}} style={{color:"#fbbf24",fontWeight:600,textDecoration:"none"}}>See all sports →</a></div>
+                  <div style={{marginTop:4,display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
+                    <span style={{fontSize:13,color:"#ffffff88",fontWeight:500}}>NFL Bets from the big man himself</span>
+                    <span style={{fontSize:11,color:"#ffffff33"}}>——</span>
+                    <span style={{display:"flex",alignItems:"center",gap:4,background:"#c8102e15",border:"1px solid #c8102e44",borderRadius:6,padding:"2px 8px"}}>
+                      <span style={{fontSize:10,color:"#c8102e",fontWeight:800,letterSpacing:"1px",textTransform:"uppercase"}}>via Hard Rock Bet</span>
+                    </span>
+                    <a href="#" onClick={e=>{e.preventDefault();setActiveSection("premium");}} style={{color:"#fbbf24",fontWeight:600,textDecoration:"none",fontSize:11}}>See all sports →</a>
+                  </div>
                   <a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600,marginTop:2,display:"inline-block"}}>𝕏 @cnaylor_</a></div>
             <div style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:8}}><CraigAvatar size={44}/><div style={{width:8,height:8,borderRadius:"50%",background:"#4ade80",boxShadow:"0 0 8px #4ade8066"}}/><span style={{fontSize:11,color:"#4ade80",fontWeight:600}}>LIVE</span></div>
           </div>
