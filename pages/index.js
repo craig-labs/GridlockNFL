@@ -105,7 +105,7 @@ function TopStories({articles,ac}){
   </div>);
 }
 
-// ===== REAL BET DATA — Hard Rock Bet (1,177 bets | Feb 2024 – Feb 2026) =====
+// ===== REAL BET DATA — Hard Rock Bet (1,218 bets | Jan 2024 – Feb 2026) =====
 const ALL_BETS=[
   {id:1,date:"2026-02-22",status:"Lost",league:"Men",match:"Canada vs United States",type:"Total Goals",market:"Over 5.5",price:2.2,wager:100,winnings:0,payout:0},
   {id:2,date:"2026-02-08",status:"Won",league:"NFL",match:"Patriots vs Seahawks",type:"Drake Maye - Pass Completions",market:"Over 20.5",price:2.0,wager:2000,winnings:2000,payout:4000},
@@ -1283,7 +1283,48 @@ const ALL_BETS=[
   {id:1174,date:"2024-03-01",status:"Lost",league:"NCAA",match:"Loyola Chicago vs. Dayton",type:"Spread",market:"Dayton -1.5",price:2.0,wager:300,winnings:0,payout:0},
   {id:1175,date:"2024-02-24",status:"Lost",league:"NCAA",match:"Wake Forest vs. #1 Duke",type:"Spread",market:"#1 Duke +1.5",price:1.91,wager:100,winnings:0,payout:0},
   {id:1176,date:"2024-02-23",status:"Won",league:"NCAA",match:"Fordham vs. Duquesne",type:"Spread",market:"Fordham -1.5",price:1.91,wager:100,winnings:90,payout:190},
-  {id:1177,date:"2024-02-21",status:"Won",league:"NCAA",match:"George Mason vs. Dayton",type:"Spread",market:"Dayton +7.5",price:2.1,wager:100,winnings:110,payout:210}
+  {id:1177,date:"2024-02-21",status:"Won",league:"NCAA",match:"George Mason vs. Dayton",type:"Spread",market:"Dayton +7.5",price:2.1,wager:100,winnings:110,payout:210},
+  {id:1178,date:"2024-02-21",status:"Lost",league:"NCAA",match:"George Mason vs. Dayton",type:"Spread",market:"Dayton -2.5",price:1.91,wager:200,winnings:0,payout:0},
+  {id:1179,date:"2024-02-17",status:"Won",league:"NCAA",match:"Auburn vs. Kentucky",type:"Spread",market:"Kentucky -4.5",price:2.1,wager:100,winnings:110,payout:210},
+  {id:1180,date:"2024-02-17",status:"Won",league:"NCAA",match:"Oklahoma vs. #14 Kansas",type:"Spread",market:"#14 Kansas -3.5",price:1.8,wager:200,winnings:160,payout:360},
+  {id:1181,date:"2024-02-17",status:"Lost",league:"NCAA",match:"Florida State vs. #1 Duke",type:"Spread",market:"#1 Duke -9.5",price:1.95,wager:150,winnings:0,payout:0},
+  {id:1182,date:"2024-02-17",status:"Won",league:"NCAA",match:"Dayton vs. Fordham",type:"Spread",market:"Dayton -4.5",price:1.83,wager:200,winnings:166,payout:366},
+  {id:1183,date:"2024-02-11",status:"Lost",league:"NFL",match:"Chiefs vs 49ers",type:"Total Points",market:"Under 42.5",price:1.91,wager:100,winnings:0,payout:0},
+  {id:1184,date:"2024-02-11",status:"Won",league:"NFL",match:"Chiefs vs 49ers",type:"Travis Kelce - Receiving Yards",market:"Over 71.5",price:1.87,wager:75,winnings:65,payout:140},
+  {id:1185,date:"2024-02-11",status:"Won",league:"NFL",match:"Chiefs vs 49ers",type:"Marquez Valdes-Scantling - Receiving Yards",market:"Over 18.5",price:1.87,wager:50,winnings:43,payout:93},
+  {id:1186,date:"2024-02-09",status:"Won",league:"NBA",match:"Lakers vs. Pelicans",type:"Spread",market:"Lakers -5.5",price:1.95,wager:200,winnings:190,payout:390},
+  {id:1187,date:"2024-02-09",status:"Lost",league:"NCAA",match:"VCU vs. Dayton",type:"To Win",market:"Dayton",price:4.25,wager:25,winnings:0,payout:0},
+  {id:1188,date:"2024-02-09",status:"Lost",league:"NCAA",match:"VCU vs. Dayton",type:"Spread",market:"Dayton -1.5",price:1.95,wager:156,winnings:0,payout:0},
+  {id:1189,date:"2024-02-07",status:"Lost",league:"Golf",match:"WM Phoenix Open 2024",type:"Winner",market:"Jordan Spieth",price:18.5,wager:50,winnings:0,payout:0},
+  {id:1190,date:"2024-02-02",status:"Won",league:"NCAA",match:"Dayton vs. St. Bonaventure",type:"Spread",market:"Dayton -2.5",price:1.83,wager:200,winnings:166,payout:366},
+  {id:1191,date:"2024-02-02",status:"Lost",league:"NCAA",match:"Dayton vs. St. Bonaventure",type:"Spread",market:"Dayton -7.5",price:1.87,wager:100,winnings:0,payout:0},
+  {id:1192,date:"2024-01-28",status:"Won",league:"NFL",match:"49ers vs Lions",type:"Total Points",market:"Over 52.5",price:1.87,wager:100,winnings:86,payout:186},
+  {id:1193,date:"2024-01-28",status:"Won",league:"NFL",match:"Ravens vs Chiefs",type:"Spread",market:"Chiefs -5.5",price:1.87,wager:100,winnings:86,payout:186},
+  {id:1194,date:"2024-01-28",status:"Lost",league:"Boosts",match:"Andrews 2Q TD 1/28",type:"Andrews 2Q TD",market:"Mark Andrews to score a TD in 2nd Quarter",price:9.0,wager:25,winnings:0,payout:0},
+  {id:1195,date:"2024-01-28",status:"Won",league:"NFL",match:"49ers vs Lions",type:"Total Points",market:"Over 52.5",price:1.91,wager:200,winnings:181,payout:381},
+  {id:1196,date:"2024-01-28",status:"Lost",league:"NFL",match:"Ravens vs Chiefs",type:"Total Points",market:"Over 44.0",price:1.91,wager:200,winnings:0,payout:0},
+  {id:1197,date:"2024-01-27",status:"Lost",league:"NCAA",match:"Richmond vs. Dayton",type:"Spread",market:"Dayton -3.5",price:1.91,wager:200,winnings:0,payout:0},
+  {id:1198,date:"2024-01-25",status:"Lost",league:"NFL",match:"Ravens vs Chiefs",type:"Total Points",market:"Over 44.5",price:1.91,wager:200,winnings:0,payout:0},
+  {id:1199,date:"2024-01-21",status:"Won",league:"NFL",match:"Bills vs Chiefs",type:"Total Points",market:"Over 46.0",price:1.91,wager:150,winnings:136,payout:286},
+  {id:1200,date:"2024-01-21",status:"Won",league:"NFL",match:"Lions vs Buccaneers",type:"Spread",market:"Lions -6.0",price:1.91,wager:100,winnings:90,payout:190},
+  {id:1201,date:"2024-01-21",status:"Won",league:"NFL",match:"Lions vs Buccaneers",type:"Spread",market:"Lions -6.0",price:1.91,wager:100,winnings:90,payout:190},
+  {id:1202,date:"2024-01-20",status:"Won",league:"NFL",match:"49ers vs Packers",type:"Total Points",market:"Under 50.5",price:1.91,wager:200,winnings:181,payout:381},
+  {id:1203,date:"2024-01-20",status:"Lost",league:"NFL",match:"Ravens vs Texans",type:"Total Points",market:"Over 44.5",price:1.91,wager:75,winnings:0,payout:0},
+  {id:1204,date:"2024-01-20",status:"Won",league:"NFL",match:"Ravens vs Texans",type:"Total Points",market:"Over 43.5",price:1.91,wager:125,winnings:113,payout:238},
+  {id:1205,date:"2024-01-15",status:"Lost",league:"NFL",match:"Bills vs Steelers",type:"Total Points",market:"Under 39.5",price:1.91,wager:100,winnings:0,payout:0},
+  {id:1206,date:"2024-01-14",status:"Lost",league:"NFL",match:"Lions vs Rams",type:"Spread",market:"Lions -3.5",price:1.95,wager:100,winnings:0,payout:0},
+  {id:1207,date:"2024-01-14",status:"Lost",league:"NFL",match:"Lions vs Rams",type:"Spread",market:"Lions -3.0",price:1.87,wager:100,winnings:0,payout:0},
+  {id:1208,date:"2024-01-14",status:"Lost",league:"NFL",match:"Cowboys vs Packers",type:"Spread",market:"Cowboys -7.0",price:1.91,wager:41,winnings:0,payout:0},
+  {id:1209,date:"2024-01-14",status:"Lost",league:"NFL",match:"Cowboys vs Packers",type:"Spread",market:"Cowboys -7.0",price:1.91,wager:100,winnings:0,payout:0},
+  {id:1210,date:"2024-01-13",status:"Lost",league:"NFL",match:"Lions vs Rams",type:"Spread",market:"Lions -3.0",price:1.87,wager:121,winnings:0,payout:0},
+  {id:1211,date:"2024-01-13",status:"Lost",league:"NFL",match:"Bills vs Steelers",type:"Total Points",market:"Under 37.5",price:1.91,wager:100,winnings:0,payout:0},
+  {id:1212,date:"2024-01-13",status:"Won",league:"NFL",match:"Chiefs vs Dolphins",type:"Spread",market:"Chiefs -4.5",price:1.91,wager:100,winnings:90,payout:190},
+  {id:1213,date:"2024-01-13",status:"Lost",league:"NFL",match:"Buccaneers vs Eagles",type:"Spread",market:"Eagles -2.5",price:1.87,wager:300,winnings:0,payout:0},
+  {id:1214,date:"2024-01-13",status:"Won",league:"NFL",match:"Texans vs Browns",type:"Spread",market:"Texans -7.0",price:1.91,wager:100,winnings:90,payout:190},
+  {id:1215,date:"2024-01-13",status:"Won",league:"NFL",match:"Texans vs Browns",type:"Spread",market:"Texans -7.5",price:1.91,wager:100,winnings:90,payout:190},
+  {id:1216,date:"2024-01-13",status:"Lost",league:"NFL",match:"Texans vs Browns",type:"Total Points",market:"Under 45.0",price:1.95,wager:100,winnings:0,payout:0},
+  {id:1217,date:"2024-01-13",status:"Won",league:"NFL",match:"Chiefs vs Dolphins",type:"Spread",market:"Chiefs -4.5",price:1.91,wager:100,winnings:90,payout:190},
+  {id:1218,date:"2024-01-13",status:"Won",league:"NFL",match:"NFL 23/24",type:"Super Bowl 58 - Winner",market:"Kansas City Chiefs",price:10.0,wager:100,winnings:900,payout:1000}
 ];
 
 const LEAGUE_LABELS={"NFL":"🏈 NFL","NCAA":"🏫 NCAA","NBA":"🏀 NBA","NHL":"🏒 NHL","MLB":"⚾ MLB","Formula 1":"🏎️ F1","Golf":"⛳ Golf","Copa America":"⚽ Copa","4 Nations Face-Off":"🏒 4 Nations","Boosts":"⚡ Boosts","Other":"🎯 Other","Men":"⚽ Soccer"};
