@@ -79,17 +79,25 @@ const useNflNews=(teamName)=>{
   useEffect(()=>{f();},[f]);return{articles,loading,error,refresh:f};
 };
 
+const SOURCE_COLORS={"ESPN":"#e05c1a","Pro Football Talk":"#00a0d6","NFL.com":"#013087","The Athletic":"#e52836","Official":"#4ade80"};
+function SourceBadge({source}){
+  const color=Object.entries(SOURCE_COLORS).find(([k])=>source?.includes(k))?.[1]||"#ffffff44";
+  return <span style={{fontSize:9,padding:"2px 6px",borderRadius:4,background:color+"22",color:color,fontWeight:700,flexShrink:0}}>{source}</span>;
+}
 function TopStories({articles,ac}){
   if(!articles||!articles.length)return null;
-  const main=articles[0],rest=articles.slice(1,5);
+  const main=articles[0],rest=articles.slice(1,6);
   const ago=(d)=>{if(!d)return"";const m=Math.floor((Date.now()-new Date(d).getTime())/60000);if(m<60)return`${m}m ago`;if(m<1440)return`${Math.floor(m/60)}h ago`;return`${Math.floor(m/1440)}d ago`;};
   return(<div style={{marginBottom:24}}>
-    <div style={{fontSize:12,color:"#ffffff55",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",marginBottom:12}}>📰 Top Stories</div>
+    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
+      <div style={{fontSize:12,color:"#ffffff55",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase"}}>📰 Top Stories</div>
+      <div style={{display:"flex",gap:4,flexWrap:"wrap",justifyContent:"flex-end"}}>{[...new Set(articles.map(a=>a.source))].map(s=><SourceBadge key={s} source={s}/>)}</div>
+    </div>
     <div style={{display:"grid",gridTemplateColumns:rest.length?"2fr 1fr":"1fr",gap:12}}>
       <a href={main.link} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none",color:"inherit"}}><div style={{background:"linear-gradient(135deg,#1a1a2e,#12121c)",border:"1px solid #ffffff12",borderRadius:14,overflow:"hidden",cursor:"pointer",borderLeft:`4px solid ${ac}`}}>
         {main.image&&<div style={{width:"100%",height:180,backgroundImage:`url(${main.image})`,backgroundSize:"cover",backgroundPosition:"center"}}/>}
         <div style={{padding:18}}>
-          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}><span style={{fontSize:10,padding:"3px 8px",borderRadius:6,background:`${ac}22`,color:ac,fontWeight:700}}>🔥 Breaking</span><span style={{fontSize:10,color:"#ffffff44"}}>{ago(main.published)}</span></div>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8,flexWrap:"wrap"}}><span style={{fontSize:10,padding:"3px 8px",borderRadius:6,background:`${ac}22`,color:ac,fontWeight:700}}>🔥 Top Story</span><SourceBadge source={main.source}/><span style={{fontSize:10,color:"#ffffff44"}}>{ago(main.published)}</span></div>
           <h3 style={{fontSize:17,fontWeight:800,color:"#fff",lineHeight:1.3,marginBottom:6}}>{main.headline}</h3>
           <p style={{fontSize:12,color:"#ffffff66",lineHeight:1.5,margin:0}}>{main.description?.slice(0,140)}{main.description?.length>140?"...":""}</p>
           <div style={{fontSize:11,color:ac,marginTop:10,fontWeight:600}}>Read full story →</div>
@@ -98,7 +106,7 @@ function TopStories({articles,ac}){
       {rest.length>0&&<div style={{display:"flex",flexDirection:"column",gap:8}}>
         {rest.map((s,i)=>(<a key={i} href={s.link} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none",color:"inherit",flex:1}}><div style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:10,padding:12,cursor:"pointer",display:"flex",gap:10,alignItems:"center",height:"100%"}}>
           {s.image&&<div style={{width:60,height:50,borderRadius:6,backgroundImage:`url(${s.image})`,backgroundSize:"cover",backgroundPosition:"center",flexShrink:0}}/>}
-          <div style={{flex:1,minWidth:0}}><div style={{fontSize:9,color:"#ffffff44",fontWeight:600,marginBottom:3}}>{ago(s.published)} · {s.source}</div><div style={{fontSize:12,fontWeight:700,color:"#fff",lineHeight:1.3,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden"}}>{s.headline}</div></div>
+          <div style={{flex:1,minWidth:0}}><div style={{display:"flex",gap:4,alignItems:"center",marginBottom:3,flexWrap:"wrap"}}><SourceBadge source={s.source}/><span style={{fontSize:9,color:"#ffffff33"}}>{ago(s.published)}</span></div><div style={{fontSize:12,fontWeight:700,color:"#fff",lineHeight:1.3,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden"}}>{s.headline}</div></div>
         </div></a>))}
       </div>}
     </div>
