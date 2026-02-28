@@ -8,6 +8,24 @@ const ESPN_TEAM_IDS = {
   Buccaneers:27, Titans:10, Commanders:28,
 };
 
+// Conference and division groupings for news filtering
+const CONFERENCES = {
+  AFC: ["Bills","Dolphins","Patriots","Jets","Ravens","Bengals","Browns","Steelers",
+        "Texans","Colts","Jaguars","Titans","Chiefs","Raiders","Chargers","Broncos"],
+  NFC: ["Cowboys","Giants","Eagles","Commanders","Bears","Lions","Packers","Vikings",
+        "Falcons","Panthers","Saints","Buccaneers","Cardinals","Rams","49ers","Seahawks"],
+};
+const DIVISION_TEAMS = {
+  "AFC North": ["Ravens","Bengals","Browns","Steelers"],
+  "AFC South": ["Texans","Colts","Jaguars","Titans"],
+  "AFC East":  ["Bills","Dolphins","Patriots","Jets"],
+  "AFC West":  ["Chiefs","Raiders","Chargers","Broncos"],
+  "NFC North": ["Bears","Lions","Packers","Vikings"],
+  "NFC South": ["Falcons","Panthers","Saints","Buccaneers"],
+  "NFC East":  ["Cowboys","Giants","Eagles","Commanders"],
+  "NFC West":  ["Cardinals","Rams","49ers","Seahawks"],
+};
+
 // Official NFL team RSS feeds
 const TEAM_RSS = {
   Cardinals:   "https://www.azcardinals.com/rss/news",
@@ -152,11 +170,74 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "GET");
   res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=60");
 
-  const { team } = req.query;
+  const { team, conference, division } = req.query;
   const allArticles = [];
 
   try {
-    if (team) {
+    if (division && DIVISION_TEAMS[division]) {
+      // ── DIVISION MODE — fetch ESPN for each team in division ───────────
+      const teams = DIVISION_TEAMS[division].slice(0, 4);
+      const fetches = teams.map(t => {
+        const id = ESPN_TEAM_IDS[t];
+        if (!id) return Promise.resolve([]);
+        return fetchWithTimeout(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?team=${id}&limit=3`)
+          .then(async text => {
+            const data = JSON.parse(text);
+            return (data.articles || []).slice(0, 3).map(a => ({
+              headline: a.headline,
+              description: a.description || '',
+              published: a.published,
+              image: a.images?.[0]?.url || null,
+              link: a.links?.web?.href || null,
+              source: `ESPN · ${t}`,
+            }));
+          })
+          .catch(() => []);
+      });
+      const results = await Promise.all(fetches);
+      results.forEach(arts => allArticles.push(...arts));
+
+    } else if (conference && CONFERENCES[conference]) {
+      // ── CONFERENCE MODE — fetch ESPN for top teams + general NFL news ──
+      const confTeams = CONFERENCES[conference].slice(0, 6);
+      const fetches = [
+        // General NFL news first
+        fetchWithTimeout('https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=5')
+          .then(async text => {
+            const data = JSON.parse(text);
+            return (data.articles || []).slice(0, 5).map(a => ({
+              headline: a.headline,
+              description: a.description || '',
+              published: a.published,
+              image: a.images?.[0]?.url || null,
+              link: a.links?.web?.href || null,
+              source: 'ESPN',
+            }));
+          })
+          .catch(() => []),
+        // Sample 3 teams from conference
+        ...confTeams.slice(0, 3).map(t => {
+          const id = ESPN_TEAM_IDS[t];
+          if (!id) return Promise.resolve([]);
+          return fetchWithTimeout(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?team=${id}&limit=2`)
+            .then(async text => {
+              const data = JSON.parse(text);
+              return (data.articles || []).slice(0, 2).map(a => ({
+                headline: a.headline,
+                description: a.description || '',
+                published: a.published,
+                image: a.images?.[0]?.url || null,
+                link: a.links?.web?.href || null,
+                source: `ESPN · ${t}`,
+              }));
+            })
+            .catch(() => []);
+        }),
+      ];
+      const results = await Promise.all(fetches);
+      results.forEach(arts => allArticles.push(...arts));
+
+    } else if (team) {
       // ── TEAM-SPECIFIC MODE ─────────────────────────────────────────────
       const espnId = ESPN_TEAM_IDS[team];
       const teamRssUrl = TEAM_RSS[team];
