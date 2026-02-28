@@ -1382,6 +1382,8 @@ export default function Home(){
   const [betDateTo,setBetDateTo]=useState("");
   const [betSearch,setBetSearch]=useState("");
   const [showFreeBets,setShowFreeBets]=useState(false);
+  const [betView,setBetView]=useState("list"); // "list" | "teams" | "types"
+  const [selectedStatTeam,setSelectedStatTeam]=useState(null);
   const [activeSection,setActiveSection]=useState("feed");
   const [premiumAuthed,setPremiumAuthed]=useState(false);
   const [premiumUser,setPremiumUser]=useState("");
@@ -1468,6 +1470,39 @@ export default function Home(){
     const avgStake=premFilteredBets.length?totalWagered/premFilteredBets.length:0;
     return{wins:wins.length,losses:losses.length,totalWagered,netProfit,winRate,avgStake};
   },[premFilteredBets]);
+
+  // ── NFL team breakdown stats ────────────────────────────────────────────
+  const NFL_TEAM_NAMES = [
+    "49ers","Bears","Bengals","Bills","Broncos","Browns","Buccaneers","Cardinals",
+    "Chargers","Chiefs","Colts","Cowboys","Dolphins","Eagles","Falcons","Giants",
+    "Jaguars","Jets","Lions","Packers","Panthers","Patriots","Raiders","Rams",
+    "Ravens","Saints","Seahawks","Steelers","Texans","Titans","Vikings","Commanders"
+  ];
+  const teamStats=useMemo(()=>{
+    return NFL_TEAM_NAMES.map(team=>{
+      const tb=ALL_BETS.filter(b=>NFL_LEAGUES.includes(b.league)&&b.match.includes(team)&&!b.freeBet);
+      if(!tb.length)return null;
+      const wins=tb.filter(b=>b.status==="Won");
+      const losses=tb.filter(b=>b.status==="Lost");
+      const totalWin=wins.reduce((s,b)=>s+b.winnings,0);
+      const totalLost=losses.reduce((s,b)=>s+b.wager,0);
+      const wagered=tb.reduce((s,b)=>s+b.wager,0);
+      const wr=wins.length/(wins.length+losses.length)||0;
+      return{team,bets:tb.length,wins:wins.length,losses:losses.length,net:totalWin-totalLost,wagered,wr,allBets:tb};
+    }).filter(Boolean).sort((a,b)=>b.bets-a.bets);
+  },[]);
+  const betTypeStats=useMemo(()=>{
+    const base=ALL_BETS.filter(b=>NFL_LEAGUES.includes(b.league)&&!b.freeBet);
+    const map={};
+    base.forEach(b=>{
+      const t=b.type==="MULTIPLE"?"Parlay":b.type;
+      if(!map[t])map[t]={type:t,bets:0,wins:0,losses:0,winAmt:0,lossAmt:0,wagered:0};
+      map[t].bets++;map[t].wagered+=b.wager;
+      if(b.status==="Won"){map[t].wins++;map[t].winAmt+=b.winnings;}
+      else if(b.status==="Lost"){map[t].losses++;map[t].lossAmt+=b.wager;}
+    });
+    return Object.values(map).sort((a,b)=>b.bets-a.bets);
+  },[]);
 
   // ── STATS computed from filteredBets ───────────────────────────────────────
   const stats=useMemo(()=>{
@@ -1634,8 +1669,186 @@ export default function Home(){
             </div>
           </div>
 
+          {/* ── VIEW TOGGLE ── */}
+          <div style={{display:"flex",gap:6,marginBottom:16,alignItems:"center"}}>
+            <span style={{fontSize:11,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginRight:4}}>View:</span>
+            {[["list","📋 Bet List"],["teams","🏈 By Team"],["types","📊 By Bet Type"]].map(([k,l])=>(
+              <button key={k} onClick={()=>{setBetView(k);setSelectedStatTeam(null);}} style={{background:betView===k?`${ac}33`:"#ffffff08",border:`1px solid ${betView===k?ac:"#ffffff15"}`,color:betView===k?"#fff":"#ffffff66",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600}}>{l}</button>
+            ))}
+          </div>
+
+          {/* ── TEAM STATS DASHBOARD ── */}
+          {betView==="teams"&&(
+            <div>
+              {!selectedStatTeam?(
+                /* Team grid */
+                <div>
+                  <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(180px,1fr))",gap:8}}>
+                    {teamStats.map(s=>{
+                      const color=s.wr>=0.55?"#4ade80":s.wr>=0.45?"#fbbf24":"#f87171";
+                      return(
+                        <button key={s.team} onClick={()=>setSelectedStatTeam(s.team)}
+                          style={{background:"#12121c",border:`1px solid ${color}33`,borderRadius:12,padding:"14px 16px",cursor:"pointer",textAlign:"left",transition:"all 0.15s",position:"relative",overflow:"hidden"}}>
+                          <div style={{position:"absolute",top:0,left:0,width:`${s.wr*100}%`,height:2,background:`linear-gradient(90deg,${color},${color}88)`}}/>
+                          <div style={{fontSize:15,fontWeight:800,color:"#fff",marginBottom:6}}>{s.team}</div>
+                          <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:4}}>
+                            <span style={{fontSize:22,fontWeight:900,color}}>{(s.wr*100).toFixed(0)}%</span>
+                            <span style={{fontSize:11,color:"#ffffff44"}}>{s.bets} bets</span>
+                          </div>
+                          <div style={{display:"flex",justifyContent:"space-between",fontSize:11}}>
+                            <span style={{color:"#ffffff55"}}>{s.wins}W / {s.losses}L</span>
+                            <span style={{color:s.net>=0?"#4ade80":"#f87171",fontWeight:700}}>{s.net>=0?"+":""}${s.net.toLocaleString()}</span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {/* Summary bar */}
+                  <div style={{marginTop:20,display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
+                    {[
+                      {l:"Best Team",v:teamStats.slice().sort((a,b)=>b.wr-a.wr)[0]?.team,s:`${(teamStats.slice().sort((a,b)=>b.wr-a.wr)[0]?.wr*100).toFixed(0)}% WR`,c:"#4ade80"},
+                      {l:"Most Bet",v:teamStats[0]?.team,s:`${teamStats[0]?.bets} bets`},
+                      {l:"Most Profitable",v:teamStats.slice().sort((a,b)=>b.net-a.net)[0]?.team,s:`+$${teamStats.slice().sort((a,b)=>b.net-a.net)[0]?.net.toLocaleString()}`,c:"#4ade80"},
+                    ].map((c,i)=>(
+                      <div key={i} style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:10,padding:"12px 14px",textAlign:"center"}}>
+                        <div style={{fontSize:10,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:4}}>{c.l}</div>
+                        <div style={{fontSize:18,fontWeight:800,color:c.c||"#fff"}}>{c.v}</div>
+                        <div style={{fontSize:11,color:"#ffffff55",marginTop:2}}>{c.s}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ):(
+                /* Individual team drill-down */
+                <div>
+                  {(()=>{
+                    const s=teamStats.find(t=>t.team===selectedStatTeam);
+                    if(!s)return null;
+                    const color=s.wr>=0.55?"#4ade80":s.wr>=0.45?"#fbbf24":"#f87171";
+                    const byType={};
+                    s.allBets.forEach(b=>{
+                      const t=b.type==="MULTIPLE"?"Parlay":b.type;
+                      if(!byType[t])byType[t]={bets:0,wins:0,losses:0,net:0};
+                      byType[t].bets++;
+                      if(b.status==="Won"){byType[t].wins++;byType[t].net+=b.winnings;}
+                      else if(b.status==="Lost"){byType[t].losses++;byType[t].net-=b.wager;}
+                    });
+                    return(
+                      <div>
+                        <button onClick={()=>setSelectedStatTeam(null)} style={{background:"#ffffff10",border:"1px solid #ffffff20",color:"#fff",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600,marginBottom:16}}>← All Teams</button>
+                        {/* Team header */}
+                        <div style={{background:`linear-gradient(135deg,${color}18,#12121c)`,border:`1px solid ${color}44`,borderRadius:14,padding:20,marginBottom:16}}>
+                          <div style={{fontSize:28,fontWeight:900,color:"#fff",marginBottom:4}}>{s.team}</div>
+                          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(100px,1fr))",gap:12}}>
+                            {[
+                              {l:"Win Rate",v:`${(s.wr*100).toFixed(1)}%`,c:color},
+                              {l:"Record",v:`${s.wins}W / ${s.losses}L`},
+                              {l:"Net P&L",v:`${s.net>=0?"+":""}$${s.net.toLocaleString()}`,c:s.net>=0?"#4ade80":"#f87171"},
+                              {l:"Wagered",v:`$${s.wagered.toLocaleString()}`},
+                              {l:"Total Bets",v:s.bets},
+                            ].map((m,i)=>(
+                              <div key={i}>
+                                <div style={{fontSize:10,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:2}}>{m.l}</div>
+                                <div style={{fontSize:20,fontWeight:800,color:m.c||"#fff"}}>{m.v}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        {/* By bet type breakdown */}
+                        <div style={{marginBottom:16}}>
+                          <div style={{fontSize:11,color:"#ffffff44",fontWeight:600,letterSpacing:"2px",textTransform:"uppercase",marginBottom:8}}>By Bet Type</div>
+                          <div style={{display:"flex",flexDirection:"column",gap:6}}>
+                            {Object.entries(byType).sort((a,b)=>b[1].bets-a[1].bets).map(([type,ts])=>{
+                              const twr=ts.wins/(ts.wins+ts.losses)||0;
+                              const tc=twr>=0.55?"#4ade80":twr>=0.45?"#fbbf24":"#f87171";
+                              return(
+                                <div key={type} style={{background:"#1a1a2e",border:"1px solid #ffffff08",borderRadius:8,padding:"10px 14px",display:"flex",alignItems:"center",gap:12}}>
+                                  <div style={{flex:1}}><div style={{fontSize:13,fontWeight:700,color:"#fff"}}>{type}</div><div style={{fontSize:11,color:"#ffffff44",marginTop:1}}>{ts.wins}W / {ts.losses}L · {ts.bets} bets</div></div>
+                                  <div style={{textAlign:"right"}}><div style={{fontSize:16,fontWeight:800,color:tc}}>{(twr*100).toFixed(0)}%</div><div style={{fontSize:11,color:ts.net>=0?"#4ade80":"#f87171",marginTop:1}}>{ts.net>=0?"+":""}${ts.net.toLocaleString()}</div></div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                        {/* Recent bets for this team */}
+                        <div>
+                          <div style={{fontSize:11,color:"#ffffff44",fontWeight:600,letterSpacing:"2px",textTransform:"uppercase",marginBottom:8}}>All Bets ({s.allBets.length})</div>
+                          <div style={{display:"flex",flexDirection:"column",gap:6}}>
+                            {s.allBets.map(bet=>(
+                              <div key={bet.id} style={{background:"#12121c",border:"1px solid #ffffff08",borderRadius:10,padding:"10px 14px",display:"flex",alignItems:"center",gap:10,borderLeft:`3px solid ${bet.status==="Won"?"#4ade80":"#f87171"}`}}>
+                                <div style={{flex:1,minWidth:0}}>
+                                  <div style={{fontSize:13,fontWeight:600,color:"#fff"}}>{bet.match}</div>
+                                  <div style={{fontSize:11,color:"#ffffff44"}}>{bet.type} · {bet.market} · {bet.price}x · {bet.date}</div>
+                                </div>
+                                <div style={{textAlign:"right",flexShrink:0}}>
+                                  <div style={{fontSize:14,fontWeight:800,color:bet.status==="Won"?"#4ade80":"#f87171"}}>{bet.status==="Won"?`+$${bet.winnings.toLocaleString()}`:`-$${bet.wager.toLocaleString()}`}</div>
+                                  <div style={{fontSize:10,color:"#ffffff33"}}>stake $${bet.wager.toLocaleString()}</div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── BET TYPE STATS ── */}
+          {betView==="types"&&(
+            <div>
+              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(220px,1fr))",gap:8,marginBottom:20}}>
+                {betTypeStats.map(s=>{
+                  const wr=s.wins/(s.wins+s.losses)||0;
+                  const net=s.winAmt-s.lossAmt;
+                  const color=wr>=0.55?"#4ade80":wr>=0.45?"#fbbf24":"#f87171";
+                  return(
+                    <div key={s.type} style={{background:"#12121c",border:`1px solid ${color}22`,borderRadius:12,padding:"16px",position:"relative",overflow:"hidden"}}>
+                      <div style={{position:"absolute",top:0,left:0,width:`${wr*100}%`,height:2,background:`linear-gradient(90deg,${color},${color}66)`}}/>
+                      <div style={{fontSize:14,fontWeight:800,color:"#fff",marginBottom:8}}>{s.type}</div>
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:6}}>
+                        <span style={{fontSize:26,fontWeight:900,color}}>{(wr*100).toFixed(0)}%</span>
+                        <span style={{fontSize:11,color:"#ffffff44"}}>{s.bets} bets</span>
+                      </div>
+                      <div style={{display:"flex",justifyContent:"space-between",fontSize:12}}>
+                        <span style={{color:"#ffffff55"}}>{s.wins}W / {s.losses}L</span>
+                        <span style={{color:net>=0?"#4ade80":"#f87171",fontWeight:700}}>{net>=0?"+":""}${net.toLocaleString()}</span>
+                      </div>
+                      <div style={{marginTop:8,height:4,background:"#ffffff08",borderRadius:2}}>
+                        <div style={{width:`${wr*100}%`,height:"100%",background:color,borderRadius:2,transition:"width 0.6s ease"}}/>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              {/* Key insight callout */}
+              {(()=>{
+                const best=betTypeStats.slice().sort((a,b)=>(b.wins/(b.wins+b.losses)||0)-(a.wins/(a.wins+a.losses)||0))[0];
+                const worst=betTypeStats.slice().sort((a,b)=>(a.wins/(a.wins+a.losses)||0)-(b.wins/(b.wins+b.losses)||0))[0];
+                const mostProfit=betTypeStats.slice().sort((a,b)=>(b.winAmt-b.lossAmt)-(a.winAmt-a.lossAmt))[0];
+                return(
+                  <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
+                    {[
+                      {l:"Best Win Rate",v:best?.type,s:`${((best?.wins/(best?.wins+best?.losses)||0)*100).toFixed(0)}% WR`,c:"#4ade80"},
+                      {l:"Most Profitable",v:mostProfit?.type,s:`+$${(mostProfit?.winAmt-(mostProfit?.lossAmt||0)).toLocaleString()}`,c:"#4ade80"},
+                      {l:"Avoid This",v:worst?.type,s:`${((worst?.wins/(worst?.wins+worst?.losses)||0)*100).toFixed(0)}% WR`,c:"#f87171"},
+                    ].map((c,i)=>(
+                      <div key={i} style={{background:"#12121c",border:`1px solid ${c.c}33`,borderRadius:10,padding:"12px 14px",textAlign:"center"}}>
+                        <div style={{fontSize:10,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:4}}>{c.l}</div>
+                        <div style={{fontSize:16,fontWeight:800,color:c.c||"#fff"}}>{c.v}</div>
+                        <div style={{fontSize:11,color:"#ffffff55",marginTop:2}}>{c.s}</div>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
+            </div>
+          )}
+
           {/* ── BET LIST ── */}
-          <div style={{display:"flex",flexDirection:"column",gap:8}}>
+          {betView==="list"&&<div style={{display:"flex",flexDirection:"column",gap:8}}>
             {filteredBets.length===0&&(<div style={{textAlign:"center",padding:40,color:"#ffffff44"}}><div style={{fontSize:28,marginBottom:8}}>🔍</div><div style={{fontSize:14}}>No bets match your filters</div></div>)}
             {filteredBets.map(bet=>(
               <div key={bet.id} style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:14,display:"flex",alignItems:"center",gap:12,borderLeft:`3px solid ${bet.status==="Won"?"#4ade80":"#f87171"}`}}>
@@ -1660,7 +1873,7 @@ export default function Home(){
                 </div>
               </div>
             ))}
-          </div>
+          </div>}
         </div>)}
 
 
