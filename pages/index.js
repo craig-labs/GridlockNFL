@@ -1338,6 +1338,13 @@ const ALL_BETS=[
 const LEAGUE_LABELS={"NFL":"🏈 NFL","NCAA":"🏫 NCAA","NBA":"🏀 NBA","NHL":"🏒 NHL","MLB":"⚾ MLB","Formula 1":"🏎️ F1","Golf":"⛳ Golf","Copa America":"⚽ Copa","4 Nations Face-Off":"🏒 4 Nations","Boosts":"⚡ Boosts","Other":"🎯 Other","Men":"⚽ Soccer"};
 const LEAGUE_COLORS={"NFL":"#e94560","NCAA":"#7c3aed","NBA":"#f97316","NHL":"#0ea5e9","MLB":"#ef4444","Formula 1":"#dc2626","Golf":"#16a34a","Copa America":"#22c55e","4 Nations Face-Off":"#38bdf8","Boosts":"#fbbf24","Other":"#6b7280","Men":"#22c55e"};
 
+// Premium access credentials — add friends here
+const PREMIUM_USERS = {
+  "craig":    "gridlock24",
+  "friend1":  "letmein99",
+  "friend2":  "allsports1",
+};
+
 const WEEKLY_VIDEOS=[
   {id:"v1",title:"Week 17 Picks + TNF Recap",date:"Fri, Dec 27",duration:"4:32",views:"2.4K",description:"Breaking down TNF plus my top 5 picks for the weekend slate.",picks:[{pick:"Seahawks -4",result:"win"},{pick:"Broncos -7",result:"win"},{pick:"Bears -3",result:"win"},{pick:"Bills -3",result:"win"},{pick:"Patriots ML",result:"loss"}]},
   {id:"v2",title:"Week 16 Picks + TNF Recap",date:"Fri, Dec 20",duration:"4:58",views:"1.8K",description:"Thursday's upset has massive playoff implications. Here's where I'm putting my money.",picks:[{pick:"Seahawks -4",result:"win"},{pick:"Bo Nix O245",result:"win"},{pick:"Bills -3",result:"win"},{pick:"Panthers ML",result:"win"},{pick:"DEN/CIN O43",result:"loss"}]},
@@ -1357,6 +1364,11 @@ export default function Home(){
   const [betSearch,setBetSearch]=useState("");
   const [showFreeBets,setShowFreeBets]=useState(false);
   const [activeSection,setActiveSection]=useState("feed");
+  const [premiumAuthed,setPremiumAuthed]=useState(false);
+  const [premiumUser,setPremiumUser]=useState("");
+  const [premiumPass,setPremiumPass]=useState("");
+  const [premiumError,setPremiumError]=useState("");
+  const [showPremiumLogin,setShowPremiumLogin]=useState(false);
   const kalshi=useKalshi();
   const newsTeam=(feedFilter==="team"&&selectedTeam)?selectedTeam:null;
   const news=useNflNews(newsTeam);
@@ -1378,11 +1390,13 @@ export default function Home(){
   },[feedFilter,selectedTeam]);
 
   // ── BET FILTERING ──────────────────────────────────────────────────────────
+  // Craig's List: NFL + Boosts only
+  const NFL_LEAGUES = ["NFL", "Boosts"];
   const filteredBets=useMemo(()=>{
     return ALL_BETS.filter(b=>{
+      if(!NFL_LEAGUES.includes(b.league))return false;
       if(!showFreeBets&&b.freeBet)return false;
       if(betResultFilter!=="all"&&b.status.toLowerCase()!==betResultFilter)return false;
-      if(betLeagueFilter!=="all"&&b.league!==betLeagueFilter)return false;
       if(betDateFrom&&b.date<betDateFrom)return false;
       if(betDateTo&&b.date>betDateTo)return false;
       if(betSearch){
@@ -1391,7 +1405,40 @@ export default function Home(){
       }
       return true;
     });
-  },[betResultFilter,betLeagueFilter,betDateFrom,betDateTo,betSearch,showFreeBets]);
+  },[betResultFilter,betDateFrom,betDateTo,betSearch,showFreeBets]);
+
+  // Premium All Sports: all bets, separate filter state
+  const [premBetResultFilter,setPremBetResultFilter]=useState("all");
+  const [premBetLeagueFilter,setPremBetLeagueFilter]=useState("all");
+  const [premBetDateFrom,setPremBetDateFrom]=useState("");
+  const [premBetDateTo,setPremBetDateTo]=useState("");
+  const [premBetSearch,setPremBetSearch]=useState("");
+  const [premShowFreeBets,setPremShowFreeBets]=useState(false);
+  const premFilteredBets=useMemo(()=>{
+    return ALL_BETS.filter(b=>{
+      if(!premShowFreeBets&&b.freeBet)return false;
+      if(premBetResultFilter!=="all"&&b.status.toLowerCase()!==premBetResultFilter)return false;
+      if(premBetLeagueFilter!=="all"&&b.league!==premBetLeagueFilter)return false;
+      if(premBetDateFrom&&b.date<premBetDateFrom)return false;
+      if(premBetDateTo&&b.date>premBetDateTo)return false;
+      if(premBetSearch){
+        const q=premBetSearch.toLowerCase();
+        if(!b.match.toLowerCase().includes(q)&&!b.market.toLowerCase().includes(q))return false;
+      }
+      return true;
+    });
+  },[premBetResultFilter,premBetLeagueFilter,premBetDateFrom,premBetDateTo,premBetSearch,premShowFreeBets]);
+  const premStats=useMemo(()=>{
+    const wins=premFilteredBets.filter(b=>b.status==="Won");
+    const losses=premFilteredBets.filter(b=>b.status==="Lost");
+    const totalWagered=premFilteredBets.reduce((s,b)=>s+b.wager,0);
+    const totalWinnings=wins.reduce((s,b)=>s+b.winnings,0);
+    const totalLost=losses.reduce((s,b)=>s+b.wager,0);
+    const netProfit=totalWinnings-totalLost;
+    const winRate=wins.length/(wins.length+losses.length)||0;
+    const avgStake=premFilteredBets.length?totalWagered/premFilteredBets.length:0;
+    return{wins:wins.length,losses:losses.length,totalWagered,netProfit,winRate,avgStake};
+  },[premFilteredBets]);
 
   // ── STATS computed from filteredBets ───────────────────────────────────────
   const stats=useMemo(()=>{
@@ -1412,7 +1459,7 @@ export default function Home(){
     if(selectedTeam)f.push({key:"team",label:`⭐ ${selectedTeam}`});return f;
   },[selectedTeam]);
 
-  const uniqueLeagues=["all",...new Set(ALL_BETS.map(b=>b.league))];
+  const premUniqueLeagues=["all",...new Set(ALL_BETS.map(b=>b.league))];
 
   const pill=(label,active,onClick,color)=>(<button onClick={onClick} style={{background:active?`${color||ac}33`:"#ffffff08",border:`1px solid ${active?color||ac:"#ffffff15"}`,color:active?"#fff":"#ffffff77",padding:"5px 12px",borderRadius:16,cursor:"pointer",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>{label}</button>);
 
@@ -1431,7 +1478,7 @@ export default function Home(){
             </div>
           </div>
           <div style={{display:"flex",gap:4,marginTop:12,overflowX:"auto"}}>
-            {[{k:"feed",l:"📱 Social Feed"},{k:"kalshi",l:<span>📊 Prediction Markets <span style={{fontSize:9,opacity:0.6,fontWeight:400}}>Powered by Kalshi</span></span>},{k:"bets",l:"💰 Craig's List"},{k:"video",l:"🎬 Five Pick Fridays"}].map(s=>(
+            {[{k:"feed",l:"📱 Social Feed"},{k:"kalshi",l:<span>📊 Prediction Markets <span style={{fontSize:9,opacity:0.6,fontWeight:400}}>Powered by Kalshi</span></span>},{k:"bets",l:"💰 Craig's List"},{k:"premium",l:<span>🔒 All Sports <span style={{fontSize:9,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800}}>PREMIUM</span></span>},{k:"video",l:"🎬 Five Pick Fridays"}].map(s=>(
               <button key={s.k} onClick={()=>setActiveSection(s.k)} style={{background:activeSection===s.k?`${ac}33`:"transparent",border:"none",color:activeSection===s.k?"#fff":"#ffffff66",padding:"8px 16px",borderRadius:"8px 8px 0 0",cursor:"pointer",fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1px",borderBottom:activeSection===s.k?`2px solid ${ac}`:"2px solid transparent",whiteSpace:"nowrap"}}>{s.l}</button>
             ))}
           </div>
@@ -1515,17 +1562,7 @@ export default function Home(){
                   {[["all","All"],["won","✅ Won"],["lost","❌ Lost"]].map(([k,l])=>pill(l,betResultFilter===k,()=>setBetResultFilter(k)))}
                 </div>
               </div>
-              <div>
-                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>SPORT</div>
-                <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
-                  {uniqueLeagues.map(lg=>pill(
-                    lg==="all"?"🏆 All":(LEAGUE_LABELS[lg]||lg),
-                    betLeagueFilter===lg,
-                    ()=>setBetLeagueFilter(lg),
-                    LEAGUE_COLORS[lg]
-                  ))}
-                </div>
-              </div>
+
             </div>
 
             {/* Row 2: Date range + search */}
@@ -1584,6 +1621,148 @@ export default function Home(){
               </div>
             ))}
           </div>
+        </div>)}
+
+
+        {/* ── PREMIUM: ALL SPORTS ── */}
+        {activeSection==="premium"&&(<div>
+          {!premiumAuthed?(
+            /* LOGIN GATE */
+            <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:400}}>
+              <div style={{background:"linear-gradient(135deg,#12121c,#1a1a2e)",border:"1px solid #fbbf2433",borderRadius:16,padding:40,maxWidth:400,width:"100%",textAlign:"center"}}>
+                <div style={{fontSize:40,marginBottom:12}}>🔒</div>
+                <div style={{fontSize:22,fontWeight:900,color:"#fff",marginBottom:4}}>All Sports Premium</div>
+                <div style={{fontSize:13,color:"#ffffff55",marginBottom:28,lineHeight:1.5}}>Craig's full betting history across every sport.<br/>Invite only.</div>
+                <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:16}}>
+                  <input
+                    placeholder="Username"
+                    value={premiumUser}
+                    onChange={e=>setPremiumUser(e.target.value)}
+                    onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[premiumUser.toLowerCase()]===premiumPass;if(ok){setPremiumAuthed(true);setPremiumError("");}else{setPremiumError("Wrong username or password.");}}}}
+                    style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center"}}
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={premiumPass}
+                    onChange={e=>setPremiumPass(e.target.value)}
+                    onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[premiumUser.toLowerCase()]===premiumPass;if(ok){setPremiumAuthed(true);setPremiumError("");}else{setPremiumError("Wrong username or password.");}}}}
+                    style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center"}}
+                  />
+                </div>
+                {premiumError&&<div style={{fontSize:12,color:"#f87171",marginBottom:12}}>{premiumError}</div>}
+                <button
+                  onClick={()=>{const ok=PREMIUM_USERS[premiumUser.toLowerCase()]===premiumPass;if(ok){setPremiumAuthed(true);setPremiumError("");}else{setPremiumError("Wrong username or password.");}}}
+                  style={{width:"100%",background:"linear-gradient(135deg,#fbbf24,#f59e0b)",border:"none",borderRadius:8,color:"#000",padding:"12px",fontSize:14,fontWeight:800,cursor:"pointer",letterSpacing:"1px"}}
+                >UNLOCK ACCESS</button>
+                <div style={{fontSize:11,color:"#ffffff33",marginTop:16}}>Contact Craig for access · @cnaylor_</div>
+              </div>
+            </div>
+          ):(
+            /* PREMIUM CONTENT */
+            <div>
+              {/* Header with cheeky joke */}
+              <div style={{background:"linear-gradient(135deg,#1a0a0a,#1a1a2e)",border:"1px solid #fbbf2433",borderRadius:14,padding:"20px 24px",marginBottom:24,position:"relative",overflow:"hidden"}}>
+                <div style={{position:"absolute",top:0,right:0,width:200,height:"100%",background:"linear-gradient(135deg,#fbbf2408,transparent)",borderRadius:14}}/>
+                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
+                  <div>
+                    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+                      <span style={{fontSize:10,padding:"3px 10px",borderRadius:20,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",color:"#000",fontWeight:800,letterSpacing:"1px"}}>PREMIUM</span>
+                      <span style={{fontSize:12,color:"#ffffff55"}}>All Sports · Full History</span>
+                    </div>
+                    <h2 style={{fontSize:22,fontWeight:900,color:"#fff",margin:"0 0 4px"}}>Craig's Degenerate Portfolio 📉</h2>
+                    <p style={{fontSize:13,color:"#ffffff66",margin:0,lineHeight:1.5,fontStyle:"italic"}}>"Every time I bet on something besides the NFL, a financial advisor somewhere sheds a single tear. This page is proof."</p>
+                  </div>
+                  <button onClick={()=>{setPremiumAuthed(false);setPremiumUser("");setPremiumPass("");}} style={{background:"#ffffff10",border:"1px solid #ffffff22",color:"#ffffff66",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:600,flexShrink:0}}>🔒 Lock</button>
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(130px,1fr))",gap:10,marginBottom:20}}>
+                {[
+                  {l:"Record",v:`${premStats.wins}-${premStats.losses}`,s:`${premFilteredBets.length} bets shown`},
+                  {l:"Win Rate",v:`${(premStats.winRate*100).toFixed(1)}%`,s:"filtered results",c:premStats.winRate>=0.5?"#4ade80":"#f87171"},
+                  {l:"Net P&L",v:`${premStats.netProfit>=0?"+":""}$${premStats.netProfit.toLocaleString()}`,s:"winnings - losses",c:premStats.netProfit>=0?"#4ade80":"#f87171"},
+                  {l:"Total Wagered",v:`$${premStats.totalWagered.toLocaleString()}`,s:"filtered bets"},
+                  {l:"Avg Stake",v:`$${Math.round(premStats.avgStake).toLocaleString()}`,s:"per bet"},
+                ].map((s,i)=>(<div key={i} style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:14,textAlign:"center"}}><div style={{fontSize:10,color:"#ffffff55",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:3}}>{s.l}</div><div style={{fontSize:20,fontWeight:800,color:s.c||"#fff"}}>{s.v}</div><div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>{s.s}</div></div>))}
+              </div>
+
+              {/* Filters */}
+              <div style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:16,marginBottom:16}}>
+                <div style={{fontSize:11,color:"#ffffff44",fontWeight:600,letterSpacing:"2px",textTransform:"uppercase",marginBottom:12}}>Filter Bets</div>
+                <div style={{display:"flex",gap:16,flexWrap:"wrap",marginBottom:12}}>
+                  <div>
+                    <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>RESULT</div>
+                    <div style={{display:"flex",gap:4}}>
+                      {[["all","All"],["won","✅ Won"],["lost","❌ Lost"]].map(([k,l])=>pill(l,premBetResultFilter===k,()=>setPremBetResultFilter(k)))}
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>SPORT</div>
+                    <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+                      {premUniqueLeagues.map(lg=>pill(
+                        lg==="all"?"🏆 All":(LEAGUE_LABELS[lg]||lg),
+                        premBetLeagueFilter===lg,
+                        ()=>setPremBetLeagueFilter(lg),
+                        LEAGUE_COLORS[lg]
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div style={{display:"flex",gap:12,flexWrap:"wrap",alignItems:"flex-end"}}>
+                  <div>
+                    <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>FROM DATE</div>
+                    <input type="date" value={premBetDateFrom} onChange={e=>setPremBetDateFrom(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
+                  </div>
+                  <div>
+                    <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>TO DATE</div>
+                    <input type="date" value={premBetDateTo} onChange={e=>setPremBetDateTo(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
+                  </div>
+                  <div style={{flex:1,minWidth:160}}>
+                    <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>SEARCH</div>
+                    <input placeholder="Search match or market..." value={premBetSearch} onChange={e=>setPremBetSearch(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 12px",fontSize:12,outline:"none",width:"100%"}}/>
+                  </div>
+                  <button onClick={()=>setPremShowFreeBets(!premShowFreeBets)} style={{background:premShowFreeBets?"#fbbf2422":"#ffffff08",border:`1px solid ${premShowFreeBets?"#fbbf24":"#ffffff15"}`,color:premShowFreeBets?"#fbbf24":"#ffffff55",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600,whiteSpace:"nowrap"}}>{premShowFreeBets?"🎁 Hiding Free Bets: OFF":"🎁 Hide Free Bets"}</button>
+                  {(premBetResultFilter!=="all"||premBetLeagueFilter!=="all"||premBetDateFrom||premBetDateTo||premBetSearch)&&(
+                    <button onClick={()=>{setPremBetResultFilter("all");setPremBetLeagueFilter("all");setPremBetDateFrom("");setPremBetDateTo("");setPremBetSearch("");}} style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>✕ Clear</button>
+                  )}
+                </div>
+                <div style={{marginTop:10,fontSize:11,color:"#ffffff44"}}>
+                  Showing <strong style={{color:"#fff"}}>{premFilteredBets.length}</strong> of {ALL_BETS.length} bets
+                  {premBetLeagueFilter!=="all"&&<span> · <span style={{color:LEAGUE_COLORS[premBetLeagueFilter]||ac}}>{LEAGUE_LABELS[premBetLeagueFilter]||premBetLeagueFilter}</span></span>}
+                </div>
+              </div>
+
+              {/* Bet list */}
+              <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                {premFilteredBets.length===0&&(<div style={{textAlign:"center",padding:40,color:"#ffffff44"}}><div style={{fontSize:28,marginBottom:8}}>🔍</div><div style={{fontSize:14}}>No bets match your filters</div></div>)}
+                {premFilteredBets.map(bet=>(
+                  <div key={bet.id} style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:14,display:"flex",alignItems:"center",gap:12,borderLeft:`3px solid ${bet.status==="Won"?"#4ade80":bet.status==="Lost"?"#f87171":"#fbbf24"}`}}>
+                    <div style={{width:38,height:38,borderRadius:10,background:bet.status==="Won"?"#4ade8015":bet.status==="Lost"?"#f8717115":"#fbbf2415",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>{bet.status==="Won"?"✅":bet.status==="Lost"?"❌":"💰"}</div>
+                    <div style={{flex:1,minWidth:0}}>
+                      <div style={{fontSize:14,fontWeight:700,color:"#fff",marginBottom:2}}>{bet.match}</div>
+                      <div style={{fontSize:12,color:"#ffffff55",display:"flex",gap:8,flexWrap:"wrap"}}>
+                        <span style={{background:(LEAGUE_COLORS[bet.league]||"#6b7280")+"22",color:LEAGUE_COLORS[bet.league]||"#ffffff44",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>{LEAGUE_LABELS[bet.league]||bet.league}</span>
+                        {bet.freeBet&&<span style={{background:"#fbbf2422",color:"#fbbf24",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>🎁 Free Bet</span>}
+                        <span>{bet.type}</span>
+                        <span style={{color:"#ffffff33"}}>·</span>
+                        <span>{bet.market}</span>
+                        <span style={{color:"#ffffff33"}}>·</span>
+                        <span>{bet.price}x</span>
+                        <span style={{color:"#ffffff33"}}>·</span>
+                        <span>{bet.date}</span>
+                      </div>
+                    </div>
+                    <div style={{textAlign:"right",flexShrink:0}}>
+                      <div style={{fontSize:16,fontWeight:800,color:bet.status==="Won"?"#4ade80":bet.status==="Lost"?"#f87171":"#fbbf24"}}>{bet.status==="Won"?`+$${bet.winnings.toLocaleString()}`:bet.status==="Lost"?`-$${bet.wager.toLocaleString()}`:"Cashed"}</div>
+                      <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>stake: ${bet.wager.toLocaleString()}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>)}
 
         {/* ── FIVE PICK FRIDAYS ── */}
