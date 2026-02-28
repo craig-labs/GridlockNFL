@@ -73,9 +73,23 @@ const useKalshi=()=>{
   useEffect(()=>{f();},[f]);return{events,loading,error,lastFetch,refresh:f};
 };
 
-const useNflNews=(teamName)=>{
+const useNflNews=(newsContext={})=>{
   const [articles,setArticles]=useState([]);const [loading,setLoading]=useState(false);const [error,setError]=useState(null);
-  const f=useCallback(async()=>{setLoading(true);setError(null);try{const url=teamName?`/api/news?team=${encodeURIComponent(teamName)}`:"/api/news";const r=await fetch(url);if(!r.ok)throw new Error(`API ${r.status}`);const d=await r.json();setArticles(d.articles||[]);}catch(e){setError(e.message);}finally{setLoading(false);}},[teamName]);
+  const contextKey=JSON.stringify(newsContext);
+  const f=useCallback(async()=>{
+    setLoading(true);setError(null);
+    try{
+      let url="/api/news";
+      if(newsContext.type==="team")url=`/api/news?team=${encodeURIComponent(newsContext.value)}`;
+      else if(newsContext.type==="conference")url=`/api/news?conference=${encodeURIComponent(newsContext.value)}`;
+      else if(newsContext.type==="division")url=`/api/news?division=${encodeURIComponent(newsContext.value)}`;
+      const r=await fetch(url);
+      if(!r.ok)throw new Error(`API ${r.status}`);
+      const d=await r.json();
+      setArticles(d.articles||[]);
+    }catch(e){setError(e.message);}finally{setLoading(false);}
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[contextKey]);
   useEffect(()=>{f();},[f]);return{articles,loading,error,refresh:f};
 };
 
@@ -84,13 +98,18 @@ function SourceBadge({source}){
   const color=Object.entries(SOURCE_COLORS).find(([k])=>source?.includes(k))?.[1]||"#ffffff44";
   return <span style={{fontSize:9,padding:"2px 6px",borderRadius:4,background:color+"22",color:color,fontWeight:700,flexShrink:0}}>{source}</span>;
 }
-function TopStories({articles,ac}){
+function TopStories({articles,ac,newsContext={}}){
   if(!articles||!articles.length)return null;
   const main=articles[0],rest=articles.slice(1,6);
   const ago=(d)=>{if(!d)return"";const m=Math.floor((Date.now()-new Date(d).getTime())/60000);if(m<60)return`${m}m ago`;if(m<1440)return`${Math.floor(m/60)}h ago`;return`${Math.floor(m/1440)}d ago`;};
   return(<div style={{marginBottom:24}}>
     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
-      <div style={{fontSize:12,color:"#ffffff55",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase"}}>📰 Top Stories</div>
+      <div style={{fontSize:12,color:"#ffffff55",fontWeight:700,letterSpacing:"2px",textTransform:"uppercase"}}>
+        📰 Top Stories
+        {newsContext.type==="conference"&&<span style={{marginLeft:8,fontSize:10,padding:"2px 8px",borderRadius:10,background:"#ffffff12",color:"#ffffffaa",fontWeight:600}}>{newsContext.value}</span>}
+        {newsContext.type==="division"&&<span style={{marginLeft:8,fontSize:10,padding:"2px 8px",borderRadius:10,background:"#ffffff12",color:"#ffffffaa",fontWeight:600}}>{newsContext.value}</span>}
+        {newsContext.type==="team"&&<span style={{marginLeft:8,fontSize:10,padding:"2px 8px",borderRadius:10,background:"#ffffff12",color:"#ffffffaa",fontWeight:600}}>{newsContext.value}</span>}
+      </div>
       <div style={{display:"flex",gap:4,flexWrap:"wrap",justifyContent:"flex-end"}}>{[...new Set(articles.map(a=>a.source))].map(s=><SourceBadge key={s} source={s}/>)}</div>
     </div>
     <div style={{display:"grid",gridTemplateColumns:rest.length?"2fr 1fr":"1fr",gap:12}}>
@@ -1370,8 +1389,20 @@ export default function Home(){
   const [premiumError,setPremiumError]=useState("");
   const [showPremiumLogin,setShowPremiumLogin]=useState(false);
   const kalshi=useKalshi();
-  const newsTeam=(feedFilter==="team"&&selectedTeam)?selectedTeam:null;
-  const news=useNflNews(newsTeam);
+  // Derive news query context from current filter
+  const newsTeam=useMemo(()=>{
+    if(feedFilter==="team"&&selectedTeam)return selectedTeam;
+    return null; // team-specific ESPN/RSS only works per-team
+  },[feedFilter,selectedTeam]);
+  // For afc/nfc/division filters, pass a conference/division hint to TopStories
+  const newsContext=useMemo(()=>{
+    if(feedFilter==="team"&&selectedTeam)return{type:"team",value:selectedTeam};
+    if(feedFilter==="afc")return{type:"conference",value:"AFC"};
+    if(feedFilter==="nfc")return{type:"conference",value:"NFC"};
+    if(DIVISIONS.includes(feedFilter))return{type:"division",value:feedFilter};
+    return{type:"league",value:"NFL"};
+  },[feedFilter,selectedTeam]);
+  const news=useNflNews(newsContext);
   const team=selectedTeam?getTeam(selectedTeam):null;
   const pc=team?team.color:"#1a1a2e";
   const ac=team?team.accent:"#e94560";
@@ -1381,8 +1412,6 @@ export default function Home(){
   const feedAccounts=useMemo(()=>{
     if(feedFilter==="league")return TWITTER_ACCOUNTS.league;
     if(feedFilter==="team"&&selectedTeam)return TWITTER_ACCOUNTS.teams[selectedTeam]||[];
-    if(feedFilter==="all"&&selectedTeam){const t=TWITTER_ACCOUNTS.teams[selectedTeam]||[];return[...t,...TWITTER_ACCOUNTS.league.slice(0,3)];}
-    if(feedFilter==="all")return TWITTER_ACCOUNTS.league;
     if(DIVISIONS.includes(feedFilter)){const[c,d]=feedFilter.split(" ");const dt=TEAMS[c]?.[d]||[];return dt.flatMap(t=>TWITTER_ACCOUNTS.teams[t.name]||[]);}
     if(feedFilter==="afc")return Object.entries(TEAMS.AFC).flatMap(([,t])=>t.slice(0,1)).flatMap(t=>TWITTER_ACCOUNTS.teams[t.name]||[]).slice(0,8);
     if(feedFilter==="nfc")return Object.entries(TEAMS.NFC).flatMap(([,t])=>t.slice(0,1)).flatMap(t=>TWITTER_ACCOUNTS.teams[t.name]||[]).slice(0,8);
@@ -1454,7 +1483,7 @@ export default function Home(){
   },[filteredBets]);
 
   const filterOptions=useMemo(()=>{
-    const f=[{key:"all",label:"All"},{key:"league",label:"🏈 League Wide"},{key:"afc",label:"AFC"},{key:"nfc",label:"NFC"}];
+    const f=[{key:"league",label:"🏈 League Wide"},{key:"afc",label:"AFC"},{key:"nfc",label:"NFC"}];
     DIVISIONS.forEach(d=>f.push({key:d,label:d}));
     if(selectedTeam)f.push({key:"team",label:`⭐ ${selectedTeam}`});return f;
   },[selectedTeam]);
@@ -1507,9 +1536,9 @@ export default function Home(){
           <div style={{display:"flex",gap:6,marginBottom:20,flexWrap:"wrap",alignItems:"center"}}><span style={{fontSize:11,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginRight:4}}>Filter:</span>
             {filterOptions.map(f=>(<button key={f.key} onClick={()=>setFeedFilter(f.key)} style={{background:feedFilter===f.key?`${ac}33`:"#ffffff08",border:`1px solid ${feedFilter===f.key?ac:"#ffffff15"}`,color:feedFilter===f.key?"#fff":"#ffffff77",padding:"5px 12px",borderRadius:20,cursor:"pointer",fontSize:11,fontWeight:600}}>{f.label}</button>))}
           </div>
-          {news.articles.length>0&&<TopStories articles={news.articles} ac={ac}/>}
-          {news.loading&&<div style={{textAlign:"center",padding:20,color:"#ffffff44",fontSize:13}}>Loading {newsTeam?`${newsTeam} `:""} stories...</div>}
-          {!selectedTeam&&feedFilter==="all"&&(<div style={{background:"#ffffff08",border:"1px solid #ffffff15",borderRadius:12,padding:24,textAlign:"center",marginBottom:20}}><div style={{fontSize:32,marginBottom:8}}>🏈</div><div style={{fontSize:15,fontWeight:600,color:"#fff",marginBottom:4}}>Select your team for a personalized feed</div><div style={{fontSize:13,color:"#ffffff66"}}>Or browse League Wide, AFC, NFC, or any division</div></div>)}
+          {news.articles.length>0&&<TopStories articles={news.articles} ac={ac} newsContext={newsContext}/>}
+          {news.loading&&<div style={{textAlign:"center",padding:20,color:"#ffffff44",fontSize:13}}>Loading {newsTeam?`${newsTeam} `:newsContext.type!=="league"?`${newsContext.value} `:"NFL "} stories...</div>}
+          
           <TwitterFeed accounts={feedAccounts} ac={ac}/>
           <div style={{background:"#ffffff06",border:"1px solid #ffffff10",borderRadius:10,padding:16,marginTop:20,textAlign:"center"}}><div style={{fontSize:12,color:"#ffffff44"}}>Click any card to view their latest posts on X</div><div style={{fontSize:11,color:"#ffffff33",marginTop:6}}>💡 Live embedded tweets coming soon — once this site generates revenue, we&#39;ll upgrade to the X API for real-time feeds directly on this page.</div></div>
         </div>)}
@@ -1537,9 +1566,8 @@ export default function Home(){
           {/* Title row */}
           <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:20}}><div><div style={{display:"flex",alignItems:"center",gap:3}}><h2 style={{fontSize:26,fontWeight:900,color:"#fff",margin:0}}>Craig&#39;s</h2><h2 style={{fontSize:26,fontWeight:900,margin:0,background:`linear-gradient(135deg,${ac},#e94560)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>List</h2></div><div style={{display:"flex",alignItems:"center",gap:6,marginTop:2,marginBottom:2}}>
                     <span style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"2px 10px",borderRadius:20,fontSize:10,fontWeight:800,letterSpacing:"1px"}}>🏈 NFL ONLY</span>
-                    <span style={{background:"#fbbf2422",border:"1px solid #fbbf2444",color:"#fbbf24",padding:"2px 10px",borderRadius:20,fontSize:10,fontWeight:800,letterSpacing:"1px"}}>⚡ BOOSTS</span>
-                  </div>
-                  <div style={{fontSize:13,color:"#ffffff55",marginTop:2}}>Hard Rock Bet · NFL bets only · <a href="#" onClick={e=>{e.preventDefault();setActiveSection("premium");}} style={{color:"#fbbf24",fontWeight:600,textDecoration:"none"}}>See all sports →</a></div>
+                    </div>
+                  <div style={{fontSize:13,color:"#ffffff55",marginTop:2}}>NFL Bets from the big man himself via Hard Rock Bet · <a href="#" onClick={e=>{e.preventDefault();setActiveSection("premium");}} style={{color:"#fbbf24",fontWeight:600,textDecoration:"none"}}>See all sports →</a></div>
                   <a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600,marginTop:2,display:"inline-block"}}>𝕏 @cnaylor_</a></div>
             <div style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:8}}><CraigAvatar size={44}/><div style={{width:8,height:8,borderRadius:"50%",background:"#4ade80",boxShadow:"0 0 8px #4ade8066"}}/><span style={{fontSize:11,color:"#4ade80",fontWeight:600}}>LIVE</span></div>
           </div>
