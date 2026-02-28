@@ -110,7 +110,7 @@ const ALL_BETS=[
   {id:1,date:"2026-02-22",status:"Lost",league:"Men",match:"Canada vs United States",type:"Total Goals",market:"Over 5.5",price:2.2,wager:100,winnings:0,payout:0},
   {id:2,date:"2026-02-08",status:"Won",league:"NFL",match:"Patriots vs Seahawks",type:"Drake Maye - Pass Completions",market:"Over 20.5",price:2.0,wager:2000,winnings:2000,payout:4000},
   {id:3,date:"2026-02-08",status:"Won",league:"NFL",match:"Patriots vs Seahawks",type:"Drake Maye - Pass Completions",market:"Over 20.5",price:2.0,wager:1000,winnings:1000,payout:2000},
-  {id:4,date:"2026-01-30",status:"Lost",league:"NCAA",match:"#23 Saint Louis vs. Dayton",type:"To Win",market:"Dayton",price:6.0,wager:250,winnings:0,payout:0},
+  {id:4,date:"2026-01-30",status:"Lost",league:"NCAA",match:"#23 Saint Louis vs. Dayton",type:"To Win",market:"Dayton",price:6.0,wager:250,winnings:0,payout:0,freeBet:true},
   {id:5,date:"2026-01-25",status:"Lost",league:"NFL",match:"Seahawks vs Rams",type:"Spread",market:"Rams +2.5",price:1.91,wager:1500,winnings:0,payout:0},
   {id:6,date:"2026-01-25",status:"Lost",league:"NFL",match:"Broncos vs Patriots",type:"Spread",market:"Patriots -3.5",price:1.91,wager:700,winnings:0,payout:0},
   {id:7,date:"2026-01-25",status:"Lost",league:"NFL",match:"Broncos vs Patriots",type:"Spread",market:"Patriots -3.5",price:1.87,wager:1000,winnings:0,payout:0},
@@ -135,7 +135,7 @@ const ALL_BETS=[
   {id:26,date:"2026-01-17",status:"Lost",league:"NFL",match:"Broncos vs Bills, Broncos vs Bills, Broncos vs Bills, Broncos vs Bills,",type:"MULTIPLE",market:"MULTIPLE",price:13.03,wager:50,winnings:0,payout:0},
   {id:27,date:"2026-01-17",status:"Lost",league:"NFL",match:"Broncos vs Bills, Broncos vs Bills,",type:"MULTIPLE",market:"MULTIPLE",price:3.35,wager:50,winnings:0,payout:0},
   {id:28,date:"2026-01-17",status:"Lost",league:"NFL",match:"Seahawks vs 49ers",type:"To Win",market:"49ers",price:3.5,wager:100,winnings:0,payout:0},
-  {id:29,date:"2026-01-17",status:"Lost",league:"NFL",match:"Seahawks vs 49ers",type:"To Win",market:"49ers",price:3.6,wager:10,winnings:0,payout:0},
+  {id:29,date:"2026-01-17",status:"Lost",league:"NFL",match:"Seahawks vs 49ers",type:"To Win",market:"49ers",price:3.6,wager:10,winnings:0,payout:0,freeBet:true},
   {id:30,date:"2026-01-17",status:"Lost",league:"NFL",match:"Seahawks vs 49ers",type:"To Win",market:"49ers",price:3.6,wager:100,winnings:0,payout:0},
   {id:31,date:"2026-01-16",status:"Lost",league:"NHL",match:"Avalanche vs. Predators, Avalanche vs. Predators,",type:"MULTIPLE",market:"MULTIPLE",price:3.2,wager:20,winnings:0,payout:0},
   {id:32,date:"2026-01-16",status:"Won",league:"NBA",match:"76ers vs. Cavaliers",type:"Jaylon Tyson - Points",market:"Over 25.5",price:1.8,wager:20,winnings:16,payout:36},
@@ -156,10 +156,10 @@ const ALL_BETS=[
   {id:47,date:"2026-01-05",status:"Won",league:"NFL",match:"Jaguars vs Bills",type:"Spread",market:"Bills -1",price:1.91,wager:1000,winnings:909,payout:1909},
   {id:48,date:"2026-01-04",status:"Won",league:"NFL",match:"Steelers vs Ravens, Steelers vs Ravens, Steelers vs Ravens,",type:"MULTIPLE",market:"MULTIPLE",price:5.0,wager:50,winnings:225,payout:275},
   {id:49,date:"2026-01-04",status:"Won",league:"NFL",match:"Bears vs Lions",type:"To Win",market:"Lions",price:2.3,wager:400,winnings:520,payout:920},
-  {id:50,date:"2026-01-04",status:"Won",league:"NFL",match:"Bears vs Lions",type:"To Win",market:"Lions",price:2.3,wager:20,winnings:6,payout:26},
+  {id:50,date:"2026-01-04",status:"Won",league:"NFL",match:"Bears vs Lions",type:"To Win",market:"Lions",price:2.3,wager:20,winnings:6,payout:26,freeBet:true},
   {id:51,date:"2026-01-04",status:"Lost",league:"NFL",match:"Giants vs Cowboys",type:"Spread",market:"Cowboys -3",price:1.91,wager:380,winnings:0,payout:0},
   {id:52,date:"2026-01-04",status:"Lost",league:"NFL",match:"Giants vs Cowboys",type:"Spread",market:"Cowboys -3",price:1.91,wager:20,winnings:0,payout:0},
-  {id:53,date:"2026-01-04",status:"Lost",league:"NFL",match:"Giants vs Cowboys",type:"Spread",market:"Cowboys -3",price:1.91,wager:10,winnings:0,payout:0},
+  {id:53,date:"2026-01-04",status:"Lost",league:"NFL",match:"Giants vs Cowboys",type:"Spread",market:"Cowboys -3",price:1.91,wager:10,winnings:0,payout:0,freeBet:true},
   {id:54,date:"2026-01-04",status:"Won",league:"NFL",match:"Bengals vs Browns",type:"Total Points",market:"Under 47",price:1.95,wager:463,winnings:441,payout:905},
   {id:55,date:"2026-01-03",status:"Lost",league:"NFL",match:"49ers vs Seahawks",type:"Spread",market:"49ers +2.5",price:2.5,wager:500,winnings:0,payout:0},
   {id:56,date:"2026-01-03",status:"Won",league:"NFL",match:"49ers vs Seahawks",type:"Total Points",market:"Under 48",price:1.91,wager:400,winnings:363,payout:763},
@@ -237,7 +237,7 @@ const ALL_BETS=[
   {id:128,date:"2025-11-30",status:"Won",league:"NFL",match:"Steelers vs Bills",type:"Spread",market:"Bills -3",price:1.91,wager:500,winnings:454,payout:954},
   {id:129,date:"2025-11-30",status:"Lost",league:"NFL",match:"Buccaneers vs Cardinals",type:"Spread",market:"Buccaneers -3.5",price:1.95,wager:350,winnings:0,payout:0},
   {id:130,date:"2025-11-30",status:"Lost",league:"NFL",match:"Jets vs Falcons",type:"Spread",market:"Falcons -3",price:1.95,wager:400,winnings:0,payout:0},
-  {id:131,date:"2025-11-30",status:"Lost",league:"NFL",match:"Jets vs Falcons",type:"Spread",market:"Falcons -3",price:1.95,wager:10,winnings:0,payout:0},
+  {id:131,date:"2025-11-30",status:"Lost",league:"NFL",match:"Jets vs Falcons",type:"Spread",market:"Falcons -3",price:1.95,wager:10,winnings:0,payout:0,freeBet:true},
   {id:132,date:"2025-11-30",status:"Lost",league:"NFL",match:"Dolphins vs Saints",type:"Total Points",market:"Over 41.5",price:1.91,wager:250,winnings:0,payout:0},
   {id:133,date:"2025-11-30",status:"Lost",league:"NFL",match:"Buccaneers vs Cardinals",type:"Spread",market:"Buccaneers -3.5",price:1.95,wager:694,winnings:0,payout:0},
   {id:134,date:"2025-11-29",status:"Won",league:"NCAA",match:"Auburn vs. 9 Alabama",type:"Total Points",market:"Under 47.5",price:1.91,wager:250,winnings:227,payout:477},
@@ -252,7 +252,7 @@ const ALL_BETS=[
   {id:143,date:"2025-11-28",status:"Lost",league:"NCAA",match:"Dayton vs. #19 BYU",type:"Total Points",market:"Under 150.5",price:1.95,wager:400,winnings:0,payout:0},
   {id:144,date:"2025-11-28",status:"Won",league:"NCAA",match:"Purdue vs. 1 Indiana",type:"Spread",market:"1 Indiana -28.5",price:1.91,wager:438,winnings:398,payout:836},
   {id:145,date:"2025-11-28",status:"Lost",league:"NCAA",match:"Texas vs. 7 Texas A&M",type:"Total Points",market:"Over 52.5",price:1.87,wager:500,winnings:0,payout:0},
-  {id:146,date:"2025-11-28",status:"Lost",league:"NCAA",match:"Texas vs. 7 Texas A&M",type:"Total Points",market:"Over 52.5",price:1.87,wager:10,winnings:0,payout:0},
+  {id:146,date:"2025-11-28",status:"Lost",league:"NCAA",match:"Texas vs. 7 Texas A&M",type:"Total Points",market:"Over 52.5",price:1.87,wager:10,winnings:0,payout:0,freeBet:true},
   {id:147,date:"2025-11-28",status:"Won",league:"NFL",match:"Eagles vs Bears",type:"Total Points",market:"Under 42.5",price:1.95,wager:250,winnings:238,payout:488},
   {id:148,date:"2025-11-28",status:"Lost",league:"NFL",match:"Eagles vs Bears",type:"Spread",market:"Eagles -7",price:1.91,wager:567,winnings:0,payout:0},
   {id:149,date:"2025-11-27",status:"Won",league:"NFL",match:"Ravens vs Bengals",type:"Total Points",market:"Under 53.5",price:1.91,wager:1000,winnings:909,payout:1909},
@@ -291,7 +291,7 @@ const ALL_BETS=[
   {id:182,date:"2025-11-17",status:"Lost",league:"NFL",match:"Raiders vs Cowboys",type:"Total Points",market:"Under 48",price:1.91,wager:200,winnings:0,payout:0},
   {id:183,date:"2025-11-17",status:"Won",league:"NFL",match:"Raiders vs Cowboys",type:"Spread",market:"Cowboys -3.5",price:2.0,wager:400,winnings:400,payout:800},
   {id:184,date:"2025-11-16",status:"Won",league:"NFL",match:"Raiders vs Cowboys",type:"Total Points",market:"Under 49.5",price:1.91,wager:222,winnings:202,payout:425},
-  {id:185,date:"2025-11-16",status:"Won",league:"NFL",match:"Raiders vs Cowboys",type:"Total Points",market:"Under 49.5",price:1.91,wager:10,winnings:0,payout:9},
+  {id:185,date:"2025-11-16",status:"Won",league:"NFL",match:"Raiders vs Cowboys",type:"Total Points",market:"Under 49.5",price:1.91,wager:10,winnings:0,payout:9,freeBet:true},
   {id:186,date:"2025-11-16",status:"Won",league:"NFL",match:"Eagles vs Lions",type:"Spread",market:"Eagles -2.5",price:1.87,wager:200,winnings:173,payout:373},
   {id:187,date:"2025-11-16",status:"Won",league:"NFL",match:"Eagles vs Lions",type:"Spread",market:"Eagles -2.5",price:1.87,wager:252,winnings:219,payout:471},
   {id:188,date:"2025-11-16",status:"Lost",league:"NFL",match:"Broncos vs Chiefs",type:"Spread",market:"Chiefs -4",price:1.91,wager:292,winnings:0,payout:0},
@@ -339,7 +339,7 @@ const ALL_BETS=[
   {id:230,date:"2025-11-09",status:"Lost",league:"NFL",match:"Colts vs Falcons",type:"Total Points",market:"Under 48",price:1.95,wager:410,winnings:0,payout:0},
   {id:231,date:"2025-11-08",status:"Won",league:"NCAA",match:"9 Alabama vs. LSU",type:"Spread",market:"9 Alabama -10.5",price:1.95,wager:400,winnings:380,payout:780},
   {id:232,date:"2025-11-08",status:"Lost",league:"NCAA",match:"#9 Notre Dame vs. Navy",type:"Spread",market:"Navy +30.5",price:1.91,wager:250,winnings:0,payout:0},
-  {id:233,date:"2025-11-07",status:"Lost",league:"NCAA",match:"#18 North Carolina vs. #14 Kansas",type:"Total Points",market:"Under 158.5",price:1.91,wager:50,winnings:0,payout:0},
+  {id:233,date:"2025-11-07",status:"Lost",league:"NCAA",match:"#18 North Carolina vs. #14 Kansas",type:"Total Points",market:"Under 158.5",price:1.91,wager:50,winnings:0,payout:0,freeBet:true},
   {id:234,date:"2025-11-06",status:"Won",league:"NFL",match:"Broncos vs Raiders",type:"Total Points",market:"Under 42.5",price:1.91,wager:400,winnings:363,payout:763},
   {id:235,date:"2025-11-02",status:"Won",league:"NFL",match:"Commanders vs Seahawks",type:"Spread",market:"Seahawks -2.5",price:1.87,wager:543,winnings:472,payout:1016},
   {id:236,date:"2025-11-02",status:"Won",league:"NFL",match:"Bills vs Chiefs",type:"Spread",market:"Bills -3.5",price:1.87,wager:300,winnings:260,payout:560},
@@ -435,7 +435,7 @@ const ALL_BETS=[
   {id:326,date:"2025-10-11",status:"Won",league:"NCAA",match:"Auburn vs. 3 Georgia",type:"Spread",market:"3 Georgia -3.5",price:1.87,wager:400,winnings:347,payout:747},
   {id:327,date:"2025-10-11",status:"Lost",league:"NCAA",match:"5 Oregon vs. 1 Indiana",type:"Spread",market:"5 Oregon -7.5",price:1.95,wager:125,winnings:0,payout:0},
   {id:328,date:"2025-10-11",status:"Won",league:"NCAA",match:"Illinois vs. 2 Ohio State",type:"Total Points",market:"Over 47.5",price:2.05,wager:100,winnings:105,payout:205},
-  {id:329,date:"2025-10-11",status:"Won",league:"NCAA",match:"Illinois vs. 2 Ohio State",type:"Total Points",market:"Over 47.5",price:2.05,wager:10,winnings:0,payout:10},
+  {id:329,date:"2025-10-11",status:"Won",league:"NCAA",match:"Illinois vs. 2 Ohio State",type:"Total Points",market:"Over 47.5",price:2.05,wager:10,winnings:0,payout:10,freeBet:true},
   {id:330,date:"2025-10-11",status:"Lost",league:"NCAA",match:"5 Oregon vs. 1 Indiana",type:"Spread",market:"5 Oregon -7.5",price:2.0,wager:200,winnings:0,payout:0},
   {id:331,date:"2025-10-10",status:"Lost",league:"NCAA",match:"USC vs. Michigan",type:"To Win",market:"Michigan",price:2.15,wager:150,winnings:0,payout:0},
   {id:332,date:"2025-10-09",status:"Lost",league:"NFL",match:"Giants vs Eagles",type:"Spread",market:"Eagles -7.5",price:1.95,wager:625,winnings:0,payout:0},
@@ -619,7 +619,7 @@ const ALL_BETS=[
   {id:510,date:"2025-04-13",status:"Lost",league:"Golf",match:"Masters Tournament",type:"Winner",market:"S. Scheffler",price:41.0,wager:20,winnings:0,payout:0},
   {id:511,date:"2025-04-13",status:"Lost",league:"Other",match:"Battle of the Bets April 13th",type:"PGA",market:"Rory McIlroy to Win and Shane Lowry to Finish in Top 5 (inc. Ties)",price:4.75,wager:30,winnings:0,payout:0},
   {id:512,date:"2025-04-12",status:"Lost",league:"Golf",match:"Masters Tournament",type:"Winner",market:"B. Dechambeau",price:4.75,wager:150,winnings:0,payout:0},
-  {id:513,date:"2025-04-12",status:"Lost",league:"Golf",match:"Masters Tournament",type:"Winner",market:"B. Dechambeau",price:4.75,wager:25,winnings:0,payout:0},
+  {id:513,date:"2025-04-12",status:"Lost",league:"Golf",match:"Masters Tournament",type:"Winner",market:"B. Dechambeau",price:4.75,wager:25,winnings:0,payout:0,freeBet:true},
   {id:514,date:"2025-04-10",status:"Lost",league:"Golf",match:"Masters Tournament",type:"End Of Round 1 Leader",market:"M. Homa",price:101.0,wager:26,winnings:0,payout:0},
   {id:515,date:"2025-04-10",status:"Lost",league:"Golf",match:"Masters Tournament",type:"Winner",market:"B. Koepka",price:31.0,wager:100,winnings:0,payout:0},
   {id:516,date:"2025-04-07",status:"Lost",league:"NCAA",match:"#5 Houston vs. #7 Florida",type:"Spread",market:"#5 Houston -3.5",price:1.91,wager:300,winnings:0,payout:0},
@@ -632,11 +632,11 @@ const ALL_BETS=[
   {id:523,date:"2025-04-05",status:"Lost",league:"NCAA",match:"#1 Duke vs. #5 Houston",type:"Spread",market:"#1 Duke -5",price:1.87,wager:960,winnings:0,payout:0},
   {id:524,date:"2025-03-30",status:"Won",league:"NCAA",match:"Auburn vs. #13 Michigan State",type:"Total Points",market:"Under 148.5",price:1.87,wager:300,winnings:260,payout:560},
   {id:525,date:"2025-03-30",status:"Lost",league:"NCAA",match:"#5 Houston vs. #22 Tennessee",type:"Total Points",market:"Over 125",price:1.87,wager:310,winnings:0,payout:0},
-  {id:526,date:"2025-03-29",status:"Lost",league:"NCAA",match:"#1 Duke vs. #17 Alabama",type:"Total Points",market:"Over 183.5",price:1.87,wager:50,winnings:0,payout:0},
+  {id:526,date:"2025-03-29",status:"Lost",league:"NCAA",match:"#1 Duke vs. #17 Alabama",type:"Total Points",market:"Over 183.5",price:1.87,wager:50,winnings:0,payout:0,freeBet:true},
   {id:527,date:"2025-03-29",status:"Won",league:"NCAA",match:"#1 Duke vs. #17 Alabama",type:"Spread",market:"#1 Duke -8.5",price:1.95,wager:500,winnings:476,payout:976},
   {id:528,date:"2025-03-29",status:"Won",league:"NCAA",match:"#1 Duke vs. #17 Alabama",type:"Spread",market:"#1 Duke -7",price:1.87,wager:500,winnings:434,payout:934},
   {id:529,date:"2025-03-29",status:"Lost",league:"NCAA",match:"#7 Florida vs. #16 Texas Tech",type:"Spread",market:"#7 Florida -7",price:1.91,wager:561,winnings:0,payout:0},
-  {id:530,date:"2025-03-28",status:"Won",league:"NCAA",match:"Auburn vs. #3 Michigan",type:"Spread",market:"Auburn -6.5",price:1.91,wager:50,winnings:-4,payout:45},
+  {id:530,date:"2025-03-28",status:"Won",league:"NCAA",match:"Auburn vs. #3 Michigan",type:"Spread",market:"Auburn -6.5",price:1.91,wager:50,winnings:-4,payout:45,freeBet:true},
   {id:531,date:"2025-03-28",status:"Lost",league:"NCAA",match:"#5 Houston vs. #8 Purdue",type:"Spread",market:"#5 Houston -7.5",price:1.87,wager:500,winnings:0,payout:0},
   {id:532,date:"2025-03-28",status:"Won",league:"NCAA",match:"Auburn vs. #3 Michigan",type:"Total Points",market:"Under 155",price:1.91,wager:150,winnings:136,payout:286},
   {id:533,date:"2025-03-28",status:"Lost",league:"NCAA",match:"#22 Tennessee vs. Kentucky",type:"Total Points",market:"Under 141.5",price:1.87,wager:125,winnings:0,payout:0},
@@ -653,7 +653,7 @@ const ALL_BETS=[
   {id:544,date:"2025-03-23",status:"Won",league:"NCAA",match:"#17 Alabama vs. Saint Mary's",type:"Spread",market:"#17 Alabama -10.5",price:1.91,wager:125,winnings:113,payout:238},
   {id:545,date:"2025-03-23",status:"Won",league:"NCAA",match:"#17 Alabama vs. Saint Mary's",type:"Total Points",market:"Under 146.5",price:1.87,wager:100,winnings:86,payout:186},
   {id:546,date:"2025-03-23",status:"Won",league:"NCAA",match:"Kentucky vs. #10 Illinois",type:"Total Points",market:"Under 166.5",price:1.91,wager:50,winnings:45,payout:95},
-  {id:547,date:"2025-03-23",status:"Won",league:"NCAA",match:"Kentucky vs. #10 Illinois",type:"Total Points",market:"Under 167",price:1.91,wager:50,winnings:-4,payout:45},
+  {id:547,date:"2025-03-23",status:"Won",league:"NCAA",match:"Kentucky vs. #10 Illinois",type:"Total Points",market:"Under 167",price:1.91,wager:50,winnings:-4,payout:45,freeBet:true},
   {id:548,date:"2025-03-23",status:"Won",league:"NCAA",match:"#1 Duke vs. Baylor",type:"Spread",market:"#1 Duke -12.5",price:1.91,wager:250,winnings:227,payout:477},
   {id:549,date:"2025-03-23",status:"Won",league:"NCAA",match:"#1 Duke vs. Baylor",type:"Total Points",market:"Over 146",price:1.91,wager:125,winnings:113,payout:238},
   {id:550,date:"2025-03-23",status:"Won",league:"NCAA",match:"#1 Duke vs. Baylor",type:"Spread",market:"#1 Duke -12.5",price:1.91,wager:250,winnings:227,payout:477},
@@ -752,7 +752,7 @@ const ALL_BETS=[
   {id:643,date:"2025-01-18",status:"Cashed Out",league:"NFL",match:"Chiefs vs Texans, Lions vs Commanders,",type:"MULTIPLE",market:"MULTIPLE",price:1.91,wager:100,winnings:0,payout:100},
   {id:644,date:"2025-01-18",status:"Push",league:"NFL",match:"Chiefs vs Texans",type:"Spread",market:"Chiefs -9",price:1.0,wager:240,winnings:0,payout:240},
   {id:645,date:"2025-01-18",status:"Lost",league:"NCAA",match:"Kentucky vs. #17 Alabama",type:"To Win",market:"Kentucky",price:2.5,wager:79,winnings:0,payout:0},
-  {id:646,date:"2025-01-18",status:"Lost",league:"NCAA",match:"Kentucky vs. #17 Alabama",type:"To Win",market:"Kentucky",price:2.15,wager:10,winnings:0,payout:0},
+  {id:646,date:"2025-01-18",status:"Lost",league:"NCAA",match:"Kentucky vs. #17 Alabama",type:"To Win",market:"Kentucky",price:2.15,wager:10,winnings:0,payout:0,freeBet:true},
   {id:647,date:"2025-01-18",status:"Lost",league:"NFL",match:"Lions vs Commanders",type:"Total Points",market:"Under 55.5",price:1.91,wager:250,winnings:0,payout:0},
   {id:648,date:"2025-01-18",status:"Won",league:"NFL",match:"Chiefs vs Texans",type:"Spread",market:"Chiefs -8.5",price:1.91,wager:400,winnings:363,payout:763},
   {id:649,date:"2025-01-15",status:"Won",league:"NCAA",match:"#9 Notre Dame vs. 2 Ohio State",type:"Spread",market:"2 Ohio State -8",price:1.91,wager:2000,winnings:1818,payout:3818},
@@ -1135,16 +1135,16 @@ const ALL_BETS=[
   {id:1026,date:"2024-06-28",status:"Won",league:"Copa America",match:"Colombia vs. Costa Rica",type:"Spread",market:"Colombia -1.5",price:1.87,wager:100,winnings:86,payout:195},
   {id:1027,date:"2024-06-24",status:"Lost",league:"NHL",match:"Panthers vs. Oilers",type:"Spread",market:"Panthers -1.5",price:3.2,wager:100,winnings:0,payout:0},
   {id:1028,date:"2024-06-23",status:"Lost",league:"NHL",match:"Panthers vs. Oilers",type:"Spread",market:"Panthers -1.5",price:3.2,wager:250,winnings:0,payout:0},
-  {id:1029,date:"2024-06-23",status:"Won",league:"Travelers Championship",match:"Travelers Championship",type:"Winner",market:"S. Scheffler",price:2.25,wager:250,winnings:312,payout:562},
+  {id:1029,date:"2024-06-23",status:"Won",league:"Golf",match:"Travelers Championship",type:"Winner",market:"S. Scheffler",price:2.25,wager:250,winnings:312,payout:562},
   {id:1030,date:"2024-06-18",status:"Lost",league:"NHL",match:"Panthers vs. Oilers",type:"To Win",market:"Panthers",price:5.5,wager:100,winnings:0,payout:0},
   {id:1031,date:"2024-06-15",status:"Lost",league:"NHL",match:"Oilers vs. Panthers",type:"To Win",market:"Panthers",price:1.95,wager:250,winnings:0,payout:0},
   {id:1032,date:"2024-06-14",status:"Lost",league:"NBA",match:"Mavericks vs. Celtics",type:"Spread",market:"Celtics -0.5",price:1.91,wager:250,winnings:0,payout:0},
   {id:1033,date:"2024-06-08",status:"Won",league:"NHL",match:"NHL 23/24",type:"Playoffs 2023/24 - Florida Panthers vs Edmonton Oilers - Winner",market:"Florida Panthers",price:1.67,wager:250,winnings:166,payout:416},
   {id:1034,date:"2024-06-08",status:"Cashed Out",league:"NBA",match:"NBA 23/24",type:"Playoffs 2023/24 - Boston Celtics vs Dallas Mavericks - Winner",market:"Dallas Mavericks",price:4.25,wager:100,winnings:-73,payout:26},
-  {id:1035,date:"2024-06-07",status:"Won",league:"NHL",match:"Panthers vs. Oilers",type:"Spread",market:"Panthers -1.5",price:2.65,wager:100,winnings:65,payout:165},
+  {id:1035,date:"2024-06-07",status:"Won",league:"NHL",match:"Panthers vs. Oilers",type:"Spread",market:"Panthers -1.5",price:2.65,wager:100,winnings:65,payout:165,freeBet:true},
   {id:1036,date:"2024-06-06",status:"Lost",league:"NBA",match:"Celtics vs. Mavericks",type:"Kyrie Irving 2 Pointer",market:"Method of First Basket",price:8.5,wager:50,winnings:0,payout:0},
   {id:1037,date:"2024-06-06",status:"Lost",league:"NBA",match:"Celtics vs. Mavericks, Celtics vs. Mavericks,",type:"MULTIPLE",market:"MULTIPLE",price:4.75,wager:100,winnings:0,payout:0},
-  {id:1038,date:"2024-06-02",status:"Won",league:"Charles Schwab Challenge 2024",match:"RBC Canadian Open",type:"Winner",market:"R. MacIntyre",price:1.36,wager:500,winnings:181,payout:681},
+  {id:1038,date:"2024-06-02",status:"Won",league:"Golf",match:"RBC Canadian Open",type:"Winner",market:"R. MacIntyre",price:1.36,wager:500,winnings:181,payout:681},
   {id:1039,date:"2024-06-02",status:"Lost",league:"NHL",match:"Oilers vs. Stars",type:"To Win",market:"Stars",price:2.2,wager:100,winnings:0,payout:0},
   {id:1040,date:"2024-06-01",status:"Lost",league:"NHL",match:"Panthers vs. Rangers",type:"Spread",market:"Panthers -1.5",price:1.95,wager:100,winnings:0,payout:0},
   {id:1041,date:"2024-05-31",status:"Lost",league:"NHL",match:"Stars vs. Oilers",type:"Spread",market:"Stars -1.5",price:3.2,wager:100,winnings:0,payout:0},
@@ -1157,7 +1157,7 @@ const ALL_BETS=[
   {id:1048,date:"2024-05-17",status:"Lost",league:"NBA",match:"Nuggets vs. Timberwolves",type:"Spread",market:"Nuggets -5",price:1.91,wager:200,winnings:0,payout:0},
   {id:1049,date:"2024-05-17",status:"Lost",league:"Premier League",match:"Man City vs. West Ham",type:"Game Result (90 Minutes + Stoppage Time)",market:"Tie",price:11.0,wager:30,winnings:0,payout:0},
   {id:1050,date:"2024-05-17",status:"Lost",league:"Premier League",match:"Man City vs. West Ham",type:"Game Result (90 Minutes + Stoppage Time)",market:"West Ham",price:21.0,wager:30,winnings:0,payout:0},
-  {id:1051,date:"2024-05-17",status:"Won",league:"Premier League",match:"Arsenal vs. Everton",type:"Game Result (90 Minutes + Stoppage Time)",market:"Arsenal",price:1.15,wager:100,winnings:-84,payout:15},
+  {id:1051,date:"2024-05-17",status:"Won",league:"Premier League",match:"Arsenal vs. Everton",type:"Game Result (90 Minutes + Stoppage Time)",market:"Arsenal",price:1.15,wager:100,winnings:-84,payout:15,freeBet:true},
   {id:1052,date:"2024-05-16",status:"Lost",league:"NBA",match:"Timberwolves vs. Nuggets, Timberwolves vs. Nuggets,",type:"MULTIPLE",market:"MULTIPLE",price:3.6,wager:100,winnings:0,payout:0},
   {id:1053,date:"2024-05-16",status:"Lost",league:"Boosts",match:"Nuggets 5/16 OD",type:"Chicken Nugget",market:"Nuggets to win vs. Timberwolves",price:2.45,wager:50,winnings:0,payout:0},
   {id:1054,date:"2024-05-15",status:"Won",league:"NBA",match:"Thunder vs. Mavericks",type:"To Win",market:"Mavericks",price:2.35,wager:150,winnings:202,payout:352},
@@ -1306,6 +1306,7 @@ export default function Home(){
   const [betDateFrom,setBetDateFrom]=useState("");
   const [betDateTo,setBetDateTo]=useState("");
   const [betSearch,setBetSearch]=useState("");
+  const [showFreeBets,setShowFreeBets]=useState(false);
   const [activeSection,setActiveSection]=useState("feed");
   const kalshi=useKalshi();
   const newsTeam=(feedFilter==="team"&&selectedTeam)?selectedTeam:null;
@@ -1330,6 +1331,7 @@ export default function Home(){
   // ── BET FILTERING ──────────────────────────────────────────────────────────
   const filteredBets=useMemo(()=>{
     return ALL_BETS.filter(b=>{
+      if(!showFreeBets&&b.freeBet)return false;
       if(betResultFilter!=="all"&&b.status.toLowerCase()!==betResultFilter)return false;
       if(betLeagueFilter!=="all"&&b.league!==betLeagueFilter)return false;
       if(betDateFrom&&b.date<betDateFrom)return false;
@@ -1340,7 +1342,7 @@ export default function Home(){
       }
       return true;
     });
-  },[betResultFilter,betLeagueFilter,betDateFrom,betDateTo,betSearch]);
+  },[betResultFilter,betLeagueFilter,betDateFrom,betDateTo,betSearch,showFreeBets]);
 
   // ── STATS computed from filteredBets ───────────────────────────────────────
   const stats=useMemo(()=>{
@@ -1491,6 +1493,7 @@ export default function Home(){
                 <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>SEARCH</div>
                 <input placeholder="Search match or market..." value={betSearch} onChange={e=>setBetSearch(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 12px",fontSize:12,outline:"none",width:"100%"}}/>
               </div>
+              <button onClick={()=>setShowFreeBets(!showFreeBets)} style={{background:showFreeBets?"#fbbf2422":"#ffffff08",border:`1px solid ${showFreeBets?"#fbbf24":"#ffffff15"}`,color:showFreeBets?"#fbbf24":"#ffffff55",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600,whiteSpace:"nowrap"}}>{showFreeBets?"🎁 Hiding Free Bets: OFF":"🎁 Hide Free Bets"}</button>
               {(betResultFilter!=="all"||betLeagueFilter!=="all"||betDateFrom||betDateTo||betSearch)&&(
                 <button onClick={()=>{setBetResultFilter("all");setBetLeagueFilter("all");setBetDateFrom("");setBetDateTo("");setBetSearch("");}} style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>✕ Clear</button>
               )}
@@ -1515,6 +1518,7 @@ export default function Home(){
                   <div style={{fontSize:14,fontWeight:700,color:"#fff",marginBottom:2}}>{bet.match}</div>
                   <div style={{fontSize:12,color:"#ffffff55",display:"flex",gap:8,flexWrap:"wrap"}}>
                     <span style={{background:LEAGUE_COLORS[bet.league]+"22",color:LEAGUE_COLORS[bet.league]||"#ffffff44",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>{LEAGUE_LABELS[bet.league]||bet.league}</span>
+                    {bet.freeBet&&<span style={{background:"#fbbf2422",color:"#fbbf24",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>🎁 Free Bet</span>}
                     <span>{bet.type}</span>
                     <span style={{color:"#ffffff33"}}>·</span>
                     <span>{bet.market}</span>
