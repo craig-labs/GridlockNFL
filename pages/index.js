@@ -1538,7 +1538,7 @@ export default function Home(){
       <div style={{background:`linear-gradient(135deg,${pc}ee,${pc}99,#0a0a0f)`,borderBottom:`2px solid ${ac}44`,position:"sticky",top:0,zIndex:100,backdropFilter:"blur(20px)"}}>
         <div style={{maxWidth:1200,margin:"0 auto",padding:"14px 24px"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
-            <div style={{display:"flex",alignItems:"center",gap:12}}><div style={{fontSize:28,fontWeight:900,letterSpacing:"-1px",background:`linear-gradient(135deg,#fff,${ac})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>GRIDLOCK</div><div style={{fontSize:10,color:"#ffffff66",letterSpacing:"2px",textTransform:"uppercase"}}>NFL • Bets • Feed</div></div>
+            <div style={{display:"flex",alignItems:"center",gap:12}}><div style={{fontSize:28,fontWeight:900,letterSpacing:"-1px",background:`linear-gradient(135deg,#fff,${ac})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>GRIDLOCK</div><div style={{fontSize:10,color:"#ffffff66",letterSpacing:"2px",textTransform:"uppercase"}}>NFL - Bets - Feed</div></div>
             <div style={{display:"flex",gap:8,alignItems:"center"}}>
               <a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{background:"#ffffff10",border:"1px solid #ffffff22",color:"#fff",padding:"8px 12px",borderRadius:8,fontSize:13,fontWeight:600,textDecoration:"none",display:"flex",alignItems:"center",gap:5}}><span style={{fontSize:11,color:"#1DA1F2"}}>{"X"}</span> @cnaylor_</a>
               <button onClick={()=>setShowPicker(!showPicker)} style={{background:selectedTeam?`${ac}33`:"#ffffff15",border:`1px solid ${selectedTeam?ac:"#ffffff33"}`,color:"#fff",padding:"8px 16px",borderRadius:8,cursor:"pointer",fontSize:13,fontWeight:600}}>{selectedTeam?`${team?.city} ${selectedTeam}`:"🏈 Select Your Team"}</button>
@@ -1913,7 +1913,7 @@ export default function Home(){
                 </div>
                 <div style={{textAlign:"right",flexShrink:0}}>
                   <div style={{fontSize:16,fontWeight:800,color:bet.status==="Won"?"#4ade80":"#f87171"}}>{bet.status==="Won"?`+$${bet.winnings.toLocaleString()}`:`-$${bet.wager.toLocaleString()}`}</div>
-                  <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>stake: ${bet.wager.toLocaleString()}</div>
+                  <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>{"stake: $" + bet.wager.toLocaleString()}</div>
                 </div>
               </div>
             ))}
@@ -2053,7 +2053,7 @@ export default function Home(){
                     </div>
                     <div style={{textAlign:"right",flexShrink:0}}>
                       <div style={{fontSize:16,fontWeight:800,color:bet.status==="Won"?"#4ade80":bet.status==="Lost"?"#f87171":"#fbbf24"}}>{bet.status==="Won"?`+$${bet.winnings.toLocaleString()}`:bet.status==="Lost"?`-$${bet.wager.toLocaleString()}`:"Cashed"}</div>
-                      <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>stake: ${bet.wager.toLocaleString()}</div>
+                      <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>{"stake: $" + bet.wager.toLocaleString()}</div>
                     </div>
                   </div>
                 ))}
@@ -2101,7 +2101,7 @@ export default function Home(){
             </div>
             <div style={{display:"flex",gap:16,fontSize:12,color:"#ffffff55"}}><span>⏱️ {WEEKLY_VIDEOS[0].duration}</span><span>👁️ {WEEKLY_VIDEOS[0].views} views</span></div>
             <div style={{marginTop:14,borderTop:"1px solid #ffffff10",paddingTop:12}}><div style={{fontSize:11,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:8}}>This Week&#39;s Picks</div>
-              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{WEEKLY_VIDEOS[0].picks.map((p,i)=>(<div key={i} style={{background:p.result==="win"?"#4ade8012":p.result==="loss"?"#f8717112":"#fbbf2412",border:`1px solid ${p.result==="win"?"#4ade8033":p.result==="loss"?"#f8717133":"#fbbf2433"}`,borderRadius:8,padding:"6px 10px",display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:12,fontWeight:600,color:"#fff"}}>{p.pick}</span><span style={{fontSize:10}}>{p.result==="win"?"✅":p.result==="loss"?"❌":"{"P"}</span></div>))}</div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{WEEKLY_VIDEOS[0].picks.map((p,i)=>(<div key={i} style={{background:p.result==="win"?"#4ade8012":p.result==="loss"?"#f8717112":"#fbbf2412",border:`1px solid ${p.result==="win"?"#4ade8033":p.result==="loss"?"#f8717133":"#fbbf2433"}`,borderRadius:8,padding:"6px 10px",display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:12,fontWeight:600,color:"#fff"}}>{p.pick}</span><span style={{fontSize:10}}>{p.result==="win"?"✅":p.result==="loss"?"❌":"P"</span></div>))}</div>
             </div>
           </div>
           <div style={{fontSize:12,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:12}}>Previous Episodes</div>
