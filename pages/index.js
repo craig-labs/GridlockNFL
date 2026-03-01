@@ -1371,7 +1371,7 @@ const PREMIUM_USERS = {
   "friend2":  "allsports1",
 };
 const USER_TEAMS = {
-  "craig":   "Seahawks",
+  "craig":   "Bengals",
   "friend1": null,
   "friend2": null,
 };
