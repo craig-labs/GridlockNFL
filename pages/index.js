@@ -1646,7 +1646,7 @@ export default function Home(){
               <span style={{fontSize:11,color:"#ffffff33",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase"}}>Showing</span>
               <span style={{background:"#ffffff0a",border:"1px solid #ffffff15",borderRadius:6,padding:"3px 10px",fontSize:12,color:"#ffffff88",fontWeight:600}}>
                 {betDateFrom||betDateTo
-                  ?`${betDateFrom||"Jan 2024"} → ${betDateTo||"Today"}`
+                  ?`${betDateFrom||"Jan 2024"} to ${betDateTo||"Today"}`
                   :"All Time · Jan 2024 - Present"}
               </span>
               {!betDateFrom&&!betDateTo&&<span style={{fontSize:11,color:"#ffffff33",fontStyle:"italic"}}>Use season filter below to narrow</span>}
@@ -1719,7 +1719,7 @@ export default function Home(){
               Showing <strong style={{color:"#fff"}}>{filteredBets.length}</strong> NFL bets
               {" · "}
               {betDateFrom||betDateTo
-                ?<span style={{color:"#fbbf24",fontWeight:600}}>{betDateFrom||"Jan 2024"} → {betDateTo||"Today"}</span>
+                ?<span style={{color:"#fbbf24",fontWeight:600}}>{betDateFrom||"Jan 2024"} to {betDateTo||"Today"}</span>
                 :<span style={{color:"#ffffff66"}}>All Time · Jan 2024 - Present</span>
               }
               {betResultFilter!=="all"&&<span> · <span style={{color:betResultFilter==="won"?"#4ade80":"#f87171",fontWeight:600}}>{betResultFilter==="won"?"Wins only":"Losses only"}</span></span>}
@@ -1839,7 +1839,7 @@ export default function Home(){
                                 </div>
                                 <div style={{textAlign:"right",flexShrink:0}}>
                                   <div style={{fontSize:14,fontWeight:800,color:bet.status==="Won"?"#4ade80":"#f87171"}}>{bet.status==="Won"?`+$${bet.winnings.toLocaleString()}`:`-$${bet.wager.toLocaleString()}`}</div>
-                                  <div style={{fontSize:10,color:"#ffffff33"}}>stake $${bet.wager.toLocaleString()}</div>
+                                  <div style={{fontSize:10,color:"#ffffff33"}}>{"stake $" + bet.wager.toLocaleString()}</div>
                                 </div>
                               </div>
                             ))}
@@ -1926,7 +1926,7 @@ export default function Home(){
                 </div>
                 <div style={{textAlign:"right",flexShrink:0}}>
                   <div style={{fontSize:16,fontWeight:800,color:bet.status==="Won"?"#4ade80":"#f87171"}}>{bet.status==="Won"?`+$${bet.winnings.toLocaleString()}`:`-$${bet.wager.toLocaleString()}`}</div>
-                  <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>stake: ${bet.wager.toLocaleString()}</div>
+                  <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>{"stake: $" + bet.wager.toLocaleString()}</div>
                 </div>
               </div>
             ))}
@@ -2066,7 +2066,7 @@ export default function Home(){
                     </div>
                     <div style={{textAlign:"right",flexShrink:0}}>
                       <div style={{fontSize:16,fontWeight:800,color:bet.status==="Won"?"#4ade80":bet.status==="Lost"?"#f87171":"#fbbf24"}}>{bet.status==="Won"?`+$${bet.winnings.toLocaleString()}`:bet.status==="Lost"?`-$${bet.wager.toLocaleString()}`:"Cashed"}</div>
-                      <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>stake: ${bet.wager.toLocaleString()}</div>
+                      <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>{"stake: $" + bet.wager.toLocaleString()}</div>
                     </div>
                   </div>
                 ))}
@@ -2107,7 +2107,7 @@ export default function Home(){
                       onClick={()=>setFpfShowLogin(!fpfShowLogin)}
                       style={{background:"linear-gradient(135deg,#fbbf24,#f59e0b)",border:"none",borderRadius:10,color:"#000",padding:"14px 40px",fontSize:15,fontWeight:800,cursor:"pointer",letterSpacing:"1px",boxShadow:"0 4px 24px #fbbf2444"}}
                     >
-                      {fpfShowLogin?"↑ Hide":"Subscribe for $4.99/mo →"}
+                      {fpfShowLogin?"Hide":"Subscribe - $4.99/month"}
                     </button>
                     <div style={{fontSize:11,color:"#ffffff33"}}>Already subscribed? Enter your email below to access.</div>
                   </div>
@@ -2137,7 +2137,7 @@ export default function Home(){
                     <button
                       onClick={()=>alert("Stripe integration coming soon! DM @cnaylor_ on X to subscribe manually in the meantime.")}
                       style={{width:"100%",background:"transparent",border:"2px solid #fbbf2466",borderRadius:8,color:"#fbbf24",padding:"12px",fontSize:14,fontWeight:700,cursor:"pointer"}}
-                    >Subscribe for $4.99/mo →</button>
+                    >Subscribe - $4.99/month</button>
                     <div style={{fontSize:11,color:"#ffffff22",marginTop:10}}>Powered by Stripe · Secure checkout</div>
                   </div>
                 </div>
