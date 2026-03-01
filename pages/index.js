@@ -132,7 +132,7 @@ function TopStories({articles,ac,newsContext={}}){
   </div>);
 }
 
-// ===== REAL BET DATA — Hard Rock Bet (1,218 bets | Jan 2024 – Feb 2026) =====
+// ===== REAL BET DATA — Hard Rock Bet (1,218 bets | Jan 2024 - Feb 2026) =====
 const ALL_BETS=[
   {id:1,date:"2026-02-22",status:"Lost",league:"Men",match:"Canada vs United States",type:"Total Goals",market:"Over 5.5",price:2.2,wager:100,winnings:0,payout:0},
   {id:2,date:"2026-02-08",status:"Won",league:"NFL",match:"Patriots vs Seahawks",type:"Drake Maye - Pass Completions",market:"Over 20.5",price:2.0,wager:2000,winnings:2000,payout:4000},
@@ -1356,14 +1356,14 @@ const ALL_BETS=[
 
 // NFL season date ranges — regular season start to Super Bowl
 const NFL_SEASONS = [
-  {label:"2024–25 Season",from:"2024-09-05",to:"2025-02-09"},
-  {label:"2023–24 Season",from:"2023-09-07",to:"2024-02-11"},
-  {label:"2022–23 Season",from:"2022-09-08",to:"2023-02-12"},
+  {label:"2024-25 Season",from:"2024-09-05",to:"2025-02-09"},
+  {label:"2023-24 Season",from:"2023-09-07",to:"2024-02-11"},
+  {label:"2022-23 Season",from:"2022-09-08",to:"2023-02-12"},
 ];
 // Playoffs only windows within each season
 const NFL_PLAYOFFS = [
-  {label:"2024–25 Playoffs",from:"2025-01-11",to:"2025-02-09"},
-  {label:"2023–24 Playoffs",from:"2024-01-13",to:"2024-02-11"},
+  {label:"2024-25 Playoffs",from:"2025-01-11",to:"2025-02-09"},
+  {label:"2023-24 Playoffs",from:"2024-01-13",to:"2024-02-11"},
 ];
 
 const LEAGUE_LABELS={"NFL":"🏈 NFL","NCAA":"🏫 NCAA","NBA":"🏀 NBA","NHL":"🏒 NHL","MLB":"⚾ MLB","Formula 1":"🏎️ F1","Golf":"⛳ Golf","Copa America":"⚽ Copa","4 Nations Face-Off":"🏒 4 Nations","Boosts":"⚡ Boosts","Other":"🎯 Other","Men":"⚽ Soccer"};
@@ -1647,7 +1647,7 @@ export default function Home(){
               <span style={{background:"#ffffff0a",border:"1px solid #ffffff15",borderRadius:6,padding:"3px 10px",fontSize:12,color:"#ffffff88",fontWeight:600}}>
                 {betDateFrom||betDateTo
                   ?`${betDateFrom||"Jan 2024"} → ${betDateTo||"Today"}`
-                  :"All Time · Jan 2024 – Present"}
+                  :"All Time · Jan 2024 - Present"}
               </span>
               {!betDateFrom&&!betDateTo&&<span style={{fontSize:11,color:"#ffffff33",fontStyle:"italic"}}>Use season filter below to narrow</span>}
             </div>
@@ -1720,7 +1720,7 @@ export default function Home(){
               {" · "}
               {betDateFrom||betDateTo
                 ?<span style={{color:"#fbbf24",fontWeight:600}}>{betDateFrom||"Jan 2024"} → {betDateTo||"Today"}</span>
-                :<span style={{color:"#ffffff66"}}>All Time · Jan 2024 – Present</span>
+                :<span style={{color:"#ffffff66"}}>All Time · Jan 2024 - Present</span>
               }
               {betResultFilter!=="all"&&<span> · <span style={{color:betResultFilter==="won"?"#4ade80":"#f87171",fontWeight:600}}>{betResultFilter==="won"?"Wins only":"Losses only"}</span></span>}
             </div>
