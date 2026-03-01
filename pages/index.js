@@ -1387,6 +1387,7 @@ const seasonRecord=WEEKLY_VIDEOS.reduce((a,v)=>{v.picks.forEach(p=>{if(p.result=
 export default function Home(){
   const [selectedTeam,setSelectedTeam]=useState(null);
   const [showPicker,setShowPicker]=useState(false);
+  const [showMenu,setShowMenu]=useState(false);
   const [feedFilter,setFeedFilter]=useState("league");
   const [betResultFilter,setBetResultFilter]=useState("all");
   const [betLeagueFilter,setBetLeagueFilter]=useState("all");
@@ -1552,7 +1553,7 @@ export default function Home(){
     <Head><title>GRIDLOCK  --  NFL Bets, News & Social Feed</title><meta name="description" content="Your NFL command center."/><meta name="viewport" content="width=device-width, initial-scale=1"/></Head>
     <div style={{minHeight:"100vh",background:"#0a0a0f",color:"#e0e0e0",fontFamily:"'Inter',-apple-system,sans-serif"}}>
       {/* HEADER */}
-      <div style={{background:`linear-gradient(135deg,${pc}ee,${pc}99,#0a0a0f)`,borderBottom:`2px solid ${ac}44`,position:"sticky",top:0,zIndex:100,backdropFilter:"blur(20px)"}}>
+      <div style={{background:`linear-gradient(135deg,${pc}ee,${pc}99,#0a0a0f)`,borderBottom:`2px solid ${ac}44`,position:"sticky",top:0,zIndex:100,backdropFilter:"blur(20px)",position:"relative"}}>
         <div style={{maxWidth:1200,margin:"0 auto",padding:"14px 24px"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
             <div style={{display:"flex",alignItems:"center",gap:12}}><div style={{fontSize:28,fontWeight:900,letterSpacing:"-1px",background:`linear-gradient(135deg,#fff,${ac})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>GRIDLOCK</div><div style={{fontSize:10,color:"#ffffff66",letterSpacing:"2px",textTransform:"uppercase"}}>NFL - Bets - Feed</div></div>
@@ -1561,7 +1562,7 @@ export default function Home(){
                 <div style={{display:"flex",alignItems:"center",gap:6,background:"#ffffff10",border:"1px solid #4ade8033",borderRadius:8,padding:"6px 12px"}}>
                   <div style={{width:7,height:7,borderRadius:"50%",background:"#4ade80",boxShadow:"0 0 6px #4ade8066"}}/>
                   <span style={{fontSize:12,color:"#4ade80",fontWeight:600}}>Logged in</span>
-                  <button onClick={()=>{setPremiumAuthed(false);setFpfAuthed(false);setPremiumUser("");setPremiumPass("");setFpfPass("");}} style={{background:"none",border:"none",color:"#ffffff44",cursor:"pointer",fontSize:11,marginLeft:4,padding:0}}>✕</button>
+                  <button onClick={()=>{setPremiumAuthed(false);setFpfAuthed(false);setPremiumUser("");setPremiumPass("");setFpfPass("");}} style={{background:"none",border:"none",color:"#ffffff44",cursor:"pointer",fontSize:11,marginLeft:4,padding:0}}>{"x"}</button>
                 </div>
               ):(
                 <button onClick={()=>{setActiveSection("premium");}} style={{background:"linear-gradient(135deg,#fbbf2422,#f59e0b22)",border:"1px solid #fbbf2444",color:"#fbbf24",padding:"8px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700}}>🔑 Member Login</button>
@@ -1571,11 +1572,41 @@ export default function Home(){
               {selectedTeam&&<button onClick={()=>{setSelectedTeam(null);setFeedFilter("league");}} style={{background:"#e9456033",border:"1px solid #e9456066",color:"#e94560",padding:"8px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700}}>✕ Reset Team</button>}
             </div>
           </div>
-          <div style={{display:"flex",gap:4,marginTop:12,overflowX:"auto"}}>
-            {[{k:"feed",l:"📱 Social Feed"},{k:"kalshi",l:<span>📊 NFL Prediction Markets <span style={{fontSize:9,opacity:0.6,fontWeight:400}}>Powered by Kalshi</span></span>},{k:"bets",l:"💰 Craig's List"},{k:"premium",l:<span>🔒 All Sports <span style={{fontSize:9,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800}}>PREMIUM</span></span>},{k:"video",l:<span>🎬 Five Pick Fridays <span style={{fontSize:9,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800}}>PREMIUM</span></span>}].map(s=>(
-              <button key={s.k} onClick={()=>setActiveSection(s.k)} style={{background:activeSection===s.k?`${ac}33`:"transparent",border:"none",color:activeSection===s.k?"#fff":"#ffffff66",padding:"8px 16px",borderRadius:"8px 8px 0 0",cursor:"pointer",fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1px",borderBottom:activeSection===s.k?`2px solid ${ac}`:"2px solid transparent",whiteSpace:"nowrap"}}>{s.l}</button>
-            ))}
-          </div>
+          {/* ── NAV TABS ── */}
+          {(()=>{
+            const tabs=[
+              {k:"feed",l:"📱 Social Feed",s:"Feed"},
+              {k:"kalshi",l:"📊 Prediction Markets",s:"Markets"},
+              {k:"bets",l:"💰 Craig's List",s:"Craig's List"},
+              {k:"premium",l:"🔒 All Sports",s:"All Sports",gold:true},
+              {k:"video",l:"🎬 Five Pick Fridays",s:"FPF",gold:true},
+            ];
+            return(<>
+              {/* Desktop tabs — hidden on small screens via flex-wrap */}
+              <div style={{display:"flex",gap:4,marginTop:12,overflowX:"auto",alignItems:"center"}}>
+                {tabs.map(s=>(
+                  <button key={s.k} onClick={()=>setActiveSection(s.k)} style={{background:activeSection===s.k?`${ac}33`:"transparent",border:"none",color:activeSection===s.k?"#fff":"#ffffff66",padding:"8px 14px",borderRadius:"8px 8px 0 0",cursor:"pointer",fontSize:11,fontWeight:600,textTransform:"uppercase",letterSpacing:"1px",borderBottom:activeSection===s.k?`2px solid ${ac}`:"2px solid transparent",whiteSpace:"nowrap",display:"flex",alignItems:"center",gap:4}}>
+                    {s.s}{s.gold&&<span style={{fontSize:8,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800,marginLeft:2}}>PREMIUM</span>}
+                  </button>
+                ))}
+                {/* Hamburger button — always visible on right */}
+                <button onClick={()=>setShowMenu(!showMenu)} style={{marginLeft:"auto",background:showMenu?`${ac}33`:"#ffffff10",border:`1px solid ${showMenu?ac:"#ffffff22"}`,color:"#fff",padding:"6px 10px",borderRadius:8,cursor:"pointer",fontSize:16,lineHeight:1,flexShrink:0}}>
+                  {showMenu?"✕":"☰"}
+                </button>
+              </div>
+              {/* Dropdown menu */}
+              {showMenu&&(
+                <div style={{position:"absolute",top:"100%",left:0,right:0,background:"#12121c",borderBottom:`2px solid ${ac}44`,zIndex:200,padding:"8px 16px",display:"flex",flexDirection:"column",gap:4}}>
+                  {tabs.map(s=>(
+                    <button key={s.k} onClick={()=>{setActiveSection(s.k);setShowMenu(false);}} style={{background:activeSection===s.k?`${ac}22`:"transparent",border:"none",borderLeft:activeSection===s.k?`3px solid ${ac}`:"3px solid transparent",color:activeSection===s.k?"#fff":"#ffffff88",padding:"12px 16px",cursor:"pointer",fontSize:14,fontWeight:600,textAlign:"left",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                      <span>{s.l}</span>
+                      {s.gold&&<span style={{fontSize:9,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800}}>PREMIUM</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>);
+          })()}
         </div>
       </div>
 
@@ -1720,7 +1751,7 @@ export default function Home(){
               </div>
               <button onClick={()=>setShowFreeBets(!showFreeBets)} style={{background:showFreeBets?"#fbbf2422":"#ffffff08",border:`1px solid ${showFreeBets?"#fbbf24":"#ffffff15"}`,color:showFreeBets?"#fbbf24":"#ffffff55",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600,whiteSpace:"nowrap"}}>{showFreeBets?"🎁 Hiding Free Bets: OFF":"🎁 Hide Free Bets"}</button>
               {(betResultFilter!=="all"||betLeagueFilter!=="all"||betDateFrom||betDateTo||betSearch)&&(
-                <button onClick={()=>{setBetResultFilter("all");setBetLeagueFilter("all");setBetDateFrom("");setBetDateTo("");setBetSearch("");}} style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>✕ Clear</button>
+                <button onClick={()=>{setBetResultFilter("all");setBetLeagueFilter("all");setBetDateFrom("");setBetDateTo("");setBetSearch("");}} style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>{"x"} Clear</button>
               )}
             </div>
 
@@ -2051,7 +2082,7 @@ export default function Home(){
                   </div>
                   <button onClick={()=>setPremShowFreeBets(!premShowFreeBets)} style={{background:premShowFreeBets?"#fbbf2422":"#ffffff08",border:`1px solid ${premShowFreeBets?"#fbbf24":"#ffffff15"}`,color:premShowFreeBets?"#fbbf24":"#ffffff55",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600,whiteSpace:"nowrap"}}>{premShowFreeBets?"🎁 Hiding Free Bets: OFF":"🎁 Hide Free Bets"}</button>
                   {(premBetResultFilter!=="all"||premBetLeagueFilter!=="all"||premBetDateFrom||premBetDateTo||premBetSearch)&&(
-                    <button onClick={()=>{setPremBetResultFilter("all");setPremBetLeagueFilter("all");setPremBetDateFrom("");setPremBetDateTo("");setPremBetSearch("");}} style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>✕ Clear</button>
+                    <button onClick={()=>{setPremBetResultFilter("all");setPremBetLeagueFilter("all");setPremBetDateFrom("");setPremBetDateTo("");setPremBetSearch("");}} style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>{"x"} Clear</button>
                   )}
                 </div>
                 <div style={{marginTop:10,fontSize:11,color:"#ffffff44"}}>
