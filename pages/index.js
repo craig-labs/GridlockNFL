@@ -1358,7 +1358,6 @@ const LEAGUE_LABELS={"NFL":"🏈 NFL","NCAA":"🏫 NCAA","NBA":"🏀 NBA","NHL":
 const LEAGUE_COLORS={"NFL":"#e94560","NCAA":"#7c3aed","NBA":"#f97316","NHL":"#0ea5e9","MLB":"#ef4444","Formula 1":"#dc2626","Golf":"#16a34a","Copa America":"#22c55e","4 Nations Face-Off":"#38bdf8","Boosts":"#fbbf24","Other":"#6b7280","Men":"#22c55e"};
 
 // Premium access credentials — add friends here
-const FPF_SUBSCRIBERS={"craig":"fpf2025","friend1":"picks99"};
 const PREMIUM_USERS = {
   "craig":    "gridlock24",
   "friend1":  "letmein99",
@@ -1678,14 +1677,7 @@ export default function Home(){
 
             {/* Row 2: Custom date range + search */}
             <div style={{display:"flex",gap:12,flexWrap:"wrap",alignItems:"flex-end"}}>
-              <div>
-                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>CUSTOM FROM</div>
-                <input type="date" value={betDateFrom} onChange={e=>setBetDateFrom(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
-              </div>
-              <div>
-                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>CUSTOM TO</div>
-                <input type="date" value={betDateTo} onChange={e=>setBetDateTo(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
-              </div>
+
               <div>
                 <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>FROM DATE</div>
                 <input type="date" value={betDateFrom} onChange={e=>setBetDateFrom(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
@@ -2069,12 +2061,14 @@ export default function Home(){
               <div style={{background:"linear-gradient(135deg,#12121c,#1a1a2e)",border:"1px solid #e9456033",borderRadius:16,padding:40,maxWidth:400,width:"100%",textAlign:"center"}}>
                 <div style={{fontSize:40,marginBottom:12}}>{"🎬"}</div>
                 <div style={{fontSize:22,fontWeight:900,color:"#fff",marginBottom:4}}>Five Pick Fridays</div>
-                <div style={{fontSize:13,color:"#ffffff55",marginBottom:8,lineHeight:1.5}}>{"Craig's 5 best picks every Friday."}<br/>Subscribers only.</div>
-                <div style={{fontSize:11,color:"#fbbf24",marginBottom:24,fontWeight:600}}>Contact @cnaylor_ on X for access</div>
-                <input type="password" placeholder="Enter access code" value={fpfPass} onChange={e=>setFpfPass(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"){if(Object.values(FPF_SUBSCRIBERS).includes(fpfPass)){setFpfAuthed(true);setFpfError("");}else{setFpfError("Invalid access code.");}}}} style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center",width:"100%",marginBottom:10}}/>
-                {fpfError&&<div style={{fontSize:12,color:"#f87171",marginBottom:10}}>{fpfError}</div>}
-                <button onClick={()=>{if(Object.values(FPF_SUBSCRIBERS).includes(fpfPass)){setFpfAuthed(true);setFpfError("");}else{setFpfError("Invalid access code.");}}} style={{width:"100%",background:"linear-gradient(135deg,#e94560,#c0283e)",border:"none",borderRadius:8,color:"#fff",padding:"12px",fontSize:14,fontWeight:800,cursor:"pointer",letterSpacing:"1px"}}>UNLOCK PICKS</button>
-                <div style={{fontSize:11,color:"#ffffff33",marginTop:16}}>Contact Craig for access</div>
+                <div style={{fontSize:13,color:"#ffffff55",marginBottom:28,lineHeight:1.5}}>{"Craig's 5 best picks every Friday."}<br/>Invite only.</div>
+                <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:16}}>
+                  <input placeholder="Username" value={fpfPass} onChange={e=>setFpfPass(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[fpfPass.toLowerCase()]===premiumPass;if(ok){setFpfAuthed(true);setFpfError("");}else{setFpfError("Wrong username or password.");}}}} style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center"}}/>
+                  <input type="password" placeholder="Password" value={premiumPass} onChange={e=>setPremiumPass(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[fpfPass.toLowerCase()]===premiumPass;if(ok){setFpfAuthed(true);setFpfError("");}else{setFpfError("Wrong username or password.");}}}} style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center"}}/>
+                </div>
+                {fpfError&&<div style={{fontSize:12,color:"#f87171",marginBottom:12}}>{fpfError}</div>}
+                <button onClick={()=>{const ok=PREMIUM_USERS[fpfPass.toLowerCase()]===premiumPass;if(ok){setFpfAuthed(true);setFpfError("");}else{setFpfError("Wrong username or password.");}}} style={{width:"100%",background:"linear-gradient(135deg,#e94560,#c0283e)",border:"none",borderRadius:8,color:"#fff",padding:"12px",fontSize:14,fontWeight:800,cursor:"pointer",letterSpacing:"1px"}}>UNLOCK PICKS</button>
+                <div style={{fontSize:11,color:"#ffffff33",marginTop:16}}>Contact Craig for access · @cnaylor_</div>
               </div>
             </div>
           ):(
