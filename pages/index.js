@@ -20,26 +20,26 @@ const TWITTER_ACCOUNTS={
     {handle:"MikeGarafolo",label:"Mike Garafolo",emoji:"🎯",desc:"NFL Network reporter"},
   ],
   teams:{
-    Ravens:[{handle:"Ravens",label:"Baltimore Ravens",emoji:"🦅"},{handle:"jamisonhensley",label:"Jamison Hensley",emoji:"📰",desc:"ESPN Ravens beat"},{handle:"jeffzrebiec",label:"Jeff Zrebiec",emoji:"📋",desc:"The Athletic"},{handle:"jonas_shaffer",label:"Jonas Shaffer",emoji:"📋",desc:"Baltimore Banner"},{handle:"Lj_era8",label:"Lamar Jackson",emoji:"🌟",desc:"QB -- 2x MVP"},{handle:"ZayFlowers",label:"Zay Flowers",emoji:"🎯",desc:"WR"}],
+    Ravens:[{handle:"Ravens",label:"Baltimore Ravens",emoji:"🦅"},{handle:"jamisonhensley",label:"Jamison Hensley",emoji:"📰",desc:"ESPN Ravens beat"},{handle:"jeffzrebiec",label:"Jeff Zrebiec",emoji:"📋",desc:"The Athletic"},{handle:"jonas_shaffer",label:"Jonas Shaffer",emoji:"📋",desc:"Baltimore Banner"},{handle:"Lj_era8",label:"Lamar Jackson",emoji:"🌟",desc:"QB — 2x MVP"},{handle:"ZayFlowers",label:"Zay Flowers",emoji:"🎯",desc:"WR"}],
     Bengals:[{handle:"Bengals",label:"Cincinnati Bengals",emoji:"🐯"},{handle:"Ben_Baby",label:"Ben Baby",emoji:"📰",desc:"ESPN Bengals beat"},{handle:"pauldehnerjr",label:"Paul Dehner Jr.",emoji:"📋",desc:"The Athletic"},{handle:"JoeGoodberry",label:"Joe Goodberry",emoji:"📋",desc:"Film analyst"},{handle:"GeoffHobsonCin",label:"Geoff Hobson",emoji:"📋",desc:"Bengals.com"},{handle:"JoeyB",label:"Joe Burrow",emoji:"🌟",desc:"QB"},{handle:"Real10jayy__",label:"Ja'Marr Chase",emoji:"🎯",desc:"WR"}],
-    Browns:[{handle:"Browns",label:"Cleveland Browns",emoji:"🟤"},{handle:"MaryKayCabot",label:"Mary Kay Cabot",emoji:"📰",desc:"Cleveland.com"},{handle:"AkronJackson",label:"Zac Jackson",emoji:"📋",desc:"The Athletic"},{handle:"Flash_Garrett",label:"Myles Garrett",emoji:"🌟",desc:"DE -- DPOY"}],
+    Browns:[{handle:"Browns",label:"Cleveland Browns",emoji:"🟤"},{handle:"MaryKayCabot",label:"Mary Kay Cabot",emoji:"📰",desc:"Cleveland.com"},{handle:"AkronJackson",label:"Zac Jackson",emoji:"📋",desc:"The Athletic"},{handle:"Flash_Garrett",label:"Myles Garrett",emoji:"🌟",desc:"DE — DPOY"}],
     Steelers:[{handle:"steelers",label:"Pittsburgh Steelers",emoji:"⚙️"},{handle:"BrookePryor",label:"Brooke Pryor",emoji:"📰",desc:"ESPN Steelers beat"},{handle:"MarkKaboly",label:"Mark Kaboly",emoji:"📋",desc:"McAfee Show"},{handle:"TJWatt",label:"T.J. Watt",emoji:"🌟",desc:"OLB"}],
     Texans:[{handle:"HoustonTexans",label:"Houston Texans",emoji:"🐂"},{handle:"DJBienAime",label:"DJ Bien-Aime",emoji:"📰",desc:"ESPN Texans beat"},{handle:"CJStroud7",label:"C.J. Stroud",emoji:"🌟",desc:"QB"},{handle:"NicoCollins",label:"Nico Collins",emoji:"🎯",desc:"WR"}],
     Colts:[{handle:"Colts",label:"Indianapolis Colts",emoji:"🐴"},{handle:"HolderStephen",label:"Stephen Holder",emoji:"📰",desc:"ESPN Colts beat"},{handle:"JonathanTaylor",label:"Jonathan Taylor",emoji:"🏃",desc:"RB"}],
     Jaguars:[{handle:"Jaguars",label:"Jacksonville Jaguars",emoji:"🐆"},{handle:"MikeDiRocco",label:"Mike DiRocco",emoji:"📰",desc:"ESPN Jaguars beat"},{handle:"Demetrius82",label:"Demetrius Harvey",emoji:"📋",desc:"FL Times-Union"},{handle:"TravisETN",label:"Travis Etienne",emoji:"🏃",desc:"RB"}],
     Titans:[{handle:"Titans",label:"Tennessee Titans",emoji:"⚔️"},{handle:"TDavenport_NFL",label:"Turron Davenport",emoji:"📰",desc:"ESPN Titans beat"},{handle:"jwyattsports",label:"Jim Wyatt",emoji:"📋",desc:"Titans.com"},{handle:"TonyPollard",label:"Tony Pollard",emoji:"🏃",desc:"RB"}],
-    Bills:[{handle:"BuffaloBills",label:"Buffalo Bills",emoji:"🦬"},{handle:"JoeBuscaglia",label:"Joe Buscaglia",emoji:"📰",desc:"The Athletic"},{handle:"MattParrino",label:"Matt Parrino",emoji:"📋",desc:"Syracuse.com"},{handle:"JoshAllenQB",label:"Josh Allen",emoji:"🌟",desc:"QB -- MVP candidate"},{handle:"JCookfor6",label:"James Cook",emoji:"🏃",desc:"RB"}],
+    Bills:[{handle:"BuffaloBills",label:"Buffalo Bills",emoji:"🦬"},{handle:"JoeBuscaglia",label:"Joe Buscaglia",emoji:"📰",desc:"The Athletic"},{handle:"MattParrino",label:"Matt Parrino",emoji:"📋",desc:"Syracuse.com"},{handle:"JoshAllenQB",label:"Josh Allen",emoji:"🌟",desc:"QB — MVP candidate"},{handle:"JCookfor6",label:"James Cook",emoji:"🏃",desc:"RB"}],
     Dolphins:[{handle:"MiamiDolphins",label:"Miami Dolphins",emoji:"🐬"},{handle:"DavidFurones_",label:"David Furones",emoji:"📰",desc:"Sun Sentinel"},{handle:"schadjoe",label:"Joe Schad",emoji:"📋",desc:"Palm Beach Post"}],
     Patriots:[{handle:"Patriots",label:"New England Patriots",emoji:"🇺🇸"},{handle:"MikeReiss",label:"Mike Reiss",emoji:"📰",desc:"ESPN Patriots beat"},{handle:"PhilAPerry",label:"Phil Perry",emoji:"📋",desc:"NBC Sports"},{handle:"DrakeMaye10",label:"Drake Maye",emoji:"🌟",desc:"QB"}],
     Jets:[{handle:"nyjets",label:"New York Jets",emoji:"✈️"},{handle:"RichCimini",label:"Rich Cimini",emoji:"📰",desc:"ESPN Jets beat"},{handle:"BrianCoz",label:"Brian Costello",emoji:"📋",desc:"NY Post"},{handle:"Garrett_Wilson",label:"Garrett Wilson",emoji:"🎯",desc:"WR"}],
     Broncos:[{handle:"Broncos",label:"Denver Broncos",emoji:"🐎"},{handle:"JeffLegwold",label:"Jeff Legwold",emoji:"📰",desc:"ESPN Broncos beat"},{handle:"mikeklis",label:"Mike Klis",emoji:"📋",desc:"9NEWS"},{handle:"TroyRenck",label:"Troy Renck",emoji:"📋",desc:"Denver7"}],
-    Chiefs:[{handle:"Chiefs",label:"Kansas City Chiefs",emoji:"🏹"},{handle:"adamteicher",label:"Adam Teicher",emoji:"📰",desc:"ESPN Chiefs beat"},{handle:"mattderrick",label:"Matt Derrick",emoji:"📋",desc:"Chiefs Digest"},{handle:"PatrickMahomes",label:"Patrick Mahomes",emoji:"🌟",desc:"QB -- 3x SB MVP"}],
+    Chiefs:[{handle:"Chiefs",label:"Kansas City Chiefs",emoji:"🏹"},{handle:"adamteicher",label:"Adam Teicher",emoji:"📰",desc:"ESPN Chiefs beat"},{handle:"mattderrick",label:"Matt Derrick",emoji:"📋",desc:"Chiefs Digest"},{handle:"PatrickMahomes",label:"Patrick Mahomes",emoji:"🌟",desc:"QB — 3x SB MVP"}],
     Raiders:[{handle:"Raiders",label:"Las Vegas Raiders",emoji:"☠️"},{handle:"tashanreed",label:"Tashan Reed",emoji:"📰",desc:"The Athletic"},{handle:"VinnyBonsignore",label:"Vincent Bonsignore",emoji:"📋",desc:"LV Review-Journal"},{handle:"CrosbyMaxx",label:"Maxx Crosby",emoji:"🌟",desc:"DE"}],
     Chargers:[{handle:"chargers",label:"Los Angeles Chargers",emoji:"⚡"},{handle:"krisrhim1",label:"Kris Rhim",emoji:"📰",desc:"ESPN Chargers beat"},{handle:"danielrpopper",label:"Daniel Popper",emoji:"📋",desc:"The Athletic"},{handle:"JustinHerbert",label:"Justin Herbert",emoji:"🌟",desc:"QB"}],
-    Bears:[{handle:"ChicagoBears",label:"Chicago Bears",emoji:"🐻"},{handle:"CourtneyRCronin",label:"Courtney Cronin",emoji:"📰",desc:"ESPN Bears beat"},{handle:"adamjahns",label:"Adam Jahns",emoji:"📋",desc:"The Athletic"},{handle:"kfishbain",label:"Kevin Fishbain",emoji:"📋",desc:"The Athletic"},{handle:"CalebWilliams",label:"Caleb Williams",emoji:"🌟",desc:"QB -- #1 pick"},{handle:"DJMoore",label:"DJ Moore",emoji:"🎯",desc:"WR"}],
+    Bears:[{handle:"ChicagoBears",label:"Chicago Bears",emoji:"🐻"},{handle:"CourtneyRCronin",label:"Courtney Cronin",emoji:"📰",desc:"ESPN Bears beat"},{handle:"adamjahns",label:"Adam Jahns",emoji:"📋",desc:"The Athletic"},{handle:"kfishbain",label:"Kevin Fishbain",emoji:"📋",desc:"The Athletic"},{handle:"CalebWilliams",label:"Caleb Williams",emoji:"🌟",desc:"QB — #1 pick"},{handle:"DJMoore",label:"DJ Moore",emoji:"🎯",desc:"WR"}],
     Lions:[{handle:"Lions",label:"Detroit Lions",emoji:"🦁"},{handle:"EricWoodyard",label:"Eric Woodyard",emoji:"📰",desc:"ESPN Lions beat"},{handle:"davebirkett",label:"Dave Birkett",emoji:"📋",desc:"Detroit Free Press"},{handle:"JaredGoff",label:"Jared Goff",emoji:"🌟",desc:"QB"},{handle:"ArStBr",label:"Amon-Ra St. Brown",emoji:"🎯",desc:"WR"}],
     Packers:[{handle:"packers",label:"Green Bay Packers",emoji:"🧀"},{handle:"RobDemovsky",label:"Rob Demovsky",emoji:"📰",desc:"ESPN Packers beat"},{handle:"mattschneidman",label:"Matt Schneidman",emoji:"📋",desc:"The Athletic"},{handle:"jordan3love",label:"Jordan Love",emoji:"🌟",desc:"QB"}],
-    Vikings:[{handle:"Vikings",label:"Minnesota Vikings",emoji:"⛵"},{handle:"KevinSeifert",label:"Kevin Seifert",emoji:"📰",desc:"ESPN Vikings beat"},{handle:"ArifHasanNFL",label:"Arif Hasan",emoji:"📋",desc:"Vikings analyst"},{handle:"JJettas2",label:"Justin Jefferson",emoji:"🌟",desc:"WR -- Best in NFL"}],
+    Vikings:[{handle:"Vikings",label:"Minnesota Vikings",emoji:"⛵"},{handle:"KevinSeifert",label:"Kevin Seifert",emoji:"📰",desc:"ESPN Vikings beat"},{handle:"ArifHasanNFL",label:"Arif Hasan",emoji:"📋",desc:"Vikings analyst"},{handle:"JJettas2",label:"Justin Jefferson",emoji:"🌟",desc:"WR — Best in NFL"}],
     Falcons:[{handle:"AtlantaFalcons",label:"Atlanta Falcons",emoji:"🦅"},{handle:"marcraimondi",label:"Marc Raimondi",emoji:"📰",desc:"ESPN Falcons beat"},{handle:"ZachKleinWSB",label:"Zach Klein",emoji:"📋",desc:"WSB"},{handle:"DrakeJLondon",label:"Drake London",emoji:"🎯",desc:"WR"}],
     Panthers:[{handle:"Panthers",label:"Carolina Panthers",emoji:"🐈‍⬛"},{handle:"DNewtonespn",label:"David Newton",emoji:"📰",desc:"ESPN Panthers beat"},{handle:"josephperson",label:"Joe Person",emoji:"📋",desc:"The Athletic"},{handle:"BryceYoung",label:"Bryce Young",emoji:"🌟",desc:"QB"}],
     Saints:[{handle:"Saints",label:"New Orleans Saints",emoji:"⚜️"},{handle:"Kat_Terrell",label:"Katherine Terrell",emoji:"📰",desc:"ESPN Saints beat"},{handle:"MikeTriplett",label:"Mike Triplett",emoji:"📋",desc:"NewOrleans.football"},{handle:"A_kamara6",label:"Alvin Kamara",emoji:"🏃",desc:"RB"}],
@@ -47,11 +47,11 @@ const TWITTER_ACCOUNTS={
     Cowboys:[{handle:"dallascowboys",label:"Dallas Cowboys",emoji:"⭐"},{handle:"toddarcher",label:"Todd Archer",emoji:"📰",desc:"ESPN Cowboys beat"},{handle:"TimCowlishaw",label:"Tim Cowlishaw",emoji:"📋",desc:"Dallas Morning News"},{handle:"CeeDee",label:"CeeDee Lamb",emoji:"🎯",desc:"WR"}],
     Giants:[{handle:"Giants",label:"New York Giants",emoji:"🗽"},{handle:"JordanRaanan",label:"Jordan Raanan",emoji:"📰",desc:"ESPN Giants beat"},{handle:"DDuggan21",label:"Dan Duggan",emoji:"📋",desc:"The Athletic"},{handle:"MalikNabers",label:"Malik Nabers",emoji:"🎯",desc:"WR"}],
     Eagles:[{handle:"Eagles",label:"Philadelphia Eagles",emoji:"🦅"},{handle:"TimMcManus",label:"Tim McManus",emoji:"📰",desc:"ESPN Eagles beat"},{handle:"ZBerm",label:"Zach Berman",emoji:"📋",desc:"PHLY"},{handle:"Jeff_McLane",label:"Jeff McLane",emoji:"📋",desc:"Philly Inquirer"},{handle:"JalenHurts",label:"Jalen Hurts",emoji:"🌟",desc:"QB"},{handle:"AJBrown",label:"A.J. Brown",emoji:"🎯",desc:"WR"}],
-    Commanders:[{handle:"Commanders",label:"Washington Commanders",emoji:"🎖️"},{handle:"john_keim",label:"John Keim",emoji:"📰",desc:"ESPN Commanders beat"},{handle:"BenStandig",label:"Ben Standig",emoji:"📋",desc:"The Athletic"},{handle:"JaydenDaniels",label:"Jayden Daniels",emoji:"🌟",desc:"QB -- OROY"},{handle:"TerryMcLaurin",label:"Terry McLaurin",emoji:"🎯",desc:"WR"}],
+    Commanders:[{handle:"Commanders",label:"Washington Commanders",emoji:"🎖️"},{handle:"john_keim",label:"John Keim",emoji:"📰",desc:"ESPN Commanders beat"},{handle:"BenStandig",label:"Ben Standig",emoji:"📋",desc:"The Athletic"},{handle:"JaydenDaniels",label:"Jayden Daniels",emoji:"🌟",desc:"QB — OROY"},{handle:"TerryMcLaurin",label:"Terry McLaurin",emoji:"🎯",desc:"WR"}],
     Cardinals:[{handle:"AZCardinals",label:"Arizona Cardinals",emoji:"🐦"},{handle:"BoBrack",label:"Bo Brack",emoji:"📰",desc:"PHNX Sports"},{handle:"JohnnyVenerable",label:"Johnny Venerable",emoji:"📋",desc:"PHNX Sports"},{handle:"K1",label:"Kyler Murray",emoji:"🌟",desc:"QB"}],
     Rams:[{handle:"RamsNFL",label:"Los Angeles Rams",emoji:"🐏"},{handle:"JourdanRodrigue",label:"Jourdan Rodrigue",emoji:"📰",desc:"The Athletic"},{handle:"LATimesklein",label:"Gary Klein",emoji:"📋",desc:"LA Times"},{handle:"CooperKupp",label:"Cooper Kupp",emoji:"🎯",desc:"WR"}],
     "49ers":[{handle:"49ers",label:"San Francisco 49ers",emoji:"⛏️"},{handle:"NickWagoner",label:"Nick Wagoner",emoji:"📰",desc:"ESPN 49ers beat"},{handle:"VicTafur",label:"Vic Tafur",emoji:"📋",desc:"The Athletic"},{handle:"LombardiHimself",label:"David Lombardi",emoji:"📋",desc:"The Athletic"},{handle:"CMC_22",label:"Christian McCaffrey",emoji:"🏃",desc:"RB"},{handle:"Kittle",label:"George Kittle",emoji:"🎯",desc:"TE"}],
-    Seahawks:[{handle:"Seahawks",label:"Seattle Seahawks",emoji:"🦅"},{handle:"BradyHenderson",label:"Brady Henderson",emoji:"📰",desc:"ESPN Seahawks beat"},{handle:"bcondotta",label:"Bob Condotta",emoji:"📋",desc:"Seattle Times"},{handle:"gbellseattle",label:"Gregg Bell",emoji:"📋",desc:"Tacoma News Tribune"},{handle:"SamDarnold",label:"Sam Darnold",emoji:"🌟",desc:"QB -- SB LX champ"},{handle:"JSN_11",label:"Jaxon Smith-Njigba",emoji:"🎯",desc:"WR"}],
+    Seahawks:[{handle:"Seahawks",label:"Seattle Seahawks",emoji:"🦅"},{handle:"BradyHenderson",label:"Brady Henderson",emoji:"📰",desc:"ESPN Seahawks beat"},{handle:"bcondotta",label:"Bob Condotta",emoji:"📋",desc:"Seattle Times"},{handle:"gbellseattle",label:"Gregg Bell",emoji:"📋",desc:"Tacoma News Tribune"},{handle:"SamDarnold",label:"Sam Darnold",emoji:"🌟",desc:"QB — SB LX champ"},{handle:"JSN_11",label:"Jaxon Smith-Njigba",emoji:"🎯",desc:"WR"}],
   },
 };
 
@@ -61,7 +61,7 @@ function TwitterFeed({accounts,ac}){
     {accounts.map(a=>(<a key={a.handle} href={`https://x.com/${a.handle}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none",color:"inherit"}}><div style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:16,display:"flex",alignItems:"center",gap:12,cursor:"pointer"}}>
       <div style={{width:44,height:44,borderRadius:"50%",background:`${ac}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>{a.emoji||"🏈"}</div>
       <div style={{flex:1,minWidth:0}}><div style={{fontSize:14,fontWeight:700,color:"#fff"}}>{a.label}</div><div style={{fontSize:12,color:"#1DA1F2",fontWeight:500}}>@{a.handle}</div>{a.desc&&<div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>{a.desc}</div>}</div>
-      <span style={{background:"#1DA1F222",color:"#1DA1F2",padding:"4px 10px",borderRadius:6,fontWeight:600,fontSize:11,flexShrink:0}}>View X</span>
+      <span style={{background:"#1DA1F222",color:"#1DA1F2",padding:"4px 10px",borderRadius:6,fontWeight:600,fontSize:11,flexShrink:0}}>View 𝕏</span>
     </div></a>))}
   </div>);
 }
@@ -119,7 +119,7 @@ function TopStories({articles,ac,newsContext={}}){
           <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8,flexWrap:"wrap"}}><span style={{fontSize:10,padding:"3px 8px",borderRadius:6,background:`${ac}22`,color:ac,fontWeight:700}}>🔥 Top Story</span><SourceBadge source={main.source}/><span style={{fontSize:10,color:"#ffffff44"}}>{ago(main.published)}</span></div>
           <h3 style={{fontSize:17,fontWeight:800,color:"#fff",lineHeight:1.3,marginBottom:6}}>{main.headline}</h3>
           <p style={{fontSize:12,color:"#ffffff66",lineHeight:1.5,margin:0}}>{main.description?.slice(0,140)}{main.description?.length>140?"...":""}</p>
-          <div style={{fontSize:11,color:ac,marginTop:10,fontWeight:600}}>Read full story -&gt;</div>
+          <div style={{fontSize:11,color:ac,marginTop:10,fontWeight:600}}>Read full story →</div>
         </div>
       </div></a>
       {rest.length>0&&<div style={{display:"flex",flexDirection:"column",gap:8}}>
@@ -132,7 +132,7 @@ function TopStories({articles,ac,newsContext={}}){
   </div>);
 }
 
-// ===== REAL BET DATA -- Hard Rock Bet (1,218 bets | Jan 2024 - Feb 2026) =====
+// ===== REAL BET DATA — Hard Rock Bet (1,218 bets | Jan 2024 – Feb 2026) =====
 const ALL_BETS=[
   {id:1,date:"2026-02-22",status:"Lost",league:"Men",match:"Canada vs United States",type:"Total Goals",market:"Over 5.5",price:2.2,wager:100,winnings:0,payout:0},
   {id:2,date:"2026-02-08",status:"Won",league:"NFL",match:"Patriots vs Seahawks",type:"Drake Maye - Pass Completions",market:"Over 20.5",price:2.0,wager:2000,winnings:2000,payout:4000},
@@ -1354,35 +1354,15 @@ const ALL_BETS=[
   {id:1218,date:"2024-01-13",status:"Won",league:"NFL",match:"NFL 23/24",type:"Super Bowl 58 - Winner",market:"Kansas City Chiefs",price:10.0,wager:100,winnings:900,payout:1000}
 ];
 
-// NFL season date ranges -- regular season start to Super Bowl
-const NFL_SEASONS = [
-  {label:"2024-25 Season",from:"2024-09-05",to:"2025-02-09"},
-  {label:"2023-24 Season",from:"2023-09-07",to:"2024-02-11"},
-  {label:"2022-23 Season",from:"2022-09-08",to:"2023-02-12"},
-];
-// Playoffs only windows within each season
-const NFL_PLAYOFFS = [
-  {label:"2024-25 Playoffs",from:"2025-01-11",to:"2025-02-09"},
-  {label:"2023-24 Playoffs",from:"2024-01-13",to:"2024-02-11"},
-];
-
 const LEAGUE_LABELS={"NFL":"🏈 NFL","NCAA":"🏫 NCAA","NBA":"🏀 NBA","NHL":"🏒 NHL","MLB":"⚾ MLB","Formula 1":"🏎️ F1","Golf":"⛳ Golf","Copa America":"⚽ Copa","4 Nations Face-Off":"🏒 4 Nations","Boosts":"⚡ Boosts","Other":"🎯 Other","Men":"⚽ Soccer"};
 const LEAGUE_COLORS={"NFL":"#e94560","NCAA":"#7c3aed","NBA":"#f97316","NHL":"#0ea5e9","MLB":"#ef4444","Formula 1":"#dc2626","Golf":"#16a34a","Copa America":"#22c55e","4 Nations Face-Off":"#38bdf8","Boosts":"#fbbf24","Other":"#6b7280","Men":"#22c55e"};
 
-// Premium access credentials -- add friends here
+// Premium access credentials — add friends here
 const PREMIUM_USERS = {
   "craig":    "gridlock24",
   "friend1":  "letmein99",
   "friend2":  "allsports1",
 };
-
-// Five Pick Fridays paying subscribers -- add emails after payment confirmed
-// Replace with Stripe webhook + DB lookup when ready to go live
-const FPF_SUBSCRIBERS = [
-  "craig@gridlock.com",       // placeholder -- replace with real emails
-  "subscriber1@example.com",
-  "subscriber2@example.com",
-];
 
 const WEEKLY_VIDEOS=[
   {id:"v1",title:"Week 17 Picks + TNF Recap",date:"Fri, Dec 27",duration:"4:32",views:"2.4K",description:"Breaking down TNF plus my top 5 picks for the weekend slate.",picks:[{pick:"Seahawks -4",result:"win"},{pick:"Broncos -7",result:"win"},{pick:"Bears -3",result:"win"},{pick:"Bills -3",result:"win"},{pick:"Patriots ML",result:"loss"}]},
@@ -1392,8 +1372,6 @@ const WEEKLY_VIDEOS=[
 const seasonRecord=WEEKLY_VIDEOS.reduce((a,v)=>{v.picks.forEach(p=>{if(p.result==="win")a.w++;else if(p.result==="loss")a.l++;else a.p++;});return a;},{w:0,l:0,p:0});
 
 // ===== MAIN APP =====
-
-
 export default function Home(){
   const [selectedTeam,setSelectedTeam]=useState(null);
   const [showPicker,setShowPicker]=useState(false);
@@ -1412,11 +1390,6 @@ export default function Home(){
   const [premiumPass,setPremiumPass]=useState("");
   const [premiumError,setPremiumError]=useState("");
   const [showPremiumLogin,setShowPremiumLogin]=useState(false);
-  // Five Pick Fridays subscriber access
-  const [fpfEmail,setFpfEmail]=useState("");
-  const [fpfAuthed,setFpfAuthed]=useState(false);
-  const [fpfError,setFpfError]=useState("");
-  const [fpfShowLogin,setFpfShowLogin]=useState(false);
   const kalshi=useKalshi();
   // Derive news query context from current filter
   const newsTeam=useMemo(()=>{
@@ -1555,21 +1528,21 @@ export default function Home(){
   const pill=(label,active,onClick,color)=>(<button onClick={onClick} style={{background:active?`${color||ac}33`:"#ffffff08",border:`1px solid ${active?color||ac:"#ffffff15"}`,color:active?"#fff":"#ffffff77",padding:"5px 12px",borderRadius:16,cursor:"pointer",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>{label}</button>);
 
   return(<>
-    <Head><title>GRIDLOCK -- NFL Bets, News & Social Feed</title><meta name="description" content="Your NFL command center."/><meta name="viewport" content="width=device-width, initial-scale=1"/></Head>
+    <Head><title>GRIDLOCK — NFL Bets, News & Social Feed</title><meta name="description" content="Your NFL command center."/><meta name="viewport" content="width=device-width, initial-scale=1"/></Head>
     <div style={{minHeight:"100vh",background:"#0a0a0f",color:"#e0e0e0",fontFamily:"'Inter',-apple-system,sans-serif"}}>
       {/* HEADER */}
       <div style={{background:`linear-gradient(135deg,${pc}ee,${pc}99,#0a0a0f)`,borderBottom:`2px solid ${ac}44`,position:"sticky",top:0,zIndex:100,backdropFilter:"blur(20px)"}}>
         <div style={{maxWidth:1200,margin:"0 auto",padding:"14px 24px"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
-            <div style={{display:"flex",alignItems:"center",gap:12}}><div style={{fontSize:28,fontWeight:900,letterSpacing:"-1px",background:`linear-gradient(135deg,#fff,${ac})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>GRIDLOCK</div><div style={{fontSize:10,color:"#ffffff66",letterSpacing:"2px",textTransform:"uppercase"}}>NFL - Bets - Feed</div></div>
+            <div style={{display:"flex",alignItems:"center",gap:12}}><div style={{fontSize:28,fontWeight:900,letterSpacing:"-1px",background:`linear-gradient(135deg,#fff,${ac})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>GRIDLOCK</div><div style={{fontSize:10,color:"#ffffff66",letterSpacing:"2px",textTransform:"uppercase"}}>NFL • Bets • Feed</div></div>
             <div style={{display:"flex",gap:8,alignItems:"center"}}>
-              <a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{background:"#ffffff10",border:"1px solid #ffffff22",color:"#fff",padding:"8px 12px",borderRadius:8,fontSize:13,fontWeight:600,textDecoration:"none",display:"flex",alignItems:"center",gap:5}}><span style={{fontSize:11,color:"#1DA1F2"}}>X</span> @cnaylor_</a>
+              <a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{background:"#ffffff10",border:"1px solid #ffffff22",color:"#fff",padding:"8px 12px",borderRadius:8,fontSize:13,fontWeight:600,textDecoration:"none",display:"flex",alignItems:"center",gap:5}}><span style={{fontSize:11,color:"#1DA1F2"}}>𝕏</span> @cnaylor_</a>
               <button onClick={()=>setShowPicker(!showPicker)} style={{background:selectedTeam?`${ac}33`:"#ffffff15",border:`1px solid ${selectedTeam?ac:"#ffffff33"}`,color:"#fff",padding:"8px 16px",borderRadius:8,cursor:"pointer",fontSize:13,fontWeight:600}}>{selectedTeam?`${team?.city} ${selectedTeam}`:"🏈 Select Your Team"}</button>
               {selectedTeam&&<button onClick={()=>{setSelectedTeam(null);setFeedFilter("league");}} style={{background:"#e9456033",border:"1px solid #e9456066",color:"#e94560",padding:"8px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700}}>✕ Reset Team</button>}
             </div>
           </div>
           <div style={{display:"flex",gap:4,marginTop:12,overflowX:"auto"}}>
-            {[{k:"feed",l:"📱 Social Feed"},{k:"kalshi",l:<span>📊 NFL Prediction Markets <span style={{fontSize:9,opacity:0.6,fontWeight:400}}>Powered by Kalshi</span></span>},{k:"bets",l:"💰 Craig's List"},{k:"premium",l:<span>🔒 All Sports <span style={{fontSize:9,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800}}>PREMIUM</span></span>},{k:"video",l:"🎬 Five Pick Fridays 🔒"}].map(s=>(
+            {[{k:"feed",l:"📱 Social Feed"},{k:"kalshi",l:<span>📊 NFL Prediction Markets <span style={{fontSize:9,opacity:0.6,fontWeight:400}}>Powered by Kalshi</span></span>},{k:"bets",l:"💰 Craig's List"},{k:"premium",l:<span>🔒 All Sports <span style={{fontSize:9,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800}}>PREMIUM</span></span>},{k:"video",l:"🎬 Five Pick Fridays"}].map(s=>(
               <button key={s.k} onClick={()=>setActiveSection(s.k)} style={{background:activeSection===s.k?`${ac}33`:"transparent",border:"none",color:activeSection===s.k?"#fff":"#ffffff66",padding:"8px 16px",borderRadius:"8px 8px 0 0",cursor:"pointer",fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1px",borderBottom:activeSection===s.k?`2px solid ${ac}`:"2px solid transparent",whiteSpace:"nowrap"}}>{s.l}</button>
             ))}
           </div>
@@ -1594,7 +1567,7 @@ export default function Home(){
 
         {/* ── SOCIAL FEED ── */}
         {activeSection==="feed"&&(<div>
-          <div style={{marginBottom:20}}><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>📱 Live NFL Feed</h2><div style={{fontSize:13,color:"#ffffff55",marginTop:4}}>Curated NFL accounts -- click to view on X</div></div>
+          <div style={{marginBottom:20}}><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>📱 Live NFL Feed</h2><div style={{fontSize:13,color:"#ffffff55",marginTop:4}}>Curated NFL accounts — click to view on X</div></div>
           <div style={{display:"flex",gap:6,marginBottom:20,flexWrap:"wrap",alignItems:"center"}}><span style={{fontSize:11,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginRight:4}}>Filter:</span>
             {filterOptions.map(f=>(<button key={f.key} onClick={()=>setFeedFilter(f.key)} style={{background:feedFilter===f.key?`${ac}33`:"#ffffff08",border:`1px solid ${feedFilter===f.key?ac:"#ffffff15"}`,color:feedFilter===f.key?"#fff":"#ffffff77",padding:"5px 12px",borderRadius:20,cursor:"pointer",fontSize:11,fontWeight:600}}>{f.label}</button>))}
           </div>
@@ -1602,25 +1575,25 @@ export default function Home(){
           {news.loading&&<div style={{textAlign:"center",padding:20,color:"#ffffff44",fontSize:13}}>Loading {newsTeam?`${newsTeam} `:newsContext.type!=="league"?`${newsContext.value} `:"NFL "} stories...</div>}
           
           <TwitterFeed accounts={feedAccounts} ac={ac}/>
-          <div style={{background:"#ffffff06",border:"1px solid #ffffff10",borderRadius:10,padding:16,marginTop:20,textAlign:"center"}}><div style={{fontSize:12,color:"#ffffff44"}}>Click any card to view their latest posts on X</div><div style={{fontSize:11,color:"#ffffff33",marginTop:6}}>💡 Live embedded tweets coming soon -- once this site generates revenue, we&#39;ll upgrade to the X API for real-time feeds directly on this page.</div></div>
+          <div style={{background:"#ffffff06",border:"1px solid #ffffff10",borderRadius:10,padding:16,marginTop:20,textAlign:"center"}}><div style={{fontSize:12,color:"#ffffff44"}}>Click any card to view their latest posts on X</div><div style={{fontSize:11,color:"#ffffff33",marginTop:6}}>💡 Live embedded tweets coming soon — once this site generates revenue, we&#39;ll upgrade to the X API for real-time feeds directly on this page.</div></div>
         </div>)}
 
         {/* ── KALSHI ── */}
         {activeSection==="kalshi"&&(<div>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20,flexWrap:"wrap",gap:12}}>
-            <div><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>📊 NFL Prediction Markets</h2><div style={{fontSize:13,color:"#ffffff55",marginTop:4}}>Live odds from Kalshi -- click any option to trade</div></div>
+            <div><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>📊 NFL Prediction Markets</h2><div style={{fontSize:13,color:"#ffffff55",marginTop:4}}>Live odds from Kalshi — click any option to trade</div></div>
             <div style={{display:"flex",alignItems:"center",gap:10}}>{kalshi.lastFetch&&<span style={{fontSize:11,color:"#ffffff33"}}>Updated {kalshi.lastFetch.toLocaleTimeString()}</span>}<button onClick={kalshi.refresh} disabled={kalshi.loading} style={{background:"#ffffff10",border:"1px solid #ffffff22",color:"#fff",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600,opacity:kalshi.loading?0.5:1}}>{kalshi.loading?"Loading...":"🔄 Refresh"}</button></div>
           </div>
           {kalshi.error&&<div style={{background:"#f8717115",border:"1px solid #f8717133",borderRadius:10,padding:14,marginBottom:16}}><div style={{fontSize:13,color:"#f87171",fontWeight:600}}>Could not fetch Kalshi data</div><div style={{fontSize:12,color:"#ffffff55",marginTop:4}}>Error: {kalshi.error}</div></div>}
           {kalshi.loading&&!kalshi.events.length&&<div style={{textAlign:"center",padding:40}}><div style={{fontSize:28,marginBottom:8}}>📊</div><div style={{fontSize:14,color:"#ffffff55"}}>Fetching live markets...</div></div>}
-          {sbEvent&&(<div style={{marginBottom:28}}><div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}><span style={{fontSize:20}}>🏆</span><div><h3 style={{fontSize:18,fontWeight:800,color:"#fff",margin:0}}>2027 Champion -- Super Bowl LXI</h3><div style={{fontSize:12,color:"#ffffff55"}}>Live futures odds from Kalshi</div></div></div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(170px,1fr))",gap:8}}>{sbEvent.markets.map(m=>{const price=m.last_price||m.yes_bid||0;const label=(m.yes_sub_title||m.title||m.subtitle||"").replace(/^Will |win.*$/gi,"").trim();return(<a key={m.ticker} href={`https://kalshi.com/markets/${(sbEvent.series_ticker||"kxsb").toLowerCase()}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}><div style={{background:price>=15?"#12121c":"#0d0d14",border:`1px solid ${price>=15?"#ffffff15":"#ffffff08"}`,borderRadius:10,padding:"12px 14px",position:"relative",overflow:"hidden"}}>{price>=15&&<div style={{position:"absolute",top:0,left:0,width:`${price}%`,height:"100%",background:`linear-gradient(90deg,${ac}08,${ac}03)`,borderRadius:10}}/>}<div style={{position:"relative",zIndex:1}}><div style={{fontSize:13,fontWeight:700,color:"#fff",marginBottom:6,lineHeight:1.3}}>{label}</div><div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}><div style={{fontSize:20,fontWeight:900,color:price>=15?"#4ade80":price>=5?"#fbbf24":"#ffffff55"}}>{price}{"c"}</div><div style={{fontSize:10,color:"#ffffff33"}}>Vol {fmtVol(m.volume||0)}</div></div></div></div></a>);})}</div>
+          {sbEvent&&(<div style={{marginBottom:28}}><div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}><span style={{fontSize:20}}>🏆</span><div><h3 style={{fontSize:18,fontWeight:800,color:"#fff",margin:0}}>2027 Champion — Super Bowl LXI</h3><div style={{fontSize:12,color:"#ffffff55"}}>Live futures odds from Kalshi</div></div></div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(170px,1fr))",gap:8}}>{sbEvent.markets.map(m=>{const price=m.last_price||m.yes_bid||0;const label=(m.yes_sub_title||m.title||m.subtitle||"").replace(/^Will |win.*$/gi,"").trim();return(<a key={m.ticker} href={`https://kalshi.com/markets/${(sbEvent.series_ticker||"kxsb").toLowerCase()}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}><div style={{background:price>=15?"#12121c":"#0d0d14",border:`1px solid ${price>=15?"#ffffff15":"#ffffff08"}`,borderRadius:10,padding:"12px 14px",position:"relative",overflow:"hidden"}}>{price>=15&&<div style={{position:"absolute",top:0,left:0,width:`${price}%`,height:"100%",background:`linear-gradient(90deg,${ac}08,${ac}03)`,borderRadius:10}}/>}<div style={{position:"relative",zIndex:1}}><div style={{fontSize:13,fontWeight:700,color:"#fff",marginBottom:6,lineHeight:1.3}}>{label}</div><div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}><div style={{fontSize:20,fontWeight:900,color:price>=15?"#4ade80":price>=5?"#fbbf24":"#ffffff55"}}>{price}¢</div><div style={{fontSize:10,color:"#ffffff33"}}>Vol {fmtVol(m.volume||0)}</div></div></div></div></a>);})}</div>
           </div>)}
           {otherEvents.length>0&&(<div><div style={{fontSize:12,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:14}}>More NFL Markets</div><div style={{display:"flex",flexDirection:"column",gap:12}}>{otherEvents.map(evt=>(<div key={evt.event_ticker} style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:18}}><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}><div><div style={{fontSize:15,fontWeight:700,color:"#fff"}}>{evt.title}</div>{evt.subtitle&&<div style={{fontSize:12,color:"#ffffff44",marginTop:2}}>{evt.subtitle}</div>}</div><span style={{fontSize:10,padding:"3px 8px",borderRadius:6,background:"#ffffff08",color:"#ffffff44",fontWeight:600,flexShrink:0}}>{evt.markets.length} options</span></div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:6}}>{evt.markets.slice(0,12).map(m=>{const price=m.last_price||m.yes_bid||0;const label=m.yes_sub_title||m.title||m.subtitle||"Yes";return(<a key={m.ticker} href={`https://kalshi.com/markets/${(evt.series_ticker||evt.event_ticker||"").toLowerCase()}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}><div style={{background:"#1a1a2e",border:"1px solid #ffffff08",borderRadius:8,padding:"10px 12px",display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}><div style={{fontSize:12,fontWeight:600,color:"#ddd",flex:1,minWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{label}</div><div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}><span style={{fontSize:14,fontWeight:800,color:price>=20?"#4ade80":price>=5?"#fbbf24":"#ffffff44"}}>{price}{"c"}</span><div style={{width:32,height:6,borderRadius:3,background:"#ffffff10",overflow:"hidden"}}><div style={{width:`${price}%`,height:"100%",borderRadius:3,background:price>=20?"#4ade80":price>=5?"#fbbf24":"#ffffff33"}}/></div></div></div></a>);})}</div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:6}}>{evt.markets.slice(0,12).map(m=>{const price=m.last_price||m.yes_bid||0;const label=m.yes_sub_title||m.title||m.subtitle||"Yes";return(<a key={m.ticker} href={`https://kalshi.com/markets/${(evt.series_ticker||evt.event_ticker||"").toLowerCase()}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}><div style={{background:"#1a1a2e",border:"1px solid #ffffff08",borderRadius:8,padding:"10px 12px",display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}><div style={{fontSize:12,fontWeight:600,color:"#ddd",flex:1,minWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{label}</div><div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}><span style={{fontSize:14,fontWeight:800,color:price>=20?"#4ade80":price>=5?"#fbbf24":"#ffffff44"}}>{price}¢</span><div style={{width:32,height:6,borderRadius:3,background:"#ffffff10",overflow:"hidden"}}><div style={{width:`${price}%`,height:"100%",borderRadius:3,background:price>=20?"#4ade80":price>=5?"#fbbf24":"#ffffff33"}}/></div></div></div></a>);})}</div>
             {evt.markets.length>12&&<div style={{fontSize:11,color:"#ffffff33",textAlign:"center",marginTop:8}}>+{evt.markets.length-12} more on Kalshi</div>}
           </div>))}</div></div>)}
-          <div style={{background:"#ffffff06",border:"1px solid #ffffff10",borderRadius:10,padding:16,marginTop:20,textAlign:"center"}}><div style={{fontSize:12,color:"#ffffff44"}}>Live data from <a href="https://kalshi.com/sports/all-sports" target="_blank" rel="noopener noreferrer" style={{color:"#fff",fontWeight:600,textDecoration:"none"}}>Kalshi</a> - Prices in cents - Click any option to trade</div></div>
+          <div style={{background:"#ffffff06",border:"1px solid #ffffff10",borderRadius:10,padding:16,marginTop:20,textAlign:"center"}}><div style={{fontSize:12,color:"#ffffff44"}}>Live data from <a href="https://kalshi.com/sports/all-sports" target="_blank" rel="noopener noreferrer" style={{color:"#fff",fontWeight:600,textDecoration:"none"}}>Kalshi</a> · Prices in cents · Click any option to trade</div></div>
         </div>)}
 
         {/* ── CRAIG'S LIST ── */}
@@ -1631,35 +1604,22 @@ export default function Home(){
                     </div>
                   <div style={{marginTop:4,display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
                     <span style={{fontSize:13,color:"#ffffff88",fontWeight:500}}>NFL Bets from the big man himself</span>
-                    <span style={{fontSize:11,color:"#ffffff33"}}>----</span>
+                    <span style={{fontSize:11,color:"#ffffff33"}}>——</span>
                     <span style={{display:"flex",alignItems:"center",gap:4,background:"#c8102e15",border:"1px solid #c8102e44",borderRadius:6,padding:"2px 8px"}}>
                       <span style={{fontSize:10,color:"#c8102e",fontWeight:800,letterSpacing:"1px",textTransform:"uppercase"}}>via Hard Rock Bet</span>
                     </span>
-                    <a href="#" onClick={e=>{e.preventDefault();setActiveSection("premium");}} style={{color:"#fbbf24",fontWeight:600,textDecoration:"none",fontSize:11}}>See all sports -&gt;</a>
+                    <a href="#" onClick={e=>{e.preventDefault();setActiveSection("premium");}} style={{color:"#fbbf24",fontWeight:600,textDecoration:"none",fontSize:11}}>See all sports →</a>
                   </div>
-                  <a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600,marginTop:2,display:"inline-block"}}>X @cnaylor_</a></div>
+                  <a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600,marginTop:2,display:"inline-block"}}>𝕏 @cnaylor_</a></div>
             <div style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:8}}><CraigAvatar size={44}/><div style={{width:8,height:8,borderRadius:"50%",background:"#4ade80",boxShadow:"0 0 8px #4ade8066"}}/><span style={{fontSize:11,color:"#4ade80",fontWeight:600}}>LIVE</span></div>
           </div>
 
-          {/* Stats cards -- based on filtered set */}
-          {/* Date context banner */}
-          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:8,marginBottom:12}}>
-            <div style={{display:"flex",alignItems:"center",gap:8}}>
-              <span style={{fontSize:11,color:"#ffffff33",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase"}}>Showing</span>
-              <span style={{background:"#ffffff0a",border:"1px solid #ffffff15",borderRadius:6,padding:"3px 10px",fontSize:12,color:"#ffffff88",fontWeight:600}}>
-                {betDateFrom||betDateTo
-                  ?`${betDateFrom||"Jan 2024"} to ${betDateTo||"Today"}`
-                  :"All Time - Jan 2024 - Present"}
-              </span>
-              {!betDateFrom&&!betDateTo&&<span style={{fontSize:11,color:"#ffffff33",fontStyle:"italic"}}>Use season filter below to narrow</span>}
-            </div>
-            <span style={{fontSize:11,color:"#ffffff33"}}>{filteredBets.length} bets - {betResultFilter!=="all"?betResultFilter:"all results"}</span>
-          </div>
+          {/* Stats cards — based on filtered set */}
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(130px,1fr))",gap:10,marginBottom:20}}>
             {[
-              {l:"Record",v:`${stats.wins}-${stats.losses}`,s:`${filteredBets.length} bets`},
-              {l:"Win Rate",v:`${(stats.winRate*100).toFixed(1)}%`,s:betDateFrom||betDateTo?"filtered period":"all time",c:stats.winRate>=0.5?"#4ade80":"#f87171"},
-              {l:"Net Profit",v:`${stats.netProfit>=0?"+":""}$${stats.netProfit.toLocaleString()}`,s:betDateFrom||betDateTo?"filtered period":"all time",c:stats.netProfit>=0?"#4ade80":"#f87171"},
+              {l:"Record",v:`${stats.wins}-${stats.losses}`,s:`${filteredBets.length} bets shown`},
+              {l:"Win Rate",v:`${(stats.winRate*100).toFixed(1)}%`,s:"filtered results",c:stats.winRate>=0.5?"#4ade80":"#f87171"},
+              {l:"Net Profit",v:`${stats.netProfit>=0?"+":""}$${stats.netProfit.toLocaleString()}`,s:"winnings - losses",c:stats.netProfit>=0?"#4ade80":"#f87171"},
               {l:"Total Wagered",v:`$${stats.totalWagered.toLocaleString()}`,s:"filtered bets"},
               {l:"Avg Stake",v:`$${Math.round(stats.avgStake).toLocaleString()}`,s:"per bet"},
             ].map((s,i)=>(<div key={i} style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:14,textAlign:"center"}}><div style={{fontSize:10,color:"#ffffff55",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:3}}>{s.l}</div><div style={{fontSize:20,fontWeight:800,color:s.c||"#fff"}}>{s.v}</div><div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>{s.s}</div></div>))}
@@ -1682,28 +1642,12 @@ export default function Home(){
 
             {/* Row 2: Date range + search */}
             <div style={{display:"flex",gap:12,flexWrap:"wrap",alignItems:"flex-end"}}>
-              {/* NFL Season quick-select */}
-              <div style={{flex:"1 1 100%"}}>
-                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>NFL SEASON</div>
-                <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
-                  <button onClick={()=>{setBetDateFrom("");setBetDateTo("");}} style={{background:!betDateFrom&&!betDateTo?"#e9456033":"#ffffff08",border:`1px solid ${!betDateFrom&&!betDateTo?"#e94560":"#ffffff15"}`,color:!betDateFrom&&!betDateTo?"#fff":"#ffffff66",padding:"5px 12px",borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:700}}>All Time</button>
-                  {NFL_SEASONS.map(s=>{
-                    const active=betDateFrom===s.from&&betDateTo===s.to;
-                    return(<button key={s.label} onClick={()=>{setBetDateFrom(s.from);setBetDateTo(s.to);}} style={{background:active?`${ac}33`:"#ffffff08",border:`1px solid ${active?ac:"#ffffff15"}`,color:active?"#fff":"#ffffff66",padding:"5px 12px",borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>{s.label}</button>);
-                  })}
-                  {NFL_PLAYOFFS.map(s=>{
-                    const active=betDateFrom===s.from&&betDateTo===s.to;
-                    return(<button key={s.label} onClick={()=>{setBetDateFrom(s.from);setBetDateTo(s.to);}} style={{background:active?"#fbbf2433":"#ffffff08",border:`1px solid ${active?"#fbbf24":"#ffffff15"}`,color:active?"#fbbf24":"#ffffff66",padding:"5px 12px",borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>🏆 {s.label}</button>);
-                  })}
-                </div>
-              </div>
-              {/* Custom date range */}
               <div>
-                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>CUSTOM FROM</div>
+                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>FROM DATE</div>
                 <input type="date" value={betDateFrom} onChange={e=>setBetDateFrom(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
               </div>
               <div>
-                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>CUSTOM TO</div>
+                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>TO DATE</div>
                 <input type="date" value={betDateTo} onChange={e=>setBetDateTo(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
               </div>
               <div style={{flex:1,minWidth:160}}>
@@ -1711,20 +1655,17 @@ export default function Home(){
                 <input placeholder="Search match or market..." value={betSearch} onChange={e=>setBetSearch(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 12px",fontSize:12,outline:"none",width:"100%"}}/>
               </div>
               <button onClick={()=>setShowFreeBets(!showFreeBets)} style={{background:showFreeBets?"#fbbf2422":"#ffffff08",border:`1px solid ${showFreeBets?"#fbbf24":"#ffffff15"}`,color:showFreeBets?"#fbbf24":"#ffffff55",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600,whiteSpace:"nowrap"}}>{showFreeBets?"🎁 Hiding Free Bets: OFF":"🎁 Hide Free Bets"}</button>
-              {(betResultFilter!=="all"||betDateFrom||betDateTo||betSearch)&&(
-                <button onClick={()=>{setBetResultFilter("all");setBetDateFrom("");setBetDateTo("");setBetSearch("");}} style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>✕ Clear</button>
+              {(betResultFilter!=="all"||betLeagueFilter!=="all"||betDateFrom||betDateTo||betSearch)&&(
+                <button onClick={()=>{setBetResultFilter("all");setBetLeagueFilter("all");setBetDateFrom("");setBetDateTo("");setBetSearch("");}} style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>✕ Clear</button>
               )}
             </div>
 
             {/* Result summary */}
-            <div style={{marginTop:10,fontSize:11,color:"#ffffff44",lineHeight:1.6}}>
-              Showing <strong style={{color:"#fff"}}>{filteredBets.length}</strong> NFL bets
-              {" - "}
-              {betDateFrom||betDateTo
-                ?<span style={{color:"#fbbf24",fontWeight:600}}>{betDateFrom||"Jan 2024"} to {betDateTo||"Today"}</span>
-                :<span style={{color:"#ffffff66"}}>All Time - Jan 2024 - Present</span>
-              }
-              {betResultFilter!=="all"&&<span> - <span style={{color:betResultFilter==="won"?"#4ade80":"#f87171",fontWeight:600}}>{betResultFilter==="won"?"Wins only":"Losses only"}</span></span>}
+            <div style={{marginTop:10,fontSize:11,color:"#ffffff44"}}>
+              Showing <strong style={{color:"#fff"}}>{filteredBets.length}</strong> of {ALL_BETS.length} bets
+              {betLeagueFilter!=="all"&&<span> · <span style={{color:LEAGUE_COLORS[betLeagueFilter]||ac}}>{LEAGUE_LABELS[betLeagueFilter]||betLeagueFilter}</span></span>}
+              {betDateFrom&&<span> · from {betDateFrom}</span>}
+              {betDateTo&&<span> · to {betDateTo}</span>}
             </div>
           </div>
 
@@ -1794,7 +1735,7 @@ export default function Home(){
                     });
                     return(
                       <div>
-                        <button onClick={()=>setSelectedStatTeam(null)} style={{background:"#ffffff10",border:"1px solid #ffffff20",color:"#fff",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600,marginBottom:16}}>{"<"} All Teams</button>
+                        <button onClick={()=>setSelectedStatTeam(null)} style={{background:"#ffffff10",border:"1px solid #ffffff20",color:"#fff",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600,marginBottom:16}}>← All Teams</button>
                         {/* Team header */}
                         <div style={{background:`linear-gradient(135deg,${color}18,#12121c)`,border:`1px solid ${color}44`,borderRadius:14,padding:20,marginBottom:16}}>
                           <div style={{fontSize:28,fontWeight:900,color:"#fff",marginBottom:4}}>{s.team}</div>
@@ -1822,7 +1763,7 @@ export default function Home(){
                               const tc=twr>=0.55?"#4ade80":twr>=0.45?"#fbbf24":"#f87171";
                               return(
                                 <div key={type} style={{background:"#1a1a2e",border:"1px solid #ffffff08",borderRadius:8,padding:"10px 14px",display:"flex",alignItems:"center",gap:12}}>
-                                  <div style={{flex:1}}><div style={{fontSize:13,fontWeight:700,color:"#fff"}}>{type}</div><div style={{fontSize:11,color:"#ffffff44",marginTop:1}}>{ts.wins}W / {ts.losses}L - {ts.bets} bets</div></div>
+                                  <div style={{flex:1}}><div style={{fontSize:13,fontWeight:700,color:"#fff"}}>{type}</div><div style={{fontSize:11,color:"#ffffff44",marginTop:1}}>{ts.wins}W / {ts.losses}L · {ts.bets} bets</div></div>
                                   <div style={{textAlign:"right"}}><div style={{fontSize:16,fontWeight:800,color:tc}}>{(twr*100).toFixed(0)}%</div><div style={{fontSize:11,color:ts.net>=0?"#4ade80":"#f87171",marginTop:1}}>{ts.net>=0?"+":""}${ts.net.toLocaleString()}</div></div>
                                 </div>
                               );
@@ -1837,11 +1778,11 @@ export default function Home(){
                               <div key={bet.id} style={{background:"#12121c",border:"1px solid #ffffff08",borderRadius:10,padding:"10px 14px",display:"flex",alignItems:"center",gap:10,borderLeft:`3px solid ${bet.status==="Won"?"#4ade80":"#f87171"}`}}>
                                 <div style={{flex:1,minWidth:0}}>
                                   <div style={{fontSize:13,fontWeight:600,color:"#fff"}}>{bet.match}</div>
-                                  <div style={{fontSize:11,color:"#ffffff44"}}>{bet.type} - {bet.market} - {bet.price}x - {bet.date}</div>
+                                  <div style={{fontSize:11,color:"#ffffff44"}}>{bet.type} · {bet.market} · {bet.price}x · {bet.date}</div>
                                 </div>
                                 <div style={{textAlign:"right",flexShrink:0}}>
                                   <div style={{fontSize:14,fontWeight:800,color:bet.status==="Won"?"#4ade80":"#f87171"}}>{bet.status==="Won"?`+$${bet.winnings.toLocaleString()}`:`-$${bet.wager.toLocaleString()}`}</div>
-                                  <div style={{fontSize:10,color:"#ffffff33"}}>{"stake $" + bet.wager.toLocaleString()}</div>
+                                  <div style={{fontSize:10,color:"#ffffff33"}}>stake $${bet.wager.toLocaleString()}</div>
                                 </div>
                               </div>
                             ))}
@@ -1918,17 +1859,17 @@ export default function Home(){
                     <span style={{background:LEAGUE_COLORS[bet.league]+"22",color:LEAGUE_COLORS[bet.league]||"#ffffff44",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>{LEAGUE_LABELS[bet.league]||bet.league}</span>
                     {bet.freeBet&&<span style={{background:"#fbbf2422",color:"#fbbf24",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>🎁 Free Bet</span>}
                     <span>{bet.type}</span>
-                    <span style={{color:"#ffffff33"}}>{" - "}</span>
+                    <span style={{color:"#ffffff33"}}>·</span>
                     <span>{bet.market}</span>
-                    <span style={{color:"#ffffff33"}}>{" - "}</span>
+                    <span style={{color:"#ffffff33"}}>·</span>
                     <span>{bet.price}x</span>
-                    <span style={{color:"#ffffff33"}}>{" - "}</span>
+                    <span style={{color:"#ffffff33"}}>·</span>
                     <span>{bet.date}</span>
                   </div>
                 </div>
                 <div style={{textAlign:"right",flexShrink:0}}>
                   <div style={{fontSize:16,fontWeight:800,color:bet.status==="Won"?"#4ade80":"#f87171"}}>{bet.status==="Won"?`+$${bet.winnings.toLocaleString()}`:`-$${bet.wager.toLocaleString()}`}</div>
-                  <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>{"stake: $" + bet.wager.toLocaleString()}</div>
+                  <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>stake: ${bet.wager.toLocaleString()}</div>
                 </div>
               </div>
             ))}
@@ -1967,7 +1908,7 @@ export default function Home(){
                   onClick={()=>{const ok=PREMIUM_USERS[premiumUser.toLowerCase()]===premiumPass;if(ok){setPremiumAuthed(true);setPremiumError("");}else{setPremiumError("Wrong username or password.");}}}
                   style={{width:"100%",background:"linear-gradient(135deg,#fbbf24,#f59e0b)",border:"none",borderRadius:8,color:"#000",padding:"12px",fontSize:14,fontWeight:800,cursor:"pointer",letterSpacing:"1px"}}
                 >UNLOCK ACCESS</button>
-                <div style={{fontSize:11,color:"#ffffff33",marginTop:16}}>Contact Craig for access - @cnaylor_</div>
+                <div style={{fontSize:11,color:"#ffffff33",marginTop:16}}>Contact Craig for access · @cnaylor_</div>
               </div>
             </div>
           ):(
@@ -1980,7 +1921,7 @@ export default function Home(){
                   <div>
                     <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
                       <span style={{fontSize:10,padding:"3px 10px",borderRadius:20,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",color:"#000",fontWeight:800,letterSpacing:"1px"}}>PREMIUM</span>
-                      <span style={{fontSize:12,color:"#ffffff55"}}>All Sports - Full History</span>
+                      <span style={{fontSize:12,color:"#ffffff55"}}>All Sports · Full History</span>
                     </div>
                     <h2 style={{fontSize:22,fontWeight:900,color:"#fff",margin:"0 0 4px"}}>Craig's Degenerate Portfolio 📉</h2>
                     <p style={{fontSize:13,color:"#ffffff66",margin:0,lineHeight:1.5,fontStyle:"italic"}}>"Every time I bet on something besides the NFL, a financial advisor somewhere sheds a single tear. This page is proof."</p>
@@ -2042,7 +1983,7 @@ export default function Home(){
                 </div>
                 <div style={{marginTop:10,fontSize:11,color:"#ffffff44"}}>
                   Showing <strong style={{color:"#fff"}}>{premFilteredBets.length}</strong> of {ALL_BETS.length} bets
-                  {premBetLeagueFilter!=="all"&&<span> - <span style={{color:LEAGUE_COLORS[premBetLeagueFilter]||ac}}>{LEAGUE_LABELS[premBetLeagueFilter]||premBetLeagueFilter}</span></span>}
+                  {premBetLeagueFilter!=="all"&&<span> · <span style={{color:LEAGUE_COLORS[premBetLeagueFilter]||ac}}>{LEAGUE_LABELS[premBetLeagueFilter]||premBetLeagueFilter}</span></span>}
                 </div>
               </div>
 
@@ -2058,117 +1999,29 @@ export default function Home(){
                         <span style={{background:(LEAGUE_COLORS[bet.league]||"#6b7280")+"22",color:LEAGUE_COLORS[bet.league]||"#ffffff44",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>{LEAGUE_LABELS[bet.league]||bet.league}</span>
                         {bet.freeBet&&<span style={{background:"#fbbf2422",color:"#fbbf24",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>🎁 Free Bet</span>}
                         <span>{bet.type}</span>
-                        <span style={{color:"#ffffff33"}}>{" - "}</span>
+                        <span style={{color:"#ffffff33"}}>·</span>
                         <span>{bet.market}</span>
-                        <span style={{color:"#ffffff33"}}>{" - "}</span>
+                        <span style={{color:"#ffffff33"}}>·</span>
                         <span>{bet.price}x</span>
-                        <span style={{color:"#ffffff33"}}>{" - "}</span>
+                        <span style={{color:"#ffffff33"}}>·</span>
                         <span>{bet.date}</span>
                       </div>
                     </div>
                     <div style={{textAlign:"right",flexShrink:0}}>
                       <div style={{fontSize:16,fontWeight:800,color:bet.status==="Won"?"#4ade80":bet.status==="Lost"?"#f87171":"#fbbf24"}}>{bet.status==="Won"?`+$${bet.winnings.toLocaleString()}`:bet.status==="Lost"?`-$${bet.wager.toLocaleString()}`:"Cashed"}</div>
-                      <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>{"stake: $" + bet.wager.toLocaleString()}</div>
+                      <div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>stake: ${bet.wager.toLocaleString()}</div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
           )}
         </div>)}
 
-
         {/* ── FIVE PICK FRIDAYS ── */}
         {activeSection==="video"&&(<div>
-          {!fpfAuthed?(
-            /* ── FIVE PICK FRIDAYS PAYWALL ── */
-            <div>
-              {/* Hero */}
-              <div style={{position:"relative",background:"linear-gradient(135deg,#0d0d18 0%,#1a0a0a 60%,#0a0d1a 100%)",borderRadius:16,overflow:"hidden",marginBottom:24,padding:"40px 32px",textAlign:"center"}}>
-                <div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle at 20% 50%,#e9456015 0%,transparent 60%),radial-gradient(circle at 80% 50%,#fbbf2410 0%,transparent 60%)",pointerEvents:"none"}}/>
-                <div style={{position:"relative",zIndex:1}}>
-                  <div style={{display:"inline-flex",alignItems:"center",gap:8,background:"linear-gradient(135deg,#fbbf2433,#f59e0b22)",border:"1px solid #fbbf2466",borderRadius:20,padding:"6px 16px",marginBottom:16}}>
-                    <span style={{fontSize:12,color:"#fbbf24",fontWeight:800,letterSpacing:"2px",textTransform:"uppercase"}}>🔒 Members Only</span>
-                  </div>
-                  <div style={{fontSize:48,marginBottom:8}}>🎬</div>
-                  <h1 style={{fontSize:36,fontWeight:900,color:"#fff",margin:"0 0 8px",letterSpacing:"-1px"}}>Five Pick Fridays</h1>
-                  <p style={{fontSize:16,color:"#ffffff77",maxWidth:480,margin:"0 auto 24px",lineHeight:1.6}}>Every Friday during NFL season -- Craig's 5 best bets, Thursday Night recap, and exclusive betting breakdowns. The picks the public doesn't get.</p>
-                  <div style={{display:"flex",justifyContent:"center",gap:12,flexWrap:"wrap",marginBottom:32}}>
-                    {["📊 Weekly win/loss breakdown","🏈 5 best bets every Friday","🎙️ Thursday Night recap","📈 Season-long tracker","🔥 Hot streaks & trends"].map((f,i)=>(
-                      <div key={i} style={{background:"#ffffff0a",border:"1px solid #ffffff15",borderRadius:8,padding:"8px 14px",fontSize:12,color:"#ffffff88",fontWeight:500}}>{f}</div>
-                    ))}
-                  </div>
-                  {/* Pricing card */}
-                  <div style={{display:"inline-block",background:"linear-gradient(135deg,#1a1a2e,#12121c)",border:"2px solid #fbbf2466",borderRadius:16,padding:"28px 40px",marginBottom:28,position:"relative"}}>
-                    <div style={{position:"absolute",top:-12,left:"50%",transform:"translateX(-50%)",background:"linear-gradient(135deg,#fbbf24,#f59e0b)",color:"#000",fontSize:10,fontWeight:800,letterSpacing:"2px",padding:"4px 14px",borderRadius:20}}>EARLY ACCESS PRICING</div>
-                    <div style={{fontSize:52,fontWeight:900,color:"#fff",lineHeight:1}}><span style={{fontSize:24,color:"#ffffff66",fontWeight:400,verticalAlign:"top",marginTop:8,display:"inline-block"}}>$</span>4.99<span style={{fontSize:18,color:"#ffffff55",fontWeight:400}}>/mo</span></div>
-                    <div style={{fontSize:13,color:"#ffffff44",marginTop:4}}>Cancel anytime - NFL season only</div>
-                  </div>
-                  <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:12}}>
-                    <button
-                      onClick={()=>setFpfShowLogin(!fpfShowLogin)}
-                      style={{background:"linear-gradient(135deg,#fbbf24,#f59e0b)",border:"none",borderRadius:10,color:"#000",padding:"14px 40px",fontSize:15,fontWeight:800,cursor:"pointer",letterSpacing:"1px",boxShadow:"0 4px 24px #fbbf2444"}}
-                    >
-                      {fpfShowLogin?"Hide":"Subscribe - $4.99/month"}
-                    </button>
-                    <div style={{fontSize:11,color:"#ffffff33"}}>Already subscribed? Enter your email below to access.</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Login / Subscribe form */}
-              {fpfShowLogin&&(
-                <div style={{maxWidth:420,margin:"0 auto",background:"#12121c",border:"1px solid #fbbf2433",borderRadius:14,padding:28}}>
-                  <div style={{fontSize:15,fontWeight:700,color:"#fff",marginBottom:4,textAlign:"center"}}>Access Five Pick Fridays</div>
-                  <div style={{fontSize:12,color:"#ffffff44",textAlign:"center",marginBottom:20}}>Enter your subscriber email to unlock</div>
-                  <input
-                    type="email"
-                    placeholder="your@email.com"
-                    value={fpfEmail}
-                    onChange={e=>{setFpfEmail(e.target.value);setFpfError("");}}
-                    onKeyDown={e=>{if(e.key==="Enter"){const ok=FPF_SUBSCRIBERS.includes(fpfEmail.toLowerCase().trim());if(ok){setFpfAuthed(true);}else{setFpfError("Email not found. Subscribe below or check your email.");}}}}
-                    style={{width:"100%",background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"12px 16px",fontSize:14,outline:"none",marginBottom:10,boxSizing:"border-box"}}
-                  />
-                  {fpfError&&<div style={{fontSize:12,color:"#f87171",marginBottom:10,textAlign:"center"}}>{fpfError}</div>}
-                  <button
-                    onClick={()=>{const ok=FPF_SUBSCRIBERS.includes(fpfEmail.toLowerCase().trim());if(ok){setFpfAuthed(true);}else{setFpfError("Email not found. Subscribe below or check your email.");}}}
-                    style={{width:"100%",background:"linear-gradient(135deg,#fbbf24,#f59e0b)",border:"none",borderRadius:8,color:"#000",padding:"12px",fontSize:14,fontWeight:800,cursor:"pointer",marginBottom:20}}
-                  >Unlock Access</button>
-                  <div style={{borderTop:"1px solid #ffffff10",paddingTop:20,textAlign:"center"}}>
-                    <div style={{fontSize:12,color:"#ffffff55",marginBottom:12}}>Not subscribed yet?</div>
-                    <button
-                      onClick={()=>alert("Stripe integration coming soon! DM @cnaylor_ on X to subscribe manually in the meantime.")}
-                      style={{width:"100%",background:"transparent",border:"2px solid #fbbf2466",borderRadius:8,color:"#fbbf24",padding:"12px",fontSize:14,fontWeight:700,cursor:"pointer"}}
-                    >{"Subscribe - $4.99/month"}</button>
-                    <div style={{fontSize:11,color:"#ffffff22",marginTop:10}}>Powered by Stripe - Secure checkout</div>
-                  </div>
-                </div>
-              )}
-
-              {/* Recent episodes preview -- teaser */}
-              <div style={{marginTop:32}}>
-                <div style={{fontSize:11,color:"#ffffff33",fontWeight:600,letterSpacing:"2px",textTransform:"uppercase",marginBottom:12,textAlign:"center"}}>👀 Recent Episodes -- Subscriber Only</div>
-                <div style={{display:"flex",flexDirection:"column",gap:8,filter:"blur(3px)",userSelect:"none",pointerEvents:"none",opacity:0.5}}>
-                  {WEEKLY_VIDEOS.map(v=>(
-                    <div key={v.id} style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:14,display:"flex",alignItems:"center",gap:14}}>
-                      <div style={{width:64,height:44,borderRadius:8,background:"#1a1a2e",flexShrink:0}}/>
-                      <div style={{flex:1}}><div style={{fontSize:14,fontWeight:700,color:"#fff",marginBottom:2}}>{v.title}</div><div style={{fontSize:12,color:"#ffffff55"}}>{v.date} - {v.duration}</div></div>
-                    </div>
-                  ))}
-                </div>
-                <div style={{textAlign:"center",marginTop:-60,position:"relative",zIndex:2}}>
-                  <div style={{background:"linear-gradient(to top,#0a0a0f 40%,transparent)",paddingTop:40,paddingBottom:16}}>
-                    <div style={{fontSize:13,color:"#ffffff66",fontWeight:600}}>🔒 Subscribe to watch</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ):(
-          <div>
           <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:24,flexWrap:"wrap"}}><CraigAvatar size={56}/>
-            <div style={{flex:1}}><div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>Five Pick Fridays</h2><span style={{background:"linear-gradient(135deg,#fbbf24,#f59e0b)",color:"#000",fontSize:9,fontWeight:800,letterSpacing:"2px",padding:"3px 8px",borderRadius:10}}>SUBSCRIBER</span></div><div style={{fontSize:13,color:"#ffffff55",marginTop:2}}>Every Friday during NFL season -- Craig&#39;s 5 best bets + Thursday Night recap</div><a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600,marginTop:2,display:"inline-block"}}>X @cnaylor_</a></div>
-            <button onClick={()=>setFpfAuthed(false)} style={{background:"#ffffff10",border:"1px solid #ffffff22",color:"#ffffff66",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:600,flexShrink:0}}>🔒 Lock</button>
+            <div style={{flex:1}}><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>Five Pick Fridays</h2><div style={{fontSize:13,color:"#ffffff55",marginTop:2}}>Every Friday during NFL season — Craig&#39;s 5 best bets + Thursday Night recap</div><a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600,marginTop:2,display:"inline-block"}}>𝕏 @cnaylor_</a></div>
             <div style={{background:"#12121c",border:"1px solid #ffffff15",borderRadius:12,padding:"12px 20px",display:"flex",gap:20,alignItems:"center",flexShrink:0}}>
               <div style={{textAlign:"center"}}><div style={{fontSize:10,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:2}}>Season</div><div style={{fontSize:22,fontWeight:900,color:"#fff"}}>{seasonRecord.w}-{seasonRecord.l}{seasonRecord.p>0&&<span style={{color:"#fbbf24",fontSize:14}}>-{seasonRecord.p}</span>}</div></div>
               <div style={{width:1,height:36,background:"#ffffff15"}}/>
@@ -2184,25 +2037,22 @@ export default function Home(){
             <div style={{background:"#12121c",borderRadius:12,height:200,display:"flex",alignItems:"center",justifyContent:"center",position:"relative",overflow:"hidden",marginBottom:12}}>
               <img src={CP} alt="Craig Naylor" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",objectPosition:"center top",filter:"brightness(0.4)"}}/>
               <div style={{position:"absolute",bottom:12,left:14,zIndex:2}}><div style={{background:"#e94560",borderRadius:6,padding:"3px 10px",fontSize:11,fontWeight:700,color:"#fff",display:"inline-block",marginBottom:4}}>FIVE PICK FRIDAYS</div><div style={{fontSize:13,fontWeight:700,color:"#fff",textShadow:"0 1px 4px #000"}}>Week 17 Picks + TNF Recap</div></div>
-              <div style={{width:60,height:60,borderRadius:"50%",background:"rgba(255,255,255,0.2)",backdropFilter:"blur(4px)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,cursor:"pointer",zIndex:2,boxShadow:"0 0 30px rgba(0,0,0,0.4)",border:"2px solid rgba(255,255,255,0.3)"}}>{">"}</div>
+              <div style={{width:60,height:60,borderRadius:"50%",background:"rgba(255,255,255,0.2)",backdropFilter:"blur(4px)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,cursor:"pointer",zIndex:2,boxShadow:"0 0 30px rgba(0,0,0,0.4)",border:"2px solid rgba(255,255,255,0.3)"}}>▶</div>
               <div style={{position:"absolute",top:10,right:12,background:"rgba(0,0,0,0.7)",borderRadius:4,padding:"2px 8px",fontSize:11,color:"#fff",fontWeight:600,zIndex:2}}>{WEEKLY_VIDEOS[0].duration}</div>
             </div>
-            <div style={{display:"flex",gap:16,fontSize:12,color:"#ffffff55"}}><span>{"[T]"} {WEEKLY_VIDEOS[0].duration}</span><span>👁️ {WEEKLY_VIDEOS[0].views} views</span></div>
+            <div style={{display:"flex",gap:16,fontSize:12,color:"#ffffff55"}}><span>⏱️ {WEEKLY_VIDEOS[0].duration}</span><span>👁️ {WEEKLY_VIDEOS[0].views} views</span></div>
             <div style={{marginTop:14,borderTop:"1px solid #ffffff10",paddingTop:12}}><div style={{fontSize:11,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:8}}>This Week&#39;s Picks</div>
-              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{WEEKLY_VIDEOS[0].picks.map((p,i)=>(<div key={i} style={{background:p.result==="win"?"#4ade8012":p.result==="loss"?"#f8717112":"#fbbf2412",border:`1px solid ${p.result==="win"?"#4ade8033":p.result==="loss"?"#f8717133":"#fbbf2433"}`,borderRadius:8,padding:"6px 10px",display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:12,fontWeight:600,color:"#fff"}}>{p.pick}</span><span style={{fontSize:10}}>{p.result==="win"?"✅":p.result==="loss"?"❌":"P"}</span></div>))}</div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{WEEKLY_VIDEOS[0].picks.map((p,i)=>(<div key={i} style={{background:p.result==="win"?"#4ade8012":p.result==="loss"?"#f8717112":"#fbbf2412",border:`1px solid ${p.result==="win"?"#4ade8033":p.result==="loss"?"#f8717133":"#fbbf2433"}`,borderRadius:8,padding:"6px 10px",display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:12,fontWeight:600,color:"#fff"}}>{p.pick}</span><span style={{fontSize:10}}>{p.result==="win"?"✅":p.result==="loss"?"❌":"⏳"}</span></div>))}</div>
             </div>
           </div>
           <div style={{fontSize:12,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:12}}>Previous Episodes</div>
           <div style={{display:"flex",flexDirection:"column",gap:8}}>{WEEKLY_VIDEOS.slice(1).map(v=>(<div key={v.id} style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:14,display:"flex",alignItems:"center",gap:14,cursor:"pointer"}}>
-            <div style={{width:64,height:44,borderRadius:8,background:"#000",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,position:"relative",overflow:"hidden"}}><img src={CP} alt="" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",objectPosition:"center top",filter:"brightness(0.35)"}}/><span style={{fontSize:14,zIndex:1,color:"#fff"}}>{">"}</span></div>
-            <div style={{flex:1,minWidth:0}}><div style={{fontSize:14,fontWeight:700,color:"#fff",marginBottom:2}}>{v.title}</div><div style={{fontSize:12,color:"#ffffff55",marginBottom:4}}>{v.date} - {v.duration} - {v.views} views</div>
+            <div style={{width:64,height:44,borderRadius:8,background:"#000",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,position:"relative",overflow:"hidden"}}><img src={CP} alt="" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",objectPosition:"center top",filter:"brightness(0.35)"}}/><span style={{fontSize:14,zIndex:1,color:"#fff"}}>▶</span></div>
+            <div style={{flex:1,minWidth:0}}><div style={{fontSize:14,fontWeight:700,color:"#fff",marginBottom:2}}>{v.title}</div><div style={{fontSize:12,color:"#ffffff55",marginBottom:4}}>{v.date} · {v.duration} · {v.views} views</div>
               <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>{v.picks.map((p,i)=>(<span key={i} style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:p.result==="win"?"#4ade8015":p.result==="loss"?"#f8717115":"#fbbf2415",color:p.result==="win"?"#4ade80":p.result==="loss"?"#f87171":"#fbbf24",fontWeight:600}}>{p.result==="win"?"W":p.result==="loss"?"L":"P"}</span>))}</div>
             </div>
           </div>))}</div>
           <div style={{background:"#ffffff06",border:"1px dashed #ffffff15",borderRadius:12,padding:20,textAlign:"center",marginTop:20}}><div style={{fontSize:13,color:"#ffffff55"}}>🔔 New episode every <strong style={{color:"#fff"}}>Friday</strong> during NFL season</div><div style={{fontSize:12,color:"#ffffff44",marginTop:4}}>Subscribe to never miss Five Pick Fridays</div></div>
-        </div>
-          </div>
-          )}
         </div>)}
 
       </div>
