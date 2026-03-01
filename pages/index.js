@@ -1370,6 +1370,11 @@ const PREMIUM_USERS = {
   "friend1":  "letmein99",
   "friend2":  "allsports1",
 };
+const USER_TEAMS = {
+  "craig":   "Seahawks",
+  "friend1": null,
+  "friend2": null,
+};
 
 const WEEKLY_VIDEOS=[
   {id:"v1",title:"Week 17 Picks + TNF Recap",date:"Fri, Dec 27",duration:"4:32",views:"2.4K",description:"Breaking down TNF plus my top 5 picks for the weekend slate.",picks:[{pick:"Seahawks -4",result:"win"},{pick:"Broncos -7",result:"win"},{pick:"Bears -3",result:"win"},{pick:"Bills -3",result:"win"},{pick:"Patriots ML",result:"loss"}]},
@@ -1950,7 +1955,7 @@ export default function Home(){
                     placeholder="Username"
                     value={premiumUser}
                     onChange={e=>setPremiumUser(e.target.value)}
-                    onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[premiumUser.toLowerCase()]===premiumPass;if(ok){setPremiumAuthed(true);setFpfAuthed(true);setPremiumError("");}else{setPremiumError("Wrong username or password.");}}}}
+                    onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[premiumUser.toLowerCase()]===premiumPass;if(ok){setPremiumAuthed(true);setFpfAuthed(true);setPremiumError("");const ut=USER_TEAMS[premiumUser.toLowerCase()];if(ut){setSelectedTeam(ut);setFeedFilter("team");}}else{setPremiumError("Wrong username or password.");}}}}
                     style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center"}}
                   />
                   <input
@@ -1958,13 +1963,13 @@ export default function Home(){
                     placeholder="Password"
                     value={premiumPass}
                     onChange={e=>setPremiumPass(e.target.value)}
-                    onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[premiumUser.toLowerCase()]===premiumPass;if(ok){setPremiumAuthed(true);setFpfAuthed(true);setPremiumError("");}else{setPremiumError("Wrong username or password.");}}}}
+                    onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[premiumUser.toLowerCase()]===premiumPass;if(ok){setPremiumAuthed(true);setFpfAuthed(true);setPremiumError("");const ut=USER_TEAMS[premiumUser.toLowerCase()];if(ut){setSelectedTeam(ut);setFeedFilter("team");}}else{setPremiumError("Wrong username or password.");}}}}
                     style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center"}}
                   />
                 </div>
                 {premiumError&&<div style={{fontSize:12,color:"#f87171",marginBottom:12}}>{premiumError}</div>}
                 <button
-                  onClick={()=>{const ok=PREMIUM_USERS[premiumUser.toLowerCase()]===premiumPass;if(ok){setPremiumAuthed(true);setFpfAuthed(true);setPremiumError("");}else{setPremiumError("Wrong username or password.");}}}
+                  onClick={()=>{const ok=PREMIUM_USERS[premiumUser.toLowerCase()]===premiumPass;if(ok){setPremiumAuthed(true);setFpfAuthed(true);setPremiumError("");const ut=USER_TEAMS[premiumUser.toLowerCase()];if(ut){setSelectedTeam(ut);setFeedFilter("team");}}else{setPremiumError("Wrong username or password.");}}}
                   style={{width:"100%",background:"linear-gradient(135deg,#fbbf24,#f59e0b)",border:"none",borderRadius:8,color:"#000",padding:"12px",fontSize:14,fontWeight:800,cursor:"pointer",letterSpacing:"1px"}}
                 >UNLOCK ACCESS</button>
                 <div style={{fontSize:11,color:"#ffffff33",marginTop:16}}>Contact Craig for access {"·"} @cnaylor_</div>
@@ -2095,11 +2100,11 @@ export default function Home(){
                 <div style={{fontSize:22,fontWeight:900,color:"#fff",marginBottom:4}}>Five Pick Fridays</div>
                 <div style={{fontSize:13,color:"#ffffff55",marginBottom:28,lineHeight:1.5}}>{"Craig's 5 best picks every Friday."}<br/>Invite only.</div>
                 <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:16}}>
-                  <input placeholder="Username" value={fpfPass} onChange={e=>setFpfPass(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[fpfPass.toLowerCase()]===premiumPass;if(ok){setFpfAuthed(true);setPremiumAuthed(true);setFpfError("");}else{setFpfError("Wrong username or password.");}}}} style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center"}}/>
-                  <input type="password" placeholder="Password" value={premiumPass} onChange={e=>setPremiumPass(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[fpfPass.toLowerCase()]===premiumPass;if(ok){setFpfAuthed(true);setPremiumAuthed(true);setFpfError("");}else{setFpfError("Wrong username or password.");}}}} style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center"}}/>
+                  <input placeholder="Username" value={fpfPass} onChange={e=>setFpfPass(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[fpfPass.toLowerCase()]===premiumPass;if(ok){setFpfAuthed(true);setPremiumAuthed(true);setFpfError("");const ut=USER_TEAMS[fpfPass.toLowerCase()];if(ut){setSelectedTeam(ut);setFeedFilter("team");}}else{setFpfError("Wrong username or password.");}}}} style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center"}}/>
+                  <input type="password" placeholder="Password" value={premiumPass} onChange={e=>setPremiumPass(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"){const ok=PREMIUM_USERS[fpfPass.toLowerCase()]===premiumPass;if(ok){setFpfAuthed(true);setPremiumAuthed(true);setFpfError("");const ut=USER_TEAMS[fpfPass.toLowerCase()];if(ut){setSelectedTeam(ut);setFeedFilter("team");}}else{setFpfError("Wrong username or password.");}}}} style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center"}}/>
                 </div>
                 {fpfError&&<div style={{fontSize:12,color:"#f87171",marginBottom:12}}>{fpfError}</div>}
-                <button onClick={()=>{const ok=PREMIUM_USERS[fpfPass.toLowerCase()]===premiumPass;if(ok){setFpfAuthed(true);setPremiumAuthed(true);setFpfError("");}else{setFpfError("Wrong username or password.");}}} style={{width:"100%",background:"linear-gradient(135deg,#e94560,#c0283e)",border:"none",borderRadius:8,color:"#fff",padding:"12px",fontSize:14,fontWeight:800,cursor:"pointer",letterSpacing:"1px"}}>UNLOCK PICKS</button>
+                <button onClick={()=>{const ok=PREMIUM_USERS[fpfPass.toLowerCase()]===premiumPass;if(ok){setFpfAuthed(true);setPremiumAuthed(true);setFpfError("");const ut=USER_TEAMS[fpfPass.toLowerCase()];if(ut){setSelectedTeam(ut);setFeedFilter("team");}}else{setFpfError("Wrong username or password.");}}} style={{width:"100%",background:"linear-gradient(135deg,#e94560,#c0283e)",border:"none",borderRadius:8,color:"#fff",padding:"12px",fontSize:14,fontWeight:800,cursor:"pointer",letterSpacing:"1px"}}>UNLOCK PICKS</button>
                 <div style={{fontSize:11,color:"#ffffff33",marginTop:16}}>Contact Craig for access · @cnaylor_</div>
               </div>
             </div>
