@@ -1426,10 +1426,16 @@ export default function Home(){
   // ── BET FILTERING ──────────────────────────────────────────────────────────
   // Craig's List: NFL + Boosts only
   const NFL_LEAGUES = ["NFL", "Boosts"];
+  const isFutures=b=>{
+    const t=b.type||"";const m=b.market||"";
+    if(t.includes("SB")&&t.includes("Winner"))return false;
+    return["Division Winner","Regular Season Wins","NFC ","AFC ","Conference Winner"].some(k=>t.includes(k)||m.includes(k));
+  };
   const filteredBets=useMemo(()=>{
     return ALL_BETS.filter(b=>{
       if(!NFL_LEAGUES.includes(b.league))return false;
       if(!showFreeBets&&b.freeBet)return false;
+      if(isFutures(b))return false;
       if(betResultFilter!=="all"&&b.status.toLowerCase()!==betResultFilter)return false;
       if(betDateFrom&&b.date<betDateFrom)return false;
       if(betDateTo&&b.date>betDateTo)return false;
@@ -1644,8 +1650,8 @@ export default function Home(){
               <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
                 {[
                   {l:"All Time",f:"",t:"",sub:"Jan 2024  --  Now"},
-                  {l:"2025-26",f:"2025-09-04",t:"2026-02-09",sub:"Current season"},
-                  {l:"2024-25",f:"2024-09-05",t:"2025-02-09",sub:"Last season"},
+                  {l:"2025-26",f:"2025-03-01",t:"2026-02-09",sub:"Current season"},
+                  {l:"2024-25",f:"2024-03-01",t:"2025-02-09",sub:"Last season"},
                   {l:"2023-24",f:"2023-09-07",t:"2024-02-11",sub:"2 seasons ago"},
                   {l:"Playoffs 26",f:"2026-01-10",t:"2026-02-09",g:true},
                   {l:"Playoffs 25",f:"2025-01-11",t:"2025-02-09",g:true},
