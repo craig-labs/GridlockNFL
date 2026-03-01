@@ -2028,6 +2028,7 @@ export default function Home(){
                 ))}
               </div>
             </div>
+          </div>
           )}
         </div>)}
 
@@ -2117,6 +2118,7 @@ export default function Home(){
               </div>
             </div>
           ):(
+          <div>
           <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:24,flexWrap:"wrap"}}><CraigAvatar size={56}/>
             <div style={{flex:1}}><div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>Five Pick Fridays</h2><span style={{background:"linear-gradient(135deg,#fbbf24,#f59e0b)",color:"#000",fontSize:9,fontWeight:800,letterSpacing:"2px",padding:"3px 8px",borderRadius:10}}>SUBSCRIBER</span></div><div style={{fontSize:13,color:"#ffffff55",marginTop:2}}>Every Friday during NFL season — Craig&#39;s 5 best bets + Thursday Night recap</div><a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600,marginTop:2,display:"inline-block"}}>𝕏 @cnaylor_</a></div>
             <button onClick={()=>setFpfAuthed(false)} style={{background:"#ffffff10",border:"1px solid #ffffff22",color:"#ffffff66",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:600,flexShrink:0}}>🔒 Lock</button>
@@ -2152,6 +2154,7 @@ export default function Home(){
           </div>))}</div>
           <div style={{background:"#ffffff06",border:"1px dashed #ffffff15",borderRadius:12,padding:20,textAlign:"center",marginTop:20}}><div style={{fontSize:13,color:"#ffffff55"}}>🔔 New episode every <strong style={{color:"#fff"}}>Friday</strong> during NFL season</div><div style={{fontSize:12,color:"#ffffff44",marginTop:4}}>Subscribe to never miss Five Pick Fridays</div></div>
         </div>
+          </div>
           )}
         </div>)}
 
