@@ -1584,15 +1584,15 @@ export default function Home(){
             return(<>
               {/* Desktop tabs — hidden on small screens via flex-wrap */}
               <div style={{display:"flex",gap:4,marginTop:12,overflowX:"auto",alignItems:"center"}}>
+                {/* Hamburger button — left side */}
+                <button onClick={()=>setShowMenu(!showMenu)} style={{marginRight:4,background:showMenu?`${ac}33`:"#ffffff10",border:`1px solid ${showMenu?ac:"#ffffff22"}`,color:"#fff",padding:"6px 10px",borderRadius:8,cursor:"pointer",fontSize:16,lineHeight:1,flexShrink:0}}>
+                  {showMenu?"x":"☰"}
+                </button>
                 {tabs.map(s=>(
                   <button key={s.k} onClick={()=>setActiveSection(s.k)} style={{background:activeSection===s.k?`${ac}33`:"transparent",border:"none",color:activeSection===s.k?"#fff":"#ffffff66",padding:"8px 14px",borderRadius:"8px 8px 0 0",cursor:"pointer",fontSize:11,fontWeight:600,textTransform:"uppercase",letterSpacing:"1px",borderBottom:activeSection===s.k?`2px solid ${ac}`:"2px solid transparent",whiteSpace:"nowrap",display:"flex",alignItems:"center",gap:4}}>
                     {s.s}{s.gold&&<span style={{fontSize:8,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800,marginLeft:2}}>PREMIUM</span>}
                   </button>
                 ))}
-                {/* Hamburger button — always visible on right */}
-                <button onClick={()=>setShowMenu(!showMenu)} style={{marginLeft:"auto",background:showMenu?`${ac}33`:"#ffffff10",border:`1px solid ${showMenu?ac:"#ffffff22"}`,color:"#fff",padding:"6px 10px",borderRadius:8,cursor:"pointer",fontSize:16,lineHeight:1,flexShrink:0}}>
-                  {showMenu?"✕":"☰"}
-                </button>
               </div>
               {/* Dropdown menu */}
               {showMenu&&(
