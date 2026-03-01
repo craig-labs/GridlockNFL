@@ -1392,6 +1392,852 @@ const WEEKLY_VIDEOS=[
 const seasonRecord=WEEKLY_VIDEOS.reduce((a,v)=>{v.picks.forEach(p=>{if(p.result==="win")a.w++;else if(p.result==="loss")a.l++;else a.p++;});return a;},{w:0,l:0,p:0});
 
 // ===== MAIN APP =====
+
+// ─── GRIDLOCK GAME ─────────────────────────────────────────────────────────
+
+// ─── CONSTANTS ───────────────────────────────────────────────────────────────
+const W = 480;
+const H = 640;
+const FIELD_COLOR   = "#2d5a1b";
+const LINE_COLOR    = "#4a8a2e";
+const ENDZONE_COLOR = "#1a3d10";
+const GRIDLOCK_GOLD = "#C8A84B";
+const GRIDLOCK_RED  = "#e94560";
+const QB_COLOR      = "#C8A84B";
+const WR_COLOR      = "#ffffff";
+const DB_COLOR      = "#e94560";
+
+const PLAYS = [
+  {
+    name: "Slant Right",
+    routes: [
+      { startX: 0.35, startY: 0.75, path: [[0.35,0.65],[0.55,0.45]] },
+      { startX: 0.65, startY: 0.75, path: [[0.65,0.65],[0.80,0.50]] },
+      { startX: 0.20, startY: 0.78, path: [[0.15,0.65],[0.10,0.50]] },
+    ]
+  },
+  {
+    name: "Go Routes",
+    routes: [
+      { startX: 0.25, startY: 0.75, path: [[0.25,0.55],[0.25,0.30]] },
+      { startX: 0.50, startY: 0.75, path: [[0.50,0.55],[0.50,0.25]] },
+      { startX: 0.75, startY: 0.75, path: [[0.75,0.55],[0.75,0.30]] },
+    ]
+  },
+  {
+    name: "Cross",
+    routes: [
+      { startX: 0.20, startY: 0.75, path: [[0.20,0.65],[0.20,0.58],[0.65,0.52]] },
+      { startX: 0.80, startY: 0.75, path: [[0.80,0.65],[0.80,0.58],[0.35,0.52]] },
+      { startX: 0.50, startY: 0.75, path: [[0.50,0.60],[0.50,0.35]] },
+    ]
+  },
+  {
+    name: "Curl & Flat",
+    routes: [
+      { startX: 0.25, startY: 0.75, path: [[0.25,0.55],[0.25,0.42],[0.35,0.45]] },
+      { startX: 0.75, startY: 0.75, path: [[0.75,0.55],[0.75,0.42],[0.65,0.45]] },
+      { startX: 0.10, startY: 0.78, path: [[0.05,0.72],[0.05,0.65]] },
+    ]
+  },
+];
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+function dist(x1, y1, x2, y2) { return Math.sqrt((x2-x1)**2 + (y2-y1)**2); }
+
+// ─── KICKING COMPONENT ────────────────────────────────────────────────────────
+function KickingGame({ mode, yardLine, onResult }) {
+  const canvasRef = useRef(null);
+  const rafRef    = useRef(null);
+  const gsRef     = useRef({
+    phase: "power",
+    power: 0, powerDir: 1, powerSpeed: 1.8,
+    angle: 50, angleDir: 1, angleSpeed: 1.4,
+    flightT: 0,
+    ballVx: 0,
+    result: null,
+    resultText: "",
+    wind: parseFloat(((Math.random()-0.5)*20).toFixed(1)),
+  });
+  const [phaseLabel, setPhaseLabel] = useState("power");
+
+  const distance = mode === "pat" ? 20 : Math.max(20, 100 - yardLine + 7);
+
+  const draw = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const gs = gsRef.current;
+
+    // Background
+    const sky = ctx.createLinearGradient(0,0,0,H);
+    sky.addColorStop(0,"#0a0a1a"); sky.addColorStop(1,"#1a2a1a");
+    ctx.fillStyle = sky; ctx.fillRect(0,0,W,H);
+
+    // Stars
+    ctx.fillStyle="#ffffff22";
+    [[50,80],[120,30],[200,60],[350,40],[420,90],[80,120],[300,100]].forEach(([sx,sy])=>{
+      ctx.beginPath(); ctx.arc(sx,sy,1,0,Math.PI*2); ctx.fill();
+    });
+
+    // Field
+    ctx.fillStyle=FIELD_COLOR; ctx.fillRect(0,H*0.55,W,H*0.45);
+    for(let i=0;i<=5;i++){
+      const y=H*0.55+(i/5)*H*0.45;
+      ctx.strokeStyle=LINE_COLOR; ctx.lineWidth=0.5; ctx.globalAlpha=0.3;
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+      ctx.globalAlpha=1;
+    }
+    ctx.fillStyle=GRIDLOCK_GOLD+"44"; ctx.font="bold 18px Arial Black";
+    ctx.textAlign="center"; ctx.fillText("GRIDLOCK",W/2,H*0.62);
+
+    // Goalpost
+    const pcX=W/2, pbY=H*0.18, pH=120, pW=80, cbY=pbY+40;
+    ctx.strokeStyle="#FFD700"; ctx.lineWidth=4;
+    ctx.shadowColor="#FFD70066"; ctx.shadowBlur=8;
+    // Pole
+    ctx.beginPath(); ctx.moveTo(pcX,cbY); ctx.lineTo(pcX,pbY+pH); ctx.stroke();
+    // Crossbar
+    ctx.beginPath(); ctx.moveTo(pcX-pW/2,cbY); ctx.lineTo(pcX+pW/2,cbY); ctx.stroke();
+    // Left upright
+    ctx.beginPath(); ctx.moveTo(pcX-pW/2,cbY); ctx.lineTo(pcX-pW/2,pbY); ctx.stroke();
+    // Right upright
+    ctx.beginPath(); ctx.moveTo(pcX+pW/2,cbY); ctx.lineTo(pcX+pW/2,pbY); ctx.stroke();
+    ctx.shadowBlur=0;
+    // Goal zone fill
+    ctx.fillStyle=GRIDLOCK_GOLD+"11";
+    ctx.fillRect(pcX-pW/2,pbY,pW,cbY-pbY);
+    // Tips
+    ctx.fillStyle="#FFD700";
+    [pcX-pW/2,pcX+pW/2].forEach(x=>{
+      ctx.beginPath(); ctx.arc(x,pbY,3,0,Math.PI*2); ctx.fill();
+    });
+
+    // Wind indicator
+    const wStr=Math.abs(gs.wind), wDir=gs.wind>0?1:-1;
+    ctx.fillStyle="#ffffff66"; ctx.font="10px Arial"; ctx.textAlign="center";
+    ctx.fillText(`WIND ${gs.wind>0?">>>":"<<<"}  ${wStr.toFixed(0)} mph`,W/2,H*0.52);
+
+    // Power meter
+    if(gs.phase==="power"||gs.phase==="angle"){
+      const mX=20,mY=H*0.30,mH=H*0.40,mW=22;
+      ctx.fillStyle="#000000aa"; ctx.fillRect(mX-2,mY-2,mW+4,mH+4);
+      const grad=ctx.createLinearGradient(0,mY+mH,0,mY);
+      grad.addColorStop(0,"#4ade80"); grad.addColorStop(0.5,GRIDLOCK_GOLD);
+      grad.addColorStop(0.8,"#f97316"); grad.addColorStop(1,GRIDLOCK_RED);
+      ctx.fillStyle=grad;
+      const fH=(gs.power/100)*mH;
+      ctx.fillRect(mX,mY+mH-fH,mW,fH);
+      ctx.strokeStyle="#ffffff44"; ctx.lineWidth=1.5;
+      ctx.strokeRect(mX,mY,mW,mH);
+      ctx.fillStyle="#fff"; ctx.font="bold 9px Arial"; ctx.textAlign="center";
+      ctx.fillText("PWR",mX+mW/2,mY-6);
+      ctx.fillText(Math.round(gs.power)+"%",mX+mW/2,mY+mH+14);
+      [50,80].forEach(pct=>{
+        const tY=mY+mH-(pct/100)*mH;
+        ctx.strokeStyle="#ffffff44"; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(mX,tY); ctx.lineTo(mX+mW,tY); ctx.stroke();
+      });
+    }
+
+    // Angle meter
+    if(gs.phase==="angle"){
+      const aX=W*0.15,aY=H*0.75,aW=W*0.70,aH=20;
+      ctx.fillStyle="#000000aa"; ctx.fillRect(aX-2,aY-2,aW+4,aH+4);
+      const aG=ctx.createLinearGradient(aX,0,aX+aW,0);
+      aG.addColorStop(0,GRIDLOCK_RED); aG.addColorStop(0.25,"#f97316");
+      aG.addColorStop(0.5,"#4ade80"); aG.addColorStop(0.75,"#f97316"); aG.addColorStop(1,GRIDLOCK_RED);
+      ctx.fillStyle=aG; ctx.fillRect(aX,aY,aW,aH);
+      const cursorX=aX+(gs.angle/100)*aW;
+      ctx.fillStyle="#fff"; ctx.fillRect(cursorX-3,aY-5,6,aH+10);
+      ctx.strokeStyle="#ffffff88"; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(aX+aW/2,aY-10); ctx.lineTo(aX+aW/2,aY+aH+10); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle="#fff"; ctx.font="bold 9px Arial"; ctx.textAlign="center";
+      ctx.fillText("DIRECTION",aX+aW/2,aY-10);
+      ctx.fillText("LEFT",aX+10,aY+aH+14);
+      ctx.fillText("RIGHT",aX+aW-10,aY+aH+14);
+    }
+
+    // Ball in flight
+    if(gs.phase==="flight"){
+      const t=gs.flightT;
+      const bx=W/2+gs.ballVx*t*80+gs.wind*t*3;
+      const by=lerp(H*0.85,H*0.20,t)-Math.sin(t*Math.PI)*140;
+
+      // Shadow
+      ctx.fillStyle="#00000033";
+      ctx.beginPath(); ctx.ellipse(bx,H*0.83,10*(1-t*0.5),4*(1-t*0.5),0,0,Math.PI*2); ctx.fill();
+
+      // Trail
+      for(let i=1;i<=5;i++){
+        const tt=t-i*0.015; if(tt<0)continue;
+        const tx=W/2+gs.ballVx*tt*80+gs.wind*tt*3;
+        const ty=lerp(H*0.85,H*0.20,tt)-Math.sin(tt*Math.PI)*140;
+        ctx.beginPath(); ctx.arc(tx,ty,3-i*0.4,0,Math.PI*2);
+        ctx.fillStyle=`rgba(200,168,75,${0.3-i*0.05})`; ctx.fill();
+      }
+
+      // Ball
+      ctx.save(); ctx.translate(bx,by); ctx.rotate(t*8);
+      ctx.beginPath(); ctx.ellipse(0,0,10,5,0,0,Math.PI*2);
+      ctx.fillStyle="#8B4513"; ctx.fill();
+      ctx.strokeStyle="#ffffff88"; ctx.lineWidth=1; ctx.stroke();
+      ctx.strokeStyle="#fff"; ctx.lineWidth=0.8;
+      ctx.beginPath(); ctx.moveTo(-3,-1.5); ctx.lineTo(3,-1.5); ctx.stroke();
+      ctx.restore();
+    }
+
+    // Result
+    if(gs.phase==="result"){
+      const good=gs.result==="good";
+      ctx.fillStyle=good?"#4ade8022":"#e9456022"; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle=good?"#4ade80":GRIDLOCK_RED;
+      ctx.font="bold 32px Arial Black"; ctx.textAlign="center";
+      ctx.shadowColor=good?"#4ade80":GRIDLOCK_RED; ctx.shadowBlur=20;
+      ctx.fillText(gs.resultText,W/2,H/2-10);
+      ctx.shadowBlur=0;
+      ctx.fillStyle="#ffffff88"; ctx.font="14px Arial";
+      ctx.fillText(good?`+${mode==="pat"?1:3} pts`:"No good",W/2,H/2+24);
+    }
+
+    // Phase prompts
+    if(gs.phase==="power"){
+      const p=0.6+0.4*Math.sin(Date.now()/250);
+      ctx.fillStyle=GRIDLOCK_GOLD; ctx.font="bold 13px Arial"; ctx.textAlign="center";
+      ctx.globalAlpha=p; ctx.fillText("PRESS SPACE to set power",W/2,H*0.88); ctx.globalAlpha=1;
+    }
+    if(gs.phase==="angle"){
+      const p=0.6+0.4*Math.sin(Date.now()/250);
+      ctx.fillStyle=GRIDLOCK_GOLD; ctx.font="bold 13px Arial"; ctx.textAlign="center";
+      ctx.globalAlpha=p; ctx.fillText("PRESS SPACE to kick!",W/2,H*0.70); ctx.globalAlpha=1;
+    }
+
+    ctx.fillStyle="#ffffff55"; ctx.font="11px Arial"; ctx.textAlign="center";
+    ctx.fillText(`${distance} yd ${mode==="pat"?"PAT":"Field Goal"}`,W/2,H*0.57);
+    ctx.textBaseline="alphabetic";
+  }, [distance, mode]);
+
+  const gameLoop = useCallback(() => {
+    const gs = gsRef.current;
+    if(gs.phase==="power"){
+      gs.power=Math.max(0,Math.min(100,gs.power+gs.powerDir*gs.powerSpeed));
+      if(gs.power>=100)gs.powerDir=-1; if(gs.power<=0)gs.powerDir=1;
+    }
+    if(gs.phase==="angle"){
+      gs.angle=Math.max(0,Math.min(100,gs.angle+gs.angleDir*gs.angleSpeed));
+      if(gs.angle>=100)gs.angleDir=-1; if(gs.angle<=0)gs.angleDir=1;
+    }
+    if(gs.phase==="flight"){
+      gs.flightT=Math.min(1,gs.flightT+0.012);
+      if(gs.flightT>=1){
+        const powerOk=gs.power>35&&gs.power<90;
+        const angleDiff=Math.abs((gs.angle-50)+gs.wind*2);
+        const angleOk=angleDiff<22;
+        const powerSuff=gs.power>(distance/60)*100*0.45;
+        const isGood=powerOk&&angleOk&&powerSuff;
+        gs.phase="result";
+        gs.result=isGood?"good":"miss";
+        gs.resultText=isGood?(mode==="pat"?"GOOD!":"IT'S GOOD!"):"NO GOOD!";
+        setTimeout(()=>onResult(isGood,mode),1600);
+      }
+    }
+    draw();
+    rafRef.current=requestAnimationFrame(gameLoop);
+  },[draw,mode,distance,onResult]);
+
+  const handleSpace = useCallback(()=>{
+    const gs=gsRef.current;
+    if(gs.phase==="power"){
+      gs.phase="angle"; gs.angle=50; gs.angleDir=1;
+      setPhaseLabel("angle");
+    } else if(gs.phase==="angle"){
+      gs.phase="flight"; gs.flightT=0;
+      gs.ballVx=((gs.angle-50)/50)*4;
+      setPhaseLabel("flight");
+    }
+  },[]);
+
+  useEffect(()=>{
+    const onKey=(e)=>{if(e.code==="Space"){e.preventDefault();handleSpace();}};
+    window.addEventListener("keydown",onKey);
+    return()=>window.removeEventListener("keydown",onKey);
+  },[handleSpace]);
+
+  useEffect(()=>{
+    rafRef.current=requestAnimationFrame(gameLoop);
+    return()=>cancelAnimationFrame(rafRef.current);
+  },[gameLoop]);
+
+  return(
+    <div style={{width:"100%",maxWidth:480}}>
+      <div style={{
+        background:"#12121c",border:`1px solid ${GRIDLOCK_GOLD}33`,
+        borderRadius:8,padding:"8px 12px",marginBottom:8,
+        display:"flex",justifyContent:"space-between",alignItems:"center"
+      }}>
+        <span style={{color:GRIDLOCK_GOLD,fontWeight:800,fontSize:14}}>
+          {mode==="pat"?"EXTRA POINT":`${distance} YD FIELD GOAL`}
+        </span>
+        <span style={{color:"#ffffff44",fontSize:11}}>
+          Wind: {gsRef.current.wind>0?">>":"<<"} {Math.abs(gsRef.current.wind).toFixed(0)} mph
+        </span>
+      </div>
+      <canvas ref={canvasRef} width={W} height={H} onClick={handleSpace}
+        style={{width:"100%",borderRadius:8,border:`2px solid ${GRIDLOCK_GOLD}44`,cursor:"pointer",display:"block"}}
+      />
+      <button onClick={handleSpace} style={{
+        width:"100%",marginTop:8,
+        background:`linear-gradient(135deg,${GRIDLOCK_GOLD},#f0d070)`,
+        border:"none",borderRadius:8,color:"#000",padding:"12px",
+        fontSize:15,fontWeight:900,cursor:"pointer",letterSpacing:2
+      }}>
+        {phaseLabel==="power"?"SET POWER":phaseLabel==="angle"?"KICK!":"..."}
+      </button>
+      <div style={{fontSize:10,color:"#ffffff22",textAlign:"center",marginTop:6}}>
+        SPACE or tap: set power, then direction, then kick
+      </div>
+    </div>
+  );
+}
+
+// ─── PASS GAME STATE ─────────────────────────────────────────────────────────
+function createPassState(play){
+  const wrs=play.routes.map((r,i)=>({
+    id:i, x:r.startX*W, y:r.startY*H, pathIdx:0,
+    path:r.path.map(p=>({x:p[0]*W,y:p[1]*H})),
+    caught:false, open:false,
+  }));
+  const dbs=[0,1].map(i=>({
+    id:i, x:wrs[i].x+(Math.random()-0.5)*30, y:wrs[i].y-30,
+    targetWR:i, speed:2.2+Math.random()*0.5,
+  }));
+  return{
+    phase:"snap",
+    ball:{x:W/2,y:H*0.78,inAir:false,targetWR:null,startX:0,startY:0,flightT:0},
+    qb:{x:W/2,y:H*0.80,pressure:0},
+    wrs, dbs, routeTimer:0,
+    blitzing:Math.random()>0.6,
+  };
+}
+
+// ─── MAIN EXPORT ─────────────────────────────────────────────────────────────
+function GridlockGame(){
+  const canvasRef=useRef(null);
+  const stateRef=useRef(null);
+  const rafRef=useRef(null);
+  const timerRef=useRef(null);
+
+  const [screen,setScreen]=useState("menu");
+  const [score,setScore]=useState(0);
+  const [down,setDown]=useState(1);
+  const [ytg,setYtg]=useState(10);
+  const [yardLine,setYardLine]=useState(25);
+  const [completions,setComp]=useState(0);
+  const [attempts,setAtt]=useState(0);
+  const [streak,setStreak]=useState(0);
+  const [quarter,setQuarter]=useState(1);
+  const [timeLeft,setTime]=useState(120);
+  const [resultMsg,setResultMsg]=useState("");
+  const [resultType,setResultType]=useState("");
+  const [kickMode,setKickMode]=useState("pat");
+  const [highlightWR,setHighlightWR]=useState(null);
+
+  // stable refs
+  const sRef=useRef(score); const dRef=useRef(down);
+  const yRef=useRef(ytg);   const ylRef=useRef(yardLine);
+  const cRef=useRef(completions); const aRef=useRef(attempts);
+  const stRef=useRef(streak); const scrRef=useRef(screen);
+
+  useEffect(()=>{sRef.current=score;},[score]);
+  useEffect(()=>{dRef.current=down;},[down]);
+  useEffect(()=>{yRef.current=ytg;},[ytg]);
+  useEffect(()=>{ylRef.current=yardLine;},[yardLine]);
+  useEffect(()=>{cRef.current=completions;},[completions]);
+  useEffect(()=>{aRef.current=attempts;},[attempts]);
+  useEffect(()=>{stRef.current=streak;},[streak]);
+  useEffect(()=>{scrRef.current=screen;},[screen]);
+
+  // ── DRAW ───────────────────────────────────────────────────────────────────
+  const drawPass=useCallback(()=>{
+    const canvas=canvasRef.current; if(!canvas)return;
+    const ctx=canvas.getContext("2d");
+    const gs=stateRef.current; if(!gs)return;
+
+    ctx.fillStyle=FIELD_COLOR; ctx.fillRect(0,0,W,H);
+
+    for(let i=0;i<=10;i++){
+      const y=(i/10)*H*0.75+H*0.05;
+      ctx.strokeStyle=LINE_COLOR; ctx.lineWidth=i===0||i===10?2:1;
+      ctx.globalAlpha=0.4;
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+      ctx.globalAlpha=1;
+      ctx.fillStyle="#ffffff22";
+      ctx.fillRect(W*0.35-8,y-1,16,2); ctx.fillRect(W*0.65-8,y-1,16,2);
+    }
+
+    ctx.fillStyle=ENDZONE_COLOR;
+    ctx.fillRect(0,0,W,H*0.05); ctx.fillRect(0,H*0.80,W,H*0.20);
+    ctx.fillStyle=GRIDLOCK_GOLD; ctx.font="bold 22px Arial Black";
+    ctx.textAlign="center"; ctx.globalAlpha=0.6;
+    ctx.fillText("GRIDLOCK",W/2,H*0.035); ctx.globalAlpha=1;
+
+    const losY=H*0.76;
+    ctx.strokeStyle=GRIDLOCK_GOLD; ctx.lineWidth=2;
+    ctx.setLineDash([6,4]);
+    ctx.beginPath(); ctx.moveTo(0,losY); ctx.lineTo(W,losY); ctx.stroke();
+    const fdY=losY-(gs.ytg||yRef.current||10)/10*H*0.60;
+    ctx.strokeStyle="#ffff00"; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(0,fdY); ctx.lineTo(W,fdY); ctx.stroke();
+    ctx.setLineDash([]);
+
+    if(gs.phase==="snap"||gs.phase==="routes"){
+      gs.wrs.forEach((wr,i)=>{
+        ctx.strokeStyle=i===highlightWR?GRIDLOCK_GOLD:"#ffffff33";
+        ctx.lineWidth=1; ctx.setLineDash([3,3]);
+        ctx.beginPath(); ctx.moveTo(wr.x,wr.y);
+        wr.path.forEach(p=>ctx.lineTo(p.x,p.y)); ctx.stroke(); ctx.setLineDash([]);
+      });
+    }
+
+    gs.dbs.forEach(db=>{
+      ctx.beginPath(); ctx.arc(db.x,db.y,12,0,Math.PI*2);
+      ctx.fillStyle=DB_COLOR+"cc"; ctx.fill();
+      ctx.strokeStyle="#ffffff44"; ctx.lineWidth=1.5; ctx.stroke();
+      ctx.fillStyle="#fff"; ctx.font="bold 9px Arial";
+      ctx.textAlign="center"; ctx.textBaseline="middle";
+      ctx.fillText("DB",db.x,db.y);
+    });
+
+    gs.wrs.forEach((wr,i)=>{
+      if(wr.open&&!wr.caught){
+        ctx.beginPath(); ctx.arc(wr.x,wr.y,20,0,Math.PI*2);
+        ctx.fillStyle="#4ade8033"; ctx.fill();
+      }
+      ctx.beginPath(); ctx.arc(wr.x,wr.y,12,0,Math.PI*2);
+      ctx.fillStyle=wr.caught?"#4ade80":wr.open?"#4ade80cc":WR_COLOR+"cc"; ctx.fill();
+      ctx.strokeStyle=i===highlightWR?GRIDLOCK_GOLD:wr.open?"#4ade80":"#00000044";
+      ctx.lineWidth=i===highlightWR?2.5:1.5; ctx.stroke();
+      ctx.fillStyle="#000"; ctx.font="bold 9px Arial";
+      ctx.textAlign="center"; ctx.textBaseline="middle";
+      ctx.fillText(`W${i+1}`,wr.x,wr.y);
+      if(gs.phase==="routes"&&!gs.ball.inAir){
+        ctx.fillStyle=wr.open?"#4ade80":GRIDLOCK_GOLD;
+        ctx.font="bold 13px Arial"; ctx.fillText(`${i+1}`,wr.x,wr.y-24);
+      }
+    });
+
+    if(gs.blitzing&&gs.phase==="routes"){
+      const alpha=Math.floor(gs.qb.pressure*0.35);
+      ctx.fillStyle=`${GRIDLOCK_RED}${alpha.toString(16).padStart(2,"0")}`;
+      ctx.fillRect(0,H*0.80-gs.qb.pressure*0.4,W,gs.qb.pressure*0.4);
+    }
+    ctx.beginPath(); ctx.arc(gs.qb.x,gs.qb.y,14,0,Math.PI*2);
+    ctx.fillStyle=QB_COLOR; ctx.fill();
+    ctx.strokeStyle="#000"; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle="#000"; ctx.font="bold 9px Arial";
+    ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText("QB",gs.qb.x,gs.qb.y);
+
+    if(gs.ball.inAir){
+      const t=gs.wrs[gs.ball.targetWR];
+      const arc=Math.sin(gs.ball.flightT*Math.PI)*20;
+      ctx.save(); ctx.translate(gs.ball.x,gs.ball.y-arc);
+      if(t) ctx.rotate(Math.atan2(t.y-gs.ball.startY,t.x-gs.ball.startX));
+      ctx.beginPath(); ctx.ellipse(0,0,10,5,0,0,Math.PI*2);
+      ctx.fillStyle="#8B4513"; ctx.fill();
+      ctx.strokeStyle="#ffffff88"; ctx.lineWidth=1; ctx.stroke();
+      ctx.strokeStyle="#fff"; ctx.lineWidth=0.8;
+      ctx.beginPath(); ctx.moveTo(-3,-2); ctx.lineTo(3,-2); ctx.stroke();
+      ctx.restore();
+    }
+
+    if(gs.phase==="snap"){
+      const p=0.7+0.3*Math.sin(Date.now()/300);
+      ctx.globalAlpha=p; ctx.fillStyle=GRIDLOCK_GOLD;
+      ctx.font="bold 14px Arial"; ctx.textAlign="center"; ctx.textBaseline="alphabetic";
+      ctx.fillText("PRESS SPACE TO SNAP",W/2,H*0.92); ctx.globalAlpha=1;
+    }
+    ctx.textBaseline="alphabetic";
+  },[highlightWR]);
+
+  // ── RESOLVE PLAY ───────────────────────────────────────────────────────────
+  const resolvePlay=useCallback((yards,msg,type)=>{
+    setResultMsg(msg); setResultType(type);
+    const newYL=ylRef.current+yards;
+    const newYtg=yRef.current-yards;
+
+    if(newYL>=100){
+      setTimeout(()=>{
+        setScore(s=>s+6);
+        setResultMsg("TOUCHDOWN! 🏈");
+        setResultType("touchdown");
+        setTimeout(()=>{
+          setYardLine(25); setDown(1); setYtg(10);
+          setResultMsg(""); setResultType("");
+          setKickMode("pat"); setScreen("kicking");
+          cancelAnimationFrame(rafRef.current); clearInterval(timerRef.current);
+        },1500);
+      },600);
+    } else if(newYtg<=0&&yards>0){
+      setTimeout(()=>{
+        setResultMsg("FIRST DOWN!"); setResultType("firstdown");
+        setTimeout(()=>{
+          setYardLine(Math.min(99,newYL)); setDown(1); setYtg(10);
+          setResultMsg(""); setResultType(""); setScreen("playbook");
+          cancelAnimationFrame(rafRef.current); clearInterval(timerRef.current);
+        },1200);
+      },400);
+    } else {
+      const newDown=dRef.current+1;
+      if(newDown>4){
+        setTimeout(()=>{
+          setResultMsg("TURNOVER ON DOWNS");
+          setTimeout(()=>{
+            setYardLine(25); setDown(1); setYtg(10);
+            setResultMsg(""); setResultType(""); setScreen("playbook");
+            cancelAnimationFrame(rafRef.current); clearInterval(timerRef.current);
+          },1500);
+        },400);
+      } else {
+        const newYLClamped=Math.min(99,newYL);
+        const offerFG=newDown===4&&Math.max(1,newYtg)>5&&newYLClamped>50;
+        setTimeout(()=>{
+          setYardLine(newYLClamped); setDown(newDown); setYtg(Math.max(1,newYtg));
+          setResultMsg(""); setResultType("");
+          setScreen(offerFG?"fg_choice":"playbook");
+          cancelAnimationFrame(rafRef.current); clearInterval(timerRef.current);
+        },1200);
+      }
+    }
+  },[]);
+
+  // ── PASS LOOP ──────────────────────────────────────────────────────────────
+  const passLoop=useCallback(()=>{
+    const gs=stateRef.current;
+    if(!gs||scrRef.current!=="passing"){ rafRef.current=requestAnimationFrame(passLoop); return; }
+
+    if(gs.phase==="routes"){
+      gs.routeTimer++;
+      gs.wrs.forEach(wr=>{
+        if(wr.caught||wr.pathIdx>=wr.path.length)return;
+        const t=wr.path[wr.pathIdx];
+        const d=dist(wr.x,wr.y,t.x,t.y);
+        if(d<2.5)wr.pathIdx++;
+        else{wr.x+=(t.x-wr.x)/d*2.5; wr.y+=(t.y-wr.y)/d*2.5;}
+        const nDB=gs.dbs.reduce((b,db)=>Math.min(b,dist(wr.x,wr.y,db.x,db.y)),Infinity);
+        wr.open=nDB>45;
+      });
+      gs.dbs.forEach(db=>{
+        const t=gs.wrs[db.targetWR]; if(!t)return;
+        const d=dist(db.x,db.y,t.x,t.y);
+        if(d>8){db.x+=(t.x-db.x)/d*db.speed; db.y+=(t.y-db.y)/d*db.speed;}
+      });
+      if(gs.blitzing){
+        gs.qb.pressure=Math.min(100,gs.qb.pressure+0.8);
+        if(gs.qb.pressure>=100){ gs.phase="done"; resolvePlay(-8,"SACKED! -8 yds","bad"); }
+      }
+    }
+
+    if(gs.phase==="throwing"){
+      gs.ball.flightT=Math.min(1,gs.ball.flightT+0.06);
+      const t=gs.wrs[gs.ball.targetWR];
+      if(t){ gs.ball.x=lerp(gs.ball.startX,t.x,gs.ball.flightT); gs.ball.y=lerp(gs.ball.startY,t.y,gs.ball.flightT); }
+      if(gs.ball.flightT>=1&&t){
+        gs.ball.inAir=false;
+        const nDB=gs.dbs.reduce((b,db)=>Math.min(b,dist(t.x,t.y,db.x,db.y)),Infinity);
+        setAtt(a=>a+1);
+        if(nDB<35){
+          setStreak(0); gs.phase="done";
+          resolvePlay(0,nDB<20?"INTERCEPTED!":"INCOMPLETE","bad");
+        } else {
+          t.caught=true; setComp(c=>c+1); setStreak(s=>s+1);
+          const yards=Math.max(3,Math.round((H*0.76-t.y)/(H*0.60)*30));
+          gs.phase="done"; resolvePlay(yards,`COMPLETE! +${yards} yds`,"good");
+        }
+      }
+    }
+
+    drawPass();
+    rafRef.current=requestAnimationFrame(passLoop);
+  },[drawPass,resolvePlay]);
+
+  // ── THROW / SNAP ───────────────────────────────────────────────────────────
+  const throwTo=useCallback((i)=>{
+    const gs=stateRef.current; if(!gs||gs.phase!=="routes")return;
+    const wr=gs.wrs[i]; if(!wr)return;
+    gs.phase="throwing"; gs.ball.inAir=true;
+    gs.ball.startX=gs.qb.x; gs.ball.startY=gs.qb.y;
+    gs.ball.x=gs.qb.x; gs.ball.y=gs.qb.y;
+    gs.ball.targetWR=i; gs.ball.flightT=0;
+  },[]);
+
+  const handleSnap=useCallback(()=>{
+    const gs=stateRef.current; if(!gs||gs.phase!=="snap")return;
+    gs.phase="routes"; gs.routeTimer=0;
+  },[]);
+
+  const handleKey=useCallback((e)=>{
+    if(scrRef.current!=="passing")return;
+    if(e.code==="Space"){e.preventDefault();handleSnap();}
+    if(e.key==="1")throwTo(0); if(e.key==="2")throwTo(1); if(e.key==="3")throwTo(2);
+  },[handleSnap,throwTo]);
+
+  const handleClick=useCallback((e)=>{
+    const gs=stateRef.current; if(!gs||gs.phase!=="routes")return;
+    const r=canvasRef.current.getBoundingClientRect();
+    const cx=(e.clientX-r.left)*(W/r.width), cy=(e.clientY-r.top)*(H/r.height);
+    let best=null,bestD=60;
+    gs.wrs.forEach((wr,i)=>{ const d=dist(cx,cy,wr.x,wr.y); if(d<bestD){bestD=d;best=i;} });
+    if(best!==null)throwTo(best);
+  },[throwTo]);
+
+  // ── KICK RESULT ────────────────────────────────────────────────────────────
+  const handleKickResult=useCallback((isGood,mode)=>{
+    if(mode==="pat"&&isGood)setScore(s=>s+1);
+    if(mode==="fg"){ if(isGood)setScore(s=>s+3); setYardLine(25);setDown(1);setYtg(10); }
+    setTimeout(()=>setScreen("playbook"),400);
+  },[]);
+
+  // ── START PLAY ─────────────────────────────────────────────────────────────
+  function startPlay(playIdx){
+    stateRef.current=createPassState(PLAYS[playIdx]);
+    stateRef.current.ytg=yRef.current;
+    setResultMsg(""); setResultType(""); setScreen("passing");
+  }
+
+  // ── EFFECTS ────────────────────────────────────────────────────────────────
+  useEffect(()=>{ window.addEventListener("keydown",handleKey); return()=>window.removeEventListener("keydown",handleKey); },[handleKey]);
+
+  useEffect(()=>{
+    if(screen==="passing"){
+      rafRef.current=requestAnimationFrame(passLoop);
+      timerRef.current=setInterval(()=>{
+        setTime(t=>{
+          if(t<=1){
+            setQuarter(q=>{ if(q>=4){setScreen("gameover");return q;} return q+1; });
+            return 120;
+          }
+          return t-1;
+        });
+      },1000);
+    }
+    return()=>{ cancelAnimationFrame(rafRef.current); clearInterval(timerRef.current); };
+  },[screen,passLoop]);
+
+  useEffect(()=>{ if(screen==="passing")drawPass(); },[screen,drawPass,highlightWR]);
+
+  function resetGame(){
+    setScore(0);setDown(1);setYtg(10);setYardLine(25);
+    setComp(0);setAtt(0);setStreak(0);setQuarter(1);setTime(120);
+    setResultMsg("");setResultType(""); stateRef.current=null; setScreen("menu");
+  }
+
+  const compPct=attempts>0?Math.round((completions/attempts)*100):0;
+
+  // ── SCOREBOARD ─────────────────────────────────────────────────────────────
+  const Scoreboard=()=>(
+    <div style={{
+      background:"#12121c",border:`1px solid ${GRIDLOCK_GOLD}33`,
+      borderRadius:10,padding:"10px 16px",marginBottom:10,
+      display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8
+    }}>
+      <div style={{display:"flex",gap:16,alignItems:"center"}}>
+        <div><div style={{fontSize:9,color:"#ffffff44",letterSpacing:2}}>SCORE</div>
+          <div style={{fontSize:26,fontWeight:900,color:GRIDLOCK_GOLD}}>{score}</div></div>
+        <div><div style={{fontSize:9,color:"#ffffff44",letterSpacing:2}}>DOWN</div>
+          <div style={{fontSize:18,fontWeight:900}}>{down}&amp;{ytg}</div></div>
+        <div><div style={{fontSize:9,color:"#ffffff44",letterSpacing:2}}>YARD LINE</div>
+          <div style={{fontSize:18,fontWeight:900}}>{yardLine}</div></div>
+      </div>
+      <div style={{display:"flex",gap:12,alignItems:"center"}}>
+        <div style={{textAlign:"center"}}>
+          <div style={{fontSize:9,color:"#ffffff44",letterSpacing:2}}>Q{quarter}</div>
+          <div style={{fontSize:16,fontWeight:700,color:timeLeft<30?"#f87171":"#fff"}}>
+            {Math.floor(timeLeft/60)}:{String(timeLeft%60).padStart(2,"0")}
+          </div>
+        </div>
+        <div style={{textAlign:"center"}}>
+          <div style={{fontSize:9,color:"#ffffff44",letterSpacing:2}}>COMP%</div>
+          <div style={{fontSize:16,fontWeight:700,color:compPct>=60?"#4ade80":"#fff"}}>{compPct}%</div>
+        </div>
+        {streak>=3&&<div style={{background:"#f97316",borderRadius:6,padding:"3px 8px",fontSize:11,fontWeight:800}}>🔥 {streak}</div>}
+      </div>
+    </div>
+  );
+
+  const ResultBanner=()=>resultMsg?(
+    <div style={{
+      background:resultType==="touchdown"?"#C8A84B":resultType==="firstdown"?"#4ade8033":resultType==="good"?"#22c55e33":"#e9456033",
+      border:`1px solid ${resultType==="good"||resultType==="firstdown"||resultType==="touchdown"?"#4ade80":"#f87171"}`,
+      borderRadius:8,padding:"10px 16px",marginBottom:10,textAlign:"center",
+      color:resultType==="touchdown"?"#000":"#fff",
+      fontSize:resultType==="touchdown"?22:16,fontWeight:900,letterSpacing:1
+    }}>{resultMsg}</div>
+  ):null;
+
+  // ── RENDER ─────────────────────────────────────────────────────────────────
+  return(
+    <div style={{fontFamily:"'Arial Black',Arial,sans-serif",background:"#0a0a0f",minHeight:"100vh",display:"flex",flexDirection:"column",alignItems:"center",padding:"16px",color:"#fff"}}>
+      <div style={{textAlign:"center",marginBottom:12}}>
+        <div style={{fontSize:28,fontWeight:900,letterSpacing:4,background:`linear-gradient(135deg,${GRIDLOCK_GOLD},#f0d070)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>GRIDLOCK</div>
+        <div style={{fontSize:11,color:"#666",letterSpacing:3}}>QB CHALLENGE</div>
+      </div>
+
+      {screen==="menu"&&(
+        <div style={{maxWidth:400,width:"100%"}}>
+          <div style={{background:"linear-gradient(135deg,#1a1a2e,#12121c)",border:`1px solid ${GRIDLOCK_GOLD}44`,borderRadius:16,padding:28}}>
+            <div style={{fontSize:40,marginBottom:12,textAlign:"center"}}>🏈</div>
+            <div style={{fontSize:18,fontWeight:800,textAlign:"center",marginBottom:8}}>Gridlock QB Challenge</div>
+            <div style={{fontSize:13,color:"#ffffff66",lineHeight:1.6,marginBottom:20,textAlign:"center"}}>
+              Pick plays, move the chains, score TDs.<br/>Kick PATs and attempt FGs on 4th down.
+            </div>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:20}}>
+              {[
+                {l:"SNAP",d:"Space or tap"},
+                {l:"THROW",d:"Keys 1/2/3 or click WR"},
+                {l:"KICK",d:"Space: power → direction"},
+                {l:"OPEN WR",d:"Green glow = throw now!"},
+              ].map((c,i)=>(
+                <div key={i} style={{background:"#ffffff08",borderRadius:8,padding:"10px 8px",textAlign:"center"}}>
+                  <div style={{fontSize:11,fontWeight:800,color:GRIDLOCK_GOLD}}>{c.l}</div>
+                  <div style={{fontSize:10,color:"#ffffff44",marginTop:2}}>{c.d}</div>
+                </div>
+              ))}
+            </div>
+            <button onClick={()=>setScreen("playbook")} style={{
+              width:"100%",background:`linear-gradient(135deg,${GRIDLOCK_GOLD},#f0d070)`,
+              border:"none",borderRadius:8,color:"#000",padding:"13px",
+              fontSize:15,fontWeight:900,cursor:"pointer",letterSpacing:2
+            }}>KICK OFF</button>
+          </div>
+        </div>
+      )}
+
+      {screen==="playbook"&&(
+        <div style={{width:"100%",maxWidth:480}}>
+          <Scoreboard/>
+          <ResultBanner/>
+          <div style={{background:"#12121c",border:`1px solid ${GRIDLOCK_GOLD}33`,borderRadius:10,padding:14}}>
+            <div style={{fontSize:10,color:GRIDLOCK_GOLD,fontWeight:800,letterSpacing:2,marginBottom:10}}>SELECT PLAY</div>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+              {PLAYS.map((p,i)=>(
+                <button key={i} onClick={()=>startPlay(i)} style={{
+                  background:`${GRIDLOCK_GOLD}18`,border:`1px solid ${GRIDLOCK_GOLD}44`,
+                  color:"#fff",padding:"12px 10px",borderRadius:8,cursor:"pointer",fontSize:13,fontWeight:700
+                }}>{p.name}</button>
+              ))}
+            </div>
+          </div>
+          <button onClick={resetGame} style={{marginTop:8,width:"100%",background:"transparent",border:"1px solid #ffffff15",color:"#ffffff33",padding:"8px",borderRadius:6,cursor:"pointer",fontSize:11}}>New Game</button>
+        </div>
+      )}
+
+      {screen==="fg_choice"&&(
+        <div style={{width:"100%",maxWidth:480}}>
+          <Scoreboard/>
+          <div style={{background:"#12121c",border:`1px solid ${GRIDLOCK_GOLD}44`,borderRadius:14,padding:24,textAlign:"center"}}>
+            <div style={{fontSize:24,fontWeight:900,marginBottom:6}}>4th Down</div>
+            <div style={{fontSize:14,color:"#ffffff66",marginBottom:20}}>{ytg} yards to go — {yardLine} yard line</div>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+              <button onClick={()=>{setKickMode("fg");setScreen("kicking");}} style={{
+                background:`${GRIDLOCK_GOLD}22`,border:`2px solid ${GRIDLOCK_GOLD}`,
+                color:"#fff",padding:"16px 10px",borderRadius:10,cursor:"pointer",fontSize:13,fontWeight:800
+              }}>
+                <div style={{fontSize:22,marginBottom:4}}>🦵</div>
+                Field Goal<br/>
+                <span style={{fontSize:11,color:GRIDLOCK_GOLD}}>{Math.max(20,100-yardLine+7)} yards</span>
+              </button>
+              <button onClick={()=>setScreen("playbook")} style={{
+                background:"#ffffff08",border:"1px solid #ffffff22",
+                color:"#fff",padding:"16px 10px",borderRadius:10,cursor:"pointer",fontSize:13,fontWeight:800
+              }}>
+                <div style={{fontSize:22,marginBottom:4}}>🏈</div>
+                Go for it<br/>
+                <span style={{fontSize:11,color:"#ffffff44"}}>Need {ytg} yards</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {screen==="passing"&&(
+        <div style={{width:"100%",maxWidth:480}}>
+          <Scoreboard/>
+          <ResultBanner/>
+          <div style={{position:"relative"}}>
+            <canvas ref={canvasRef} width={W} height={H} onClick={handleClick}
+              style={{width:"100%",borderRadius:8,border:`2px solid ${GRIDLOCK_GOLD}44`,cursor:"crosshair",display:"block"}}
+            />
+            {stateRef.current?.phase==="routes"&&(
+              <div style={{position:"absolute",bottom:8,left:0,right:0,display:"flex",justifyContent:"center",gap:8}}>
+                {[0,1,2].map(i=>{
+                  const wr=stateRef.current?.wrs[i];
+                  const open=wr?.open;
+                  return(
+                    <button key={i} onClick={()=>throwTo(i)}
+                      onMouseEnter={()=>setHighlightWR(i)}
+                      onMouseLeave={()=>setHighlightWR(null)}
+                      style={{
+                        background:open?"#4ade80cc":"#000000aa",
+                        border:`2px solid ${open?"#4ade80":GRIDLOCK_GOLD}`,
+                        color:open?"#000":"#fff",width:52,height:52,borderRadius:"50%",
+                        cursor:"pointer",fontSize:14,fontWeight:900,backdropFilter:"blur(4px)",
+                        boxShadow:open?"0 0 16px #4ade8066":"none"
+                      }}>W{i+1}</button>
+                  );
+                })}
+              </div>
+            )}
+            {stateRef.current?.phase==="snap"&&(
+              <div style={{position:"absolute",bottom:8,left:0,right:0,display:"flex",justifyContent:"center"}}>
+                <button onClick={handleSnap} style={{
+                  background:GRIDLOCK_GOLD,border:"none",color:"#000",
+                  padding:"12px 32px",borderRadius:8,cursor:"pointer",
+                  fontSize:14,fontWeight:900,letterSpacing:2,
+                  boxShadow:`0 4px 20px ${GRIDLOCK_GOLD}66`
+                }}>SNAP BALL</button>
+              </div>
+            )}
+          </div>
+          <div style={{fontSize:10,color:"#ffffff22",textAlign:"center",marginTop:6}}>
+            SPACE to snap · 1/2/3 keys · click receivers · green = open
+          </div>
+        </div>
+      )}
+
+      {screen==="kicking"&&(
+        <div style={{width:"100%",maxWidth:480}}>
+          <Scoreboard/>
+          <KickingGame mode={kickMode} yardLine={yardLine} onResult={handleKickResult}/>
+        </div>
+      )}
+
+      {screen==="gameover"&&(
+        <div style={{background:"linear-gradient(135deg,#1a1a2e,#12121c)",border:`2px solid ${GRIDLOCK_GOLD}`,borderRadius:16,padding:32,textAlign:"center",maxWidth:360,width:"100%",marginTop:16}}>
+          <div style={{fontSize:32,marginBottom:8}}>🏈</div>
+          <div style={{fontSize:24,fontWeight:900,color:GRIDLOCK_GOLD,marginBottom:4}}>FINAL SCORE</div>
+          <div style={{fontSize:48,fontWeight:900,marginBottom:16}}>{score}</div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12,marginBottom:20}}>
+            {[{l:"COMP%",v:`${compPct}%`},{l:"COMPS",v:`${completions}/${attempts}`},{l:"STREAK",v:streak}].map((s,i)=>(
+              <div key={i} style={{background:"#ffffff08",borderRadius:8,padding:10}}>
+                <div style={{fontSize:9,color:GRIDLOCK_GOLD,letterSpacing:2}}>{s.l}</div>
+                <div style={{fontSize:18,fontWeight:800,marginTop:2}}>{s.v}</div>
+              </div>
+            ))}
+          </div>
+          <button onClick={resetGame} style={{
+            width:"100%",background:`linear-gradient(135deg,${GRIDLOCK_GOLD},#f0d070)`,
+            border:"none",borderRadius:8,color:"#000",padding:"12px",
+            fontSize:14,fontWeight:900,cursor:"pointer",letterSpacing:2
+          }}>PLAY AGAIN</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 export default function Home(){
   const [selectedTeam,setSelectedTeam]=useState(null);
   const [showPicker,setShowPicker]=useState(false);
@@ -1567,7 +2413,7 @@ export default function Home(){
             </div>
           </div>
           <div style={{display:"flex",gap:4,marginTop:12,overflowX:"auto"}}>
-            {[{k:"feed",l:"📱 Social Feed"},{k:"kalshi",l:<span>📊 NFL Prediction Markets <span style={{fontSize:9,opacity:0.6,fontWeight:400}}>Powered by Kalshi</span></span>},{k:"bets",l:"💰 Craig's List"},{k:"premium",l:<span>🔒 All Sports <span style={{fontSize:9,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800}}>PREMIUM</span></span>},{k:"video",l:"🎬 Five Pick Fridays 🔒"}].map(s=>(
+            {[{k:"feed",l:"📱 Social Feed"},{k:"kalshi",l:<span>📊 NFL Prediction Markets <span style={{fontSize:9,opacity:0.6,fontWeight:400}}>Powered by Kalshi</span></span>},{k:"bets",l:"💰 Craig's List"},{k:"premium",l:<span>🔒 All Sports <span style={{fontSize:9,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800}}>PREMIUM</span></span>},{k:"video",l:"🎬 Five Pick Fridays 🔒"},{k:"game",l:"🏈 QB Challenge"}].map(s=>(
               <button key={s.k} onClick={()=>setActiveSection(s.k)} style={{background:activeSection===s.k?`${ac}33`:"transparent",border:"none",color:activeSection===s.k?"#fff":"#ffffff66",padding:"8px 16px",borderRadius:"8px 8px 0 0",cursor:"pointer",fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1px",borderBottom:activeSection===s.k?`2px solid ${ac}`:"2px solid transparent",whiteSpace:"nowrap"}}>{s.l}</button>
             ))}
           </div>
@@ -2076,6 +2922,9 @@ export default function Home(){
           )}
         </div>)}
 
+        {/* ── QB CHALLENGE GAME ── */}
+        {activeSection==="game"&&(<div style={{padding:"0 0 24px"}}><GridlockGame/></div>)}
+
         {/* ── FIVE PICK FRIDAYS ── */}
         {activeSection==="video"&&(<div>
           {!fpfAuthed?(
@@ -2137,7 +2986,7 @@ export default function Home(){
                     <button
                       onClick={()=>alert("Stripe integration coming soon! DM @cnaylor_ on X to subscribe manually in the meantime.")}
                       style={{width:"100%",background:"transparent",border:"2px solid #fbbf2466",borderRadius:8,color:"#fbbf24",padding:"12px",fontSize:14,fontWeight:700,cursor:"pointer"}}
-                    >Subscribe - $4.99/month</button>
+                    >{"Subscribe - $4.99/month"}</button>
                     <div style={{fontSize:11,color:"#ffffff22",marginTop:10}}>Powered by Stripe · Secure checkout</div>
                   </div>
                 </div>
