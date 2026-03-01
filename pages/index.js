@@ -2007,7 +2007,15 @@ export default function Home(){
                   </div>
                 </div>
                 <div style={{display:"flex",gap:12,flexWrap:"wrap",alignItems:"flex-end"}}>
-                  <div>
+                  <div style={{width:"100%"}}>
+                    <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>YEAR</div>
+                    <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+                      {[{l:"All Time",f:"",t:""},{l:"2026",f:"2026-01-01",t:"2026-12-31"},{l:"2025",f:"2025-01-01",t:"2025-12-31"},{l:"2024",f:"2024-01-01",t:"2024-12-31"}].map(s=>{
+                        const active=premBetDateFrom===s.f&&premBetDateTo===s.t;
+                        return(<button key={s.l} onClick={()=>{setPremBetDateFrom(s.f);setPremBetDateTo(s.t);}} style={{background:active?`${ac}33`:"#ffffff08",border:`2px solid ${active?ac:"#ffffff15"}`,color:active?"#fff":"#ffffff66",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>{s.l}</button>);
+                      })}
+                    </div>
+                  </div>
                     <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>FROM DATE</div>
                     <input type="date" value={premBetDateFrom} onChange={e=>setPremBetDateFrom(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
                   </div>
