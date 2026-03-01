@@ -1647,6 +1647,7 @@ export default function Home(){
                   {l:"2025-26",f:"2025-09-04",t:"2026-02-09",sub:"Current season"},
                   {l:"2024-25",f:"2024-09-05",t:"2025-02-09",sub:"Last season"},
                   {l:"2023-24",f:"2023-09-07",t:"2024-02-11",sub:"2 seasons ago"},
+                  {l:"Playoffs 26",f:"2026-01-10",t:"2026-02-09",g:true},
                   {l:"Playoffs 25",f:"2025-01-11",t:"2025-02-09",g:true},
                   {l:"Playoffs 24",f:"2024-01-13",t:"2024-02-11",g:true},
                 ].map(s=>{
