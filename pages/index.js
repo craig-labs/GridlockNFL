@@ -1354,10 +1354,17 @@ const ALL_BETS=[
   {id:1218,date:"2024-01-13",status:"Won",league:"NFL",match:"NFL 23/24",type:"Super Bowl 58 - Winner",market:"Kansas City Chiefs",price:10.0,wager:100,winnings:900,payout:1000}
 ];
 
-const LEAGUE_LABELS={"NFL":"🏈 NFL","NCAA":"🏫 NCAA","NBA":"🏀 NBA","NHL":"🏒 NHL","MLB":"⚾ MLB","Formula 1":"🏎️ F1","Golf":"⛳ Golf","Copa America":"⚽ Copa","4 Nations Face-Off":"🏒 4 Nations","Boosts":"⚡ Boosts","Other":"🎯 Other","Men":"⚽ Soccer"};
-const LEAGUE_COLORS={"NFL":"#e94560","NCAA":"#7c3aed","NBA":"#f97316","NHL":"#0ea5e9","MLB":"#ef4444","Formula 1":"#dc2626","Golf":"#16a34a","Copa America":"#22c55e","4 Nations Face-Off":"#38bdf8","Boosts":"#fbbf24","Other":"#6b7280","Men":"#22c55e"};
+const LEAGUE_LABELS={"NFL":"🏈 NFL","NCAA":"🏫 NCAA","NCAA FB":"🏈 NCAA FB","NCAA BB":"🏀 NCAA BB","NBA":"🏀 NBA","NHL":"🏒 NHL","MLB":"⚾ MLB","Formula 1":"🏎️ F1","Golf":"⛳ Golf","Copa America":"⚽ Copa","4 Nations Face-Off":"🏒 4 Nations","Boosts":"⚡ Boosts","Other":"🎯 Other","Men":"⚽ Soccer"};
+const LEAGUE_COLORS={"NFL":"#e94560","NCAA":"#7c3aed","NCAA FB":"#f97316","NCAA BB":"#a855f7","NBA":"#f97316","NHL":"#0ea5e9","MLB":"#ef4444","Formula 1":"#dc2626","Golf":"#16a34a","Copa America":"#22c55e","4 Nations Face-Off":"#38bdf8","Boosts":"#fbbf24","Other":"#6b7280","Men":"#22c55e"};
 
 // Premium access credentials — add friends here
+const getNcaaLeague=(b)=>{
+  if(b.league!=="NCAA")return b.league;
+  const mk=b.market||"";
+  const total=mk.match(/(?:Over|Under) ([\d.]+)/);
+  if(total&&parseFloat(total[1])>=100)return "NCAA BB";
+  return "NCAA FB";
+};
 const PREMIUM_USERS = {
   "craig":    "gridlock24",
   "friend1":  "letmein99",
@@ -1458,7 +1465,7 @@ export default function Home(){
     return ALL_BETS.filter(b=>{
       if(!premShowFreeBets&&b.freeBet)return false;
       if(premBetResultFilter!=="all"&&b.status.toLowerCase()!==premBetResultFilter)return false;
-      if(premBetLeagueFilter!=="all"&&b.league!==premBetLeagueFilter)return false;
+      if(premBetLeagueFilter!=="all"&&getNcaaLeague(b)!==premBetLeagueFilter)return false;
       if(premBetDateFrom&&b.date<premBetDateFrom)return false;
       if(premBetDateTo&&b.date>premBetDateTo)return false;
       if(premBetSearch){
@@ -1532,7 +1539,7 @@ export default function Home(){
     if(selectedTeam)f.push({key:"team",label:`⭐ ${selectedTeam}`});return f;
   },[selectedTeam]);
 
-  const premUniqueLeagues=["all",...new Set(ALL_BETS.map(b=>b.league))];
+  const premUniqueLeagues=["all",...new Set(ALL_BETS.map(b=>getNcaaLeague(b)))].filter(l=>l!=="NCAA");
 
   const pill=(label,active,onClick,color)=>(<button onClick={onClick} style={{background:active?`${color||ac}33`:"#ffffff08",border:`1px solid ${active?color||ac:"#ffffff15"}`,color:active?"#fff":"#ffffff77",padding:"5px 12px",borderRadius:16,cursor:"pointer",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>{label}</button>);
 
@@ -1908,7 +1915,7 @@ export default function Home(){
                 <div style={{flex:1,minWidth:0}}>
                   <div style={{fontSize:14,fontWeight:700,color:"#fff",marginBottom:2}}>{bet.match}</div>
                   <div style={{fontSize:12,color:"#ffffff55",display:"flex",gap:8,flexWrap:"wrap"}}>
-                    <span style={{background:LEAGUE_COLORS[bet.league]+"22",color:LEAGUE_COLORS[bet.league]||"#ffffff44",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>{LEAGUE_LABELS[bet.league]||bet.league}</span>
+                    <span style={{background:LEAGUE_COLORS[bet.league]+"22",color:LEAGUE_COLORS[bet.league]||"#ffffff44",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>{LEAGUE_LABELS[getNcaaLeague(bet)]||bet.league}</span>
                     {bet.freeBet&&<span style={{background:"#fbbf2422",color:"#fbbf24",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>🎁 Free Bet</span>}
                     <span>{bet.type}</span>
                     <span style={{color:"#ffffff33"}}>{"·"}</span>
@@ -2057,7 +2064,7 @@ export default function Home(){
                     <div style={{flex:1,minWidth:0}}>
                       <div style={{fontSize:14,fontWeight:700,color:"#fff",marginBottom:2}}>{bet.match}</div>
                       <div style={{fontSize:12,color:"#ffffff55",display:"flex",gap:8,flexWrap:"wrap"}}>
-                        <span style={{background:(LEAGUE_COLORS[bet.league]||"#6b7280")+"22",color:LEAGUE_COLORS[bet.league]||"#ffffff44",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>{LEAGUE_LABELS[bet.league]||bet.league}</span>
+                        <span style={{background:(LEAGUE_COLORS[getNcaaLeague(bet)]||"#6b7280")+"22",color:LEAGUE_COLORS[getNcaaLeague(bet)]||"#ffffff44",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>{LEAGUE_LABELS[getNcaaLeague(bet)]||bet.league}</span>
                         {bet.freeBet&&<span style={{background:"#fbbf2422",color:"#fbbf24",padding:"1px 6px",borderRadius:4,fontWeight:600,fontSize:10}}>🎁 Free Bet</span>}
                         <span>{bet.type}</span>
                         <span style={{color:"#ffffff33"}}>{"·"}</span>
