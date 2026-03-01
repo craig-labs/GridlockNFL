@@ -1364,6 +1364,14 @@ const PREMIUM_USERS = {
   "friend2":  "allsports1",
 };
 
+// Five Pick Fridays paying subscribers — add emails after payment confirmed
+// Replace with Stripe webhook + DB lookup when ready to go live
+const FPF_SUBSCRIBERS = [
+  "craig@gridlock.com",       // placeholder — replace with real emails
+  "subscriber1@example.com",
+  "subscriber2@example.com",
+];
+
 const WEEKLY_VIDEOS=[
   {id:"v1",title:"Week 17 Picks + TNF Recap",date:"Fri, Dec 27",duration:"4:32",views:"2.4K",description:"Breaking down TNF plus my top 5 picks for the weekend slate.",picks:[{pick:"Seahawks -4",result:"win"},{pick:"Broncos -7",result:"win"},{pick:"Bears -3",result:"win"},{pick:"Bills -3",result:"win"},{pick:"Patriots ML",result:"loss"}]},
   {id:"v2",title:"Week 16 Picks + TNF Recap",date:"Fri, Dec 20",duration:"4:58",views:"1.8K",description:"Thursday's upset has massive playoff implications. Here's where I'm putting my money.",picks:[{pick:"Seahawks -4",result:"win"},{pick:"Bo Nix O245",result:"win"},{pick:"Bills -3",result:"win"},{pick:"Panthers ML",result:"win"},{pick:"DEN/CIN O43",result:"loss"}]},
@@ -1390,6 +1398,11 @@ export default function Home(){
   const [premiumPass,setPremiumPass]=useState("");
   const [premiumError,setPremiumError]=useState("");
   const [showPremiumLogin,setShowPremiumLogin]=useState(false);
+  // Five Pick Fridays subscriber access
+  const [fpfEmail,setFpfEmail]=useState("");
+  const [fpfAuthed,setFpfAuthed]=useState(false);
+  const [fpfError,setFpfError]=useState("");
+  const [fpfShowLogin,setFpfShowLogin]=useState(false);
   const kalshi=useKalshi();
   // Derive news query context from current filter
   const newsTeam=useMemo(()=>{
@@ -1542,7 +1555,7 @@ export default function Home(){
             </div>
           </div>
           <div style={{display:"flex",gap:4,marginTop:12,overflowX:"auto"}}>
-            {[{k:"feed",l:"📱 Social Feed"},{k:"kalshi",l:<span>📊 NFL Prediction Markets <span style={{fontSize:9,opacity:0.6,fontWeight:400}}>Powered by Kalshi</span></span>},{k:"bets",l:"💰 Craig's List"},{k:"premium",l:<span>🔒 All Sports <span style={{fontSize:9,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800}}>PREMIUM</span></span>},{k:"video",l:"🎬 Five Pick Fridays"}].map(s=>(
+            {[{k:"feed",l:"📱 Social Feed"},{k:"kalshi",l:<span>📊 NFL Prediction Markets <span style={{fontSize:9,opacity:0.6,fontWeight:400}}>Powered by Kalshi</span></span>},{k:"bets",l:"💰 Craig's List"},{k:"premium",l:<span>🔒 All Sports <span style={{fontSize:9,background:"linear-gradient(135deg,#fbbf24,#f59e0b)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",fontWeight:800}}>PREMIUM</span></span>},{k:"video",l:"🎬 Five Pick Fridays 🔒"}].map(s=>(
               <button key={s.k} onClick={()=>setActiveSection(s.k)} style={{background:activeSection===s.k?`${ac}33`:"transparent",border:"none",color:activeSection===s.k?"#fff":"#ffffff66",padding:"8px 16px",borderRadius:"8px 8px 0 0",cursor:"pointer",fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1px",borderBottom:activeSection===s.k?`2px solid ${ac}`:"2px solid transparent",whiteSpace:"nowrap"}}>{s.l}</button>
             ))}
           </div>
@@ -2020,8 +2033,93 @@ export default function Home(){
 
         {/* ── FIVE PICK FRIDAYS ── */}
         {activeSection==="video"&&(<div>
+          {!fpfAuthed?(
+            /* ── FIVE PICK FRIDAYS PAYWALL ── */
+            <div>
+              {/* Hero */}
+              <div style={{position:"relative",background:"linear-gradient(135deg,#0d0d18 0%,#1a0a0a 60%,#0a0d1a 100%)",borderRadius:16,overflow:"hidden",marginBottom:24,padding:"40px 32px",textAlign:"center"}}>
+                <div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle at 20% 50%,#e9456015 0%,transparent 60%),radial-gradient(circle at 80% 50%,#fbbf2410 0%,transparent 60%)",pointerEvents:"none"}}/>
+                <div style={{position:"relative",zIndex:1}}>
+                  <div style={{display:"inline-flex",alignItems:"center",gap:8,background:"linear-gradient(135deg,#fbbf2433,#f59e0b22)",border:"1px solid #fbbf2466",borderRadius:20,padding:"6px 16px",marginBottom:16}}>
+                    <span style={{fontSize:12,color:"#fbbf24",fontWeight:800,letterSpacing:"2px",textTransform:"uppercase"}}>🔒 Members Only</span>
+                  </div>
+                  <div style={{fontSize:48,marginBottom:8}}>🎬</div>
+                  <h1 style={{fontSize:36,fontWeight:900,color:"#fff",margin:"0 0 8px",letterSpacing:"-1px"}}>Five Pick Fridays</h1>
+                  <p style={{fontSize:16,color:"#ffffff77",maxWidth:480,margin:"0 auto 24px",lineHeight:1.6}}>Every Friday during NFL season — Craig's 5 best bets, Thursday Night recap, and exclusive betting breakdowns. The picks the public doesn't get.</p>
+                  <div style={{display:"flex",justifyContent:"center",gap:12,flexWrap:"wrap",marginBottom:32}}>
+                    {["📊 Weekly win/loss breakdown","🏈 5 best bets every Friday","🎙️ Thursday Night recap","📈 Season-long tracker","🔥 Hot streaks & trends"].map((f,i)=>(
+                      <div key={i} style={{background:"#ffffff0a",border:"1px solid #ffffff15",borderRadius:8,padding:"8px 14px",fontSize:12,color:"#ffffff88",fontWeight:500}}>{f}</div>
+                    ))}
+                  </div>
+                  {/* Pricing card */}
+                  <div style={{display:"inline-block",background:"linear-gradient(135deg,#1a1a2e,#12121c)",border:"2px solid #fbbf2466",borderRadius:16,padding:"28px 40px",marginBottom:28,position:"relative"}}>
+                    <div style={{position:"absolute",top:-12,left:"50%",transform:"translateX(-50%)",background:"linear-gradient(135deg,#fbbf24,#f59e0b)",color:"#000",fontSize:10,fontWeight:800,letterSpacing:"2px",padding:"4px 14px",borderRadius:20}}>EARLY ACCESS PRICING</div>
+                    <div style={{fontSize:52,fontWeight:900,color:"#fff",lineHeight:1}}><span style={{fontSize:24,color:"#ffffff66",fontWeight:400,verticalAlign:"top",marginTop:8,display:"inline-block"}}>$</span>4.99<span style={{fontSize:18,color:"#ffffff55",fontWeight:400}}>/mo</span></div>
+                    <div style={{fontSize:13,color:"#ffffff44",marginTop:4}}>Cancel anytime · NFL season only</div>
+                  </div>
+                  <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:12}}>
+                    <button
+                      onClick={()=>setFpfShowLogin(!fpfShowLogin)}
+                      style={{background:"linear-gradient(135deg,#fbbf24,#f59e0b)",border:"none",borderRadius:10,color:"#000",padding:"14px 40px",fontSize:15,fontWeight:800,cursor:"pointer",letterSpacing:"1px",boxShadow:"0 4px 24px #fbbf2444"}}
+                    >
+                      {fpfShowLogin?"↑ Hide":"Subscribe for $4.99/mo →"}
+                    </button>
+                    <div style={{fontSize:11,color:"#ffffff33"}}>Already subscribed? Enter your email below to access.</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Login / Subscribe form */}
+              {fpfShowLogin&&(
+                <div style={{maxWidth:420,margin:"0 auto",background:"#12121c",border:"1px solid #fbbf2433",borderRadius:14,padding:28}}>
+                  <div style={{fontSize:15,fontWeight:700,color:"#fff",marginBottom:4,textAlign:"center"}}>Access Five Pick Fridays</div>
+                  <div style={{fontSize:12,color:"#ffffff44",textAlign:"center",marginBottom:20}}>Enter your subscriber email to unlock</div>
+                  <input
+                    type="email"
+                    placeholder="your@email.com"
+                    value={fpfEmail}
+                    onChange={e=>{setFpfEmail(e.target.value);setFpfError("");}}
+                    onKeyDown={e=>{if(e.key==="Enter"){const ok=FPF_SUBSCRIBERS.includes(fpfEmail.toLowerCase().trim());if(ok){setFpfAuthed(true);}else{setFpfError("Email not found. Subscribe below or check your email.");}}}}
+                    style={{width:"100%",background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"12px 16px",fontSize:14,outline:"none",marginBottom:10,boxSizing:"border-box"}}
+                  />
+                  {fpfError&&<div style={{fontSize:12,color:"#f87171",marginBottom:10,textAlign:"center"}}>{fpfError}</div>}
+                  <button
+                    onClick={()=>{const ok=FPF_SUBSCRIBERS.includes(fpfEmail.toLowerCase().trim());if(ok){setFpfAuthed(true);}else{setFpfError("Email not found. Subscribe below or check your email.");}}}
+                    style={{width:"100%",background:"linear-gradient(135deg,#fbbf24,#f59e0b)",border:"none",borderRadius:8,color:"#000",padding:"12px",fontSize:14,fontWeight:800,cursor:"pointer",marginBottom:20}}
+                  >Unlock Access</button>
+                  <div style={{borderTop:"1px solid #ffffff10",paddingTop:20,textAlign:"center"}}>
+                    <div style={{fontSize:12,color:"#ffffff55",marginBottom:12}}>Not subscribed yet?</div>
+                    <button
+                      onClick={()=>alert("Stripe integration coming soon! DM @cnaylor_ on X to subscribe manually in the meantime.")}
+                      style={{width:"100%",background:"transparent",border:"2px solid #fbbf2466",borderRadius:8,color:"#fbbf24",padding:"12px",fontSize:14,fontWeight:700,cursor:"pointer"}}
+                    >Subscribe for $4.99/mo →</button>
+                    <div style={{fontSize:11,color:"#ffffff22",marginTop:10}}>Powered by Stripe · Secure checkout</div>
+                  </div>
+                </div>
+              )}
+
+              {/* Recent episodes preview — teaser */}
+              <div style={{marginTop:32}}>
+                <div style={{fontSize:11,color:"#ffffff33",fontWeight:600,letterSpacing:"2px",textTransform:"uppercase",marginBottom:12,textAlign:"center"}}>👀 Recent Episodes — Subscriber Only</div>
+                <div style={{display:"flex",flexDirection:"column",gap:8,filter:"blur(3px)",userSelect:"none",pointerEvents:"none",opacity:0.5}}>
+                  {WEEKLY_VIDEOS.map(v=>(
+                    <div key={v.id} style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:14,display:"flex",alignItems:"center",gap:14}}>
+                      <div style={{width:64,height:44,borderRadius:8,background:"#1a1a2e",flexShrink:0}}/>
+                      <div style={{flex:1}}><div style={{fontSize:14,fontWeight:700,color:"#fff",marginBottom:2}}>{v.title}</div><div style={{fontSize:12,color:"#ffffff55"}}>{v.date} · {v.duration}</div></div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{textAlign:"center",marginTop:-60,position:"relative",zIndex:2}}>
+                  <div style={{background:"linear-gradient(to top,#0a0a0f 40%,transparent)",paddingTop:40,paddingBottom:16}}>
+                    <div style={{fontSize:13,color:"#ffffff66",fontWeight:600}}>🔒 Subscribe to watch</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ):(
           <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:24,flexWrap:"wrap"}}><CraigAvatar size={56}/>
-            <div style={{flex:1}}><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>Five Pick Fridays</h2><div style={{fontSize:13,color:"#ffffff55",marginTop:2}}>Every Friday during NFL season — Craig&#39;s 5 best bets + Thursday Night recap</div><a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600,marginTop:2,display:"inline-block"}}>𝕏 @cnaylor_</a></div>
+            <div style={{flex:1}}><div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>Five Pick Fridays</h2><span style={{background:"linear-gradient(135deg,#fbbf24,#f59e0b)",color:"#000",fontSize:9,fontWeight:800,letterSpacing:"2px",padding:"3px 8px",borderRadius:10}}>SUBSCRIBER</span></div><div style={{fontSize:13,color:"#ffffff55",marginTop:2}}>Every Friday during NFL season — Craig&#39;s 5 best bets + Thursday Night recap</div><a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600,marginTop:2,display:"inline-block"}}>𝕏 @cnaylor_</a></div>
+            <button onClick={()=>setFpfAuthed(false)} style={{background:"#ffffff10",border:"1px solid #ffffff22",color:"#ffffff66",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:600,flexShrink:0}}>🔒 Lock</button>
             <div style={{background:"#12121c",border:"1px solid #ffffff15",borderRadius:12,padding:"12px 20px",display:"flex",gap:20,alignItems:"center",flexShrink:0}}>
               <div style={{textAlign:"center"}}><div style={{fontSize:10,color:"#ffffff44",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:2}}>Season</div><div style={{fontSize:22,fontWeight:900,color:"#fff"}}>{seasonRecord.w}-{seasonRecord.l}{seasonRecord.p>0&&<span style={{color:"#fbbf24",fontSize:14}}>-{seasonRecord.p}</span>}</div></div>
               <div style={{width:1,height:36,background:"#ffffff15"}}/>
@@ -2053,6 +2151,8 @@ export default function Home(){
             </div>
           </div>))}</div>
           <div style={{background:"#ffffff06",border:"1px dashed #ffffff15",borderRadius:12,padding:20,textAlign:"center",marginTop:20}}><div style={{fontSize:13,color:"#ffffff55"}}>🔔 New episode every <strong style={{color:"#fff"}}>Friday</strong> during NFL season</div><div style={{fontSize:12,color:"#ffffff44",marginTop:4}}>Subscribe to never miss Five Pick Fridays</div></div>
+        </div>
+          )}
         </div>)}
 
       </div>
