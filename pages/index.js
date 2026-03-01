@@ -1709,8 +1709,8 @@ export default function Home(){
                 <input placeholder="Search match or market..." value={betSearch} onChange={e=>setBetSearch(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 12px",fontSize:12,outline:"none",width:"100%"}}/>
               </div>
               <button onClick={()=>setShowFreeBets(!showFreeBets)} style={{background:showFreeBets?"#fbbf2422":"#ffffff08",border:`1px solid ${showFreeBets?"#fbbf24":"#ffffff15"}`,color:showFreeBets?"#fbbf24":"#ffffff55",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:600,whiteSpace:"nowrap"}}>{showFreeBets?"🎁 Hiding Free Bets: OFF":"🎁 Hide Free Bets"}</button>
-              {(betResultFilter!=="all"||betLeagueFilter!=="all"||betDateFrom||betDateTo||betSearch)&&(
-                <button onClick={()=>{setBetResultFilter("all");setBetLeagueFilter("all");setBetDateFrom("");setBetDateTo("");setBetSearch("");}} style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>✕ Clear</button>
+              {(betResultFilter!=="all"||betDateFrom||betDateTo||betSearch)&&(
+                <button onClick={()=>{setBetResultFilter("all");setBetDateFrom("");setBetDateTo("");setBetSearch("");}} style={{background:"#e9456022",border:"1px solid #e9456044",color:"#e94560",padding:"6px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>✕ Clear</button>
               )}
             </div>
 
