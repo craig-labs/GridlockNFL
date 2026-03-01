@@ -1358,6 +1358,7 @@ const LEAGUE_LABELS={"NFL":"🏈 NFL","NCAA":"🏫 NCAA","NBA":"🏀 NBA","NHL":
 const LEAGUE_COLORS={"NFL":"#e94560","NCAA":"#7c3aed","NBA":"#f97316","NHL":"#0ea5e9","MLB":"#ef4444","Formula 1":"#dc2626","Golf":"#16a34a","Copa America":"#22c55e","4 Nations Face-Off":"#38bdf8","Boosts":"#fbbf24","Other":"#6b7280","Men":"#22c55e"};
 
 // Premium access credentials — add friends here
+const FPF_SUBSCRIBERS={"craig":"fpf2025","friend1":"picks99"};
 const PREMIUM_USERS = {
   "craig":    "gridlock24",
   "friend1":  "letmein99",
@@ -1390,6 +1391,9 @@ export default function Home(){
   const [premiumPass,setPremiumPass]=useState("");
   const [premiumError,setPremiumError]=useState("");
   const [showPremiumLogin,setShowPremiumLogin]=useState(false);
+  const [fpfAuthed,setFpfAuthed]=useState(false);
+  const [fpfPass,setFpfPass]=useState("");
+  const [fpfError,setFpfError]=useState("");
   const kalshi=useKalshi();
   // Derive news query context from current filter
   const newsTeam=useMemo(()=>{
@@ -1642,6 +1646,14 @@ export default function Home(){
 
             {/* Row 2: Date range + search */}
             <div style={{display:"flex",gap:12,flexWrap:"wrap",alignItems:"flex-end"}}>
+              <div style={{width:"100%"}}>
+                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>NFL SEASON</div>
+                <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+                  {[{l:"All Time",f:"",t:""},{l:"2025-26 Season",f:"2025-09-04",t:"2026-02-09"},{l:"2024-25 Season",f:"2024-09-05",t:"2025-02-09"},{l:"2023-24 Season",f:"2023-09-07",t:"2024-02-11"},{l:"2024-25 Playoffs",f:"2025-01-11",t:"2026-02-09",g:true},{l:"2023-24 Playoffs",f:"2024-01-13",t:"2025-02-09",g:true}].map(s=>(
+                    <button key={s.l} onClick={()=>{setBetDateFrom(s.f);setBetDateTo(s.t);}} style={{background:betDateFrom===s.f&&betDateTo===s.t?(s.g?"#fbbf2433":"#e9456033"):"#ffffff08",border:`1px solid ${betDateFrom===s.f&&betDateTo===s.t?(s.g?"#fbbf24":"#e94560"):"#ffffff15"}`,color:betDateFrom===s.f&&betDateTo===s.t?(s.g?"#fbbf24":"#fff"):"#ffffff66",padding:"5px 12px",borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>{s.l}</button>
+                  ))}
+                </div>
+              </div>
               <div>
                 <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>FROM DATE</div>
                 <input type="date" value={betDateFrom} onChange={e=>setBetDateFrom(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
@@ -2020,6 +2032,21 @@ export default function Home(){
 
         {/* ── FIVE PICK FRIDAYS ── */}
         {activeSection==="video"&&(<div>
+          {!fpfAuthed?(
+            <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:400}}>
+              <div style={{background:"linear-gradient(135deg,#12121c,#1a1a2e)",border:"1px solid #e9456033",borderRadius:16,padding:40,maxWidth:400,width:"100%",textAlign:"center"}}>
+                <div style={{fontSize:40,marginBottom:12}}>{"🎬"}</div>
+                <div style={{fontSize:22,fontWeight:900,color:"#fff",marginBottom:4}}>Five Pick Fridays</div>
+                <div style={{fontSize:13,color:"#ffffff55",marginBottom:8,lineHeight:1.5}}>{"Craig's 5 best picks every Friday."}<br/>Subscribers only.</div>
+                <div style={{fontSize:11,color:"#fbbf24",marginBottom:24,fontWeight:600}}>Contact @cnaylor_ on X for access</div>
+                <input type="password" placeholder="Enter access code" value={fpfPass} onChange={e=>setFpfPass(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"){if(Object.values(FPF_SUBSCRIBERS).includes(fpfPass)){setFpfAuthed(true);setFpfError("");}else{setFpfError("Invalid access code.");}}}} style={{background:"#0a0a0f",border:"1px solid #ffffff22",borderRadius:8,color:"#fff",padding:"10px 14px",fontSize:14,outline:"none",textAlign:"center",width:"100%",marginBottom:10}}/>
+                {fpfError&&<div style={{fontSize:12,color:"#f87171",marginBottom:10}}>{fpfError}</div>}
+                <button onClick={()=>{if(Object.values(FPF_SUBSCRIBERS).includes(fpfPass)){setFpfAuthed(true);setFpfError("");}else{setFpfError("Invalid access code.");}}} style={{width:"100%",background:"linear-gradient(135deg,#e94560,#c0283e)",border:"none",borderRadius:8,color:"#fff",padding:"12px",fontSize:14,fontWeight:800,cursor:"pointer",letterSpacing:"1px"}}>UNLOCK PICKS</button>
+                <div style={{fontSize:11,color:"#ffffff33",marginTop:16}}>Contact Craig for access</div>
+              </div>
+            </div>
+          ):(
+          <div>
           <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:24,flexWrap:"wrap"}}><CraigAvatar size={56}/>
             <div style={{flex:1}}><h2 style={{fontSize:22,fontWeight:800,color:"#fff",margin:0}}>Five Pick Fridays</h2><div style={{fontSize:13,color:"#ffffff55",marginTop:2}}>Every Friday during NFL season — Craig&#39;s 5 best bets + Thursday Night recap</div><a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:"#1DA1F2",textDecoration:"none",fontWeight:600,marginTop:2,display:"inline-block"}}>𝕏 @cnaylor_</a></div>
             <div style={{background:"#12121c",border:"1px solid #ffffff15",borderRadius:12,padding:"12px 20px",display:"flex",gap:20,alignItems:"center",flexShrink:0}}>
@@ -2053,6 +2080,9 @@ export default function Home(){
             </div>
           </div>))}</div>
           <div style={{background:"#ffffff06",border:"1px dashed #ffffff15",borderRadius:12,padding:20,textAlign:"center",marginTop:20}}><div style={{fontSize:13,color:"#ffffff55"}}>🔔 New episode every <strong style={{color:"#fff"}}>Friday</strong> during NFL season</div><div style={{fontSize:12,color:"#ffffff44",marginTop:4}}>Subscribe to never miss Five Pick Fridays</div></div>
+        </div>
+          </div>
+          )}
         </div>)}
 
       </div>
