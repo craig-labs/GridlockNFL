@@ -1354,6 +1354,18 @@ const ALL_BETS=[
   {id:1218,date:"2024-01-13",status:"Won",league:"NFL",match:"NFL 23/24",type:"Super Bowl 58 - Winner",market:"Kansas City Chiefs",price:10.0,wager:100,winnings:900,payout:1000}
 ];
 
+// NFL season date ranges — regular season start to Super Bowl
+const NFL_SEASONS = [
+  {label:"2024–25 Season",from:"2024-09-05",to:"2025-02-09"},
+  {label:"2023–24 Season",from:"2023-09-07",to:"2024-02-11"},
+  {label:"2022–23 Season",from:"2022-09-08",to:"2023-02-12"},
+];
+// Playoffs only windows within each season
+const NFL_PLAYOFFS = [
+  {label:"2024–25 Playoffs",from:"2025-01-11",to:"2025-02-09"},
+  {label:"2023–24 Playoffs",from:"2024-01-13",to:"2024-02-11"},
+];
+
 const LEAGUE_LABELS={"NFL":"🏈 NFL","NCAA":"🏫 NCAA","NBA":"🏀 NBA","NHL":"🏒 NHL","MLB":"⚾ MLB","Formula 1":"🏎️ F1","Golf":"⛳ Golf","Copa America":"⚽ Copa","4 Nations Face-Off":"🏒 4 Nations","Boosts":"⚡ Boosts","Other":"🎯 Other","Men":"⚽ Soccer"};
 const LEAGUE_COLORS={"NFL":"#e94560","NCAA":"#7c3aed","NBA":"#f97316","NHL":"#0ea5e9","MLB":"#ef4444","Formula 1":"#dc2626","Golf":"#16a34a","Copa America":"#22c55e","4 Nations Face-Off":"#38bdf8","Boosts":"#fbbf24","Other":"#6b7280","Men":"#22c55e"};
 
@@ -1628,11 +1640,24 @@ export default function Home(){
           </div>
 
           {/* Stats cards — based on filtered set */}
+          {/* Date context banner */}
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:8,marginBottom:12}}>
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
+              <span style={{fontSize:11,color:"#ffffff33",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase"}}>Showing</span>
+              <span style={{background:"#ffffff0a",border:"1px solid #ffffff15",borderRadius:6,padding:"3px 10px",fontSize:12,color:"#ffffff88",fontWeight:600}}>
+                {betDateFrom||betDateTo
+                  ?`${betDateFrom||"Jan 2024"} → ${betDateTo||"Today"}`
+                  :"All Time · Jan 2024 – Present"}
+              </span>
+              {!betDateFrom&&!betDateTo&&<span style={{fontSize:11,color:"#ffffff33",fontStyle:"italic"}}>Use season filter below to narrow</span>}
+            </div>
+            <span style={{fontSize:11,color:"#ffffff33"}}>{filteredBets.length} bets · {betResultFilter!=="all"?betResultFilter:"all results"}</span>
+          </div>
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(130px,1fr))",gap:10,marginBottom:20}}>
             {[
-              {l:"Record",v:`${stats.wins}-${stats.losses}`,s:`${filteredBets.length} bets shown`},
-              {l:"Win Rate",v:`${(stats.winRate*100).toFixed(1)}%`,s:"filtered results",c:stats.winRate>=0.5?"#4ade80":"#f87171"},
-              {l:"Net Profit",v:`${stats.netProfit>=0?"+":""}$${stats.netProfit.toLocaleString()}`,s:"winnings - losses",c:stats.netProfit>=0?"#4ade80":"#f87171"},
+              {l:"Record",v:`${stats.wins}-${stats.losses}`,s:`${filteredBets.length} bets`},
+              {l:"Win Rate",v:`${(stats.winRate*100).toFixed(1)}%`,s:betDateFrom||betDateTo?"filtered period":"all time",c:stats.winRate>=0.5?"#4ade80":"#f87171"},
+              {l:"Net Profit",v:`${stats.netProfit>=0?"+":""}$${stats.netProfit.toLocaleString()}`,s:betDateFrom||betDateTo?"filtered period":"all time",c:stats.netProfit>=0?"#4ade80":"#f87171"},
               {l:"Total Wagered",v:`$${stats.totalWagered.toLocaleString()}`,s:"filtered bets"},
               {l:"Avg Stake",v:`$${Math.round(stats.avgStake).toLocaleString()}`,s:"per bet"},
             ].map((s,i)=>(<div key={i} style={{background:"#12121c",border:"1px solid #ffffff10",borderRadius:12,padding:14,textAlign:"center"}}><div style={{fontSize:10,color:"#ffffff55",fontWeight:600,letterSpacing:"1px",textTransform:"uppercase",marginBottom:3}}>{s.l}</div><div style={{fontSize:20,fontWeight:800,color:s.c||"#fff"}}>{s.v}</div><div style={{fontSize:11,color:"#ffffff44",marginTop:2}}>{s.s}</div></div>))}
@@ -1655,12 +1680,28 @@ export default function Home(){
 
             {/* Row 2: Date range + search */}
             <div style={{display:"flex",gap:12,flexWrap:"wrap",alignItems:"flex-end"}}>
+              {/* NFL Season quick-select */}
+              <div style={{flex:"1 1 100%"}}>
+                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>NFL SEASON</div>
+                <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+                  <button onClick={()=>{setBetDateFrom("");setBetDateTo("");}} style={{background:!betDateFrom&&!betDateTo?"#e9456033":"#ffffff08",border:`1px solid ${!betDateFrom&&!betDateTo?"#e94560":"#ffffff15"}`,color:!betDateFrom&&!betDateTo?"#fff":"#ffffff66",padding:"5px 12px",borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:700}}>All Time</button>
+                  {NFL_SEASONS.map(s=>{
+                    const active=betDateFrom===s.from&&betDateTo===s.to;
+                    return(<button key={s.label} onClick={()=>{setBetDateFrom(s.from);setBetDateTo(s.to);}} style={{background:active?`${ac}33`:"#ffffff08",border:`1px solid ${active?ac:"#ffffff15"}`,color:active?"#fff":"#ffffff66",padding:"5px 12px",borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>{s.label}</button>);
+                  })}
+                  {NFL_PLAYOFFS.map(s=>{
+                    const active=betDateFrom===s.from&&betDateTo===s.to;
+                    return(<button key={s.label} onClick={()=>{setBetDateFrom(s.from);setBetDateTo(s.to);}} style={{background:active?"#fbbf2433":"#ffffff08",border:`1px solid ${active?"#fbbf24":"#ffffff15"}`,color:active?"#fbbf24":"#ffffff66",padding:"5px 12px",borderRadius:8,cursor:"pointer",fontSize:11,fontWeight:600,whiteSpace:"nowrap"}}>🏆 {s.label}</button>);
+                  })}
+                </div>
+              </div>
+              {/* Custom date range */}
               <div>
-                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>FROM DATE</div>
+                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>CUSTOM FROM</div>
                 <input type="date" value={betDateFrom} onChange={e=>setBetDateFrom(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
               </div>
               <div>
-                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>TO DATE</div>
+                <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>CUSTOM TO</div>
                 <input type="date" value={betDateTo} onChange={e=>setBetDateTo(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
               </div>
               <div style={{flex:1,minWidth:160}}>
@@ -1674,11 +1715,14 @@ export default function Home(){
             </div>
 
             {/* Result summary */}
-            <div style={{marginTop:10,fontSize:11,color:"#ffffff44"}}>
-              Showing <strong style={{color:"#fff"}}>{filteredBets.length}</strong> of {ALL_BETS.length} bets
-              {betLeagueFilter!=="all"&&<span> · <span style={{color:LEAGUE_COLORS[betLeagueFilter]||ac}}>{LEAGUE_LABELS[betLeagueFilter]||betLeagueFilter}</span></span>}
-              {betDateFrom&&<span> · from {betDateFrom}</span>}
-              {betDateTo&&<span> · to {betDateTo}</span>}
+            <div style={{marginTop:10,fontSize:11,color:"#ffffff44",lineHeight:1.6}}>
+              Showing <strong style={{color:"#fff"}}>{filteredBets.length}</strong> NFL bets
+              {" · "}
+              {betDateFrom||betDateTo
+                ?<span style={{color:"#fbbf24",fontWeight:600}}>{betDateFrom||"Jan 2024"} → {betDateTo||"Today"}</span>
+                :<span style={{color:"#ffffff66"}}>All Time · Jan 2024 – Present</span>
+              }
+              {betResultFilter!=="all"&&<span> · <span style={{color:betResultFilter==="won"?"#4ade80":"#f87171",fontWeight:600}}>{betResultFilter==="won"?"Wins only":"Losses only"}</span></span>}
             </div>
           </div>
 
