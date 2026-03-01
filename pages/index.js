@@ -1545,6 +1545,15 @@ export default function Home(){
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
             <div style={{display:"flex",alignItems:"center",gap:12}}><div style={{fontSize:28,fontWeight:900,letterSpacing:"-1px",background:`linear-gradient(135deg,#fff,${ac})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>GRIDLOCK</div><div style={{fontSize:10,color:"#ffffff66",letterSpacing:"2px",textTransform:"uppercase"}}>NFL - Bets - Feed</div></div>
             <div style={{display:"flex",gap:8,alignItems:"center"}}>
+              {(premiumAuthed||fpfAuthed)?(
+                <div style={{display:"flex",alignItems:"center",gap:6,background:"#ffffff10",border:"1px solid #4ade8033",borderRadius:8,padding:"6px 12px"}}>
+                  <div style={{width:7,height:7,borderRadius:"50%",background:"#4ade80",boxShadow:"0 0 6px #4ade8066"}}/>
+                  <span style={{fontSize:12,color:"#4ade80",fontWeight:600}}>Logged in</span>
+                  <button onClick={()=>{setPremiumAuthed(false);setFpfAuthed(false);setPremiumUser("");setPremiumPass("");setFpfPass("");}} style={{background:"none",border:"none",color:"#ffffff44",cursor:"pointer",fontSize:11,marginLeft:4,padding:0}}>✕</button>
+                </div>
+              ):(
+                <button onClick={()=>{setActiveSection("premium");}} style={{background:"linear-gradient(135deg,#fbbf2422,#f59e0b22)",border:"1px solid #fbbf2444",color:"#fbbf24",padding:"8px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700}}>🔑 Member Login</button>
+              )}
               <a href="https://x.com/cnaylor_" target="_blank" rel="noopener noreferrer" style={{background:"#ffffff10",border:"1px solid #ffffff22",color:"#fff",padding:"8px 12px",borderRadius:8,fontSize:13,fontWeight:600,textDecoration:"none",display:"flex",alignItems:"center",gap:5}}><span style={{fontSize:11,color:"#1DA1F2"}}>{"X"}</span> @cnaylor_</a>
               <button onClick={()=>setShowPicker(!showPicker)} style={{background:selectedTeam?`${ac}33`:"#ffffff15",border:`1px solid ${selectedTeam?ac:"#ffffff33"}`,color:"#fff",padding:"8px 16px",borderRadius:8,cursor:"pointer",fontSize:13,fontWeight:600}}>{selectedTeam?`${team?.city} ${selectedTeam}`:"🏈 Select Your Team"}</button>
               {selectedTeam&&<button onClick={()=>{setSelectedTeam(null);setFeedFilter("league");}} style={{background:"#e9456033",border:"1px solid #e9456066",color:"#e94560",padding:"8px 14px",borderRadius:8,cursor:"pointer",fontSize:12,fontWeight:700}}>✕ Reset Team</button>}
@@ -2016,6 +2025,7 @@ export default function Home(){
                       })}
                     </div>
                   </div>
+                  <div>
                     <div style={{fontSize:10,color:"#ffffff44",marginBottom:6,fontWeight:600,letterSpacing:"1px"}}>FROM DATE</div>
                     <input type="date" value={premBetDateFrom} onChange={e=>setPremBetDateFrom(e.target.value)} style={{background:"#1a1a2e",border:"1px solid #ffffff15",borderRadius:8,color:"#fff",padding:"6px 10px",fontSize:12,outline:"none",colorScheme:"dark"}}/>
                   </div>
